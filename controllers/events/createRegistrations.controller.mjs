@@ -1,23 +1,14 @@
-import { AppError, sendCookie, randomID } from '../../utils/index.js';
+import { sendCookie, randomID } from '../../utils/index.js';
 
 function createRegistrationsController(eventsServices) {
-    async function createConceptsRegistration(req, res, next) {
+    async function concepts_saveProject(req, res, next) {
         try {
-            const { email } = req.body
-            const user = await eventsServices.getConceptsRegistration(email)
-            if (!user) throw new AppError(404, 'fail', 'Email not registered for concepts')
-            res.status(200).json(user)
-        } catch (err) { next(new AppError(500, 'fail', err.message || err)) }
-    }
-
-    async function saveConceptsProject(req, res, next) {
-        try {
-            const ticket = req.signedCookies.ticket
+            const { ticket } = req.signedCookies
             if (ticket) {
-                const _ = await eventsServices.updateTicketData(ticket, 1, req.body)
+                const _ = await eventsServices.editTicketData(ticket, 1, req.body)
                 res.status(200).end()
             } else {
-                const ticket = 'INC-' + randomID(13)
+                const ticket = 'INC-C' + randomID(12)
                 const _ = await eventsServices.insertTicket(ticket, req.body)
                 sendCookie(
                     res,
@@ -25,12 +16,38 @@ function createRegistrationsController(eventsServices) {
                     '/events/concepts'
                 ).status(200).end()
             }
-        } catch (err) { next(err.message || err) }
+        } catch (err) { next(err) }
+    }
+
+    async function concepts_saveTeam(req, res, next) {
+        try {
+            const { ticket } = req.signedCookies
+            const team_members = JSON.parse(req.body.body)
+            const _ = await eventsServices.editTicketData(ticket, 2, team_members)
+            sendCookie(
+                res,
+                { ticket },
+                '/events/concepts'
+            ).status(200).end()
+        } catch (err) { next(err) }
+    }
+
+    async function concepts_saveCollegeDetails(req, res, next) {
+        try {
+            const { ticket } = req.signedCookies
+            const _ = await eventsServices.editTicketData(ticket, 3, req.body)
+            sendCookie(
+                res,
+                { ticket },
+                '/events/concepts'
+            ).status(200).end()
+        } catch (err) { next(err) }
     }
 
     return {
-        createConceptsRegistration,
-        saveConceptsProject,
+        concepts_saveProject,
+        concepts_saveTeam,
+        concepts_saveCollegeDetails
     }
 }
 

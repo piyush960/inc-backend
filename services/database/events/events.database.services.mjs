@@ -29,9 +29,9 @@ function eventsServices(db) {
         }
     }
 
-    async function updateTicketData(ticket, step_no, data) {
+    async function editTicketData(ticket, step_no, data) {
         try {
-            const [results] = await db.execute(ticketQueries.updateTicketData(step_no), [data, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute(ticketQueries.editStepData(step_no), [data, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw new AppError(500, 'fail', err.message || err)
@@ -42,7 +42,7 @@ function eventsServices(db) {
         getConceptsRegistration,
         getTicketDetails,
         insertTicket,
-        updateTicketData,
+        editTicketData,
     }
 }
 
