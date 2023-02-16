@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { apiLimiter, registrationLimiter } from './rateLimiter.mjs';
 import protectRoute from './protectRoute.mjs';
 import validator from './validator.mjs';
+import { memberIDParser } from './fileParsers.mjs';
 
 function useDefaultMiddlewares(server) {
     server.use([
@@ -23,5 +24,6 @@ export const middlewares = {
     apiLimiter,
     registrationLimiter,
     protectRoute,
-    validator
+    validator,
+    memberIDParser
 }

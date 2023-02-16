@@ -1,5 +1,5 @@
 function ticketQueries(tableName) {
-    const checkTicket = `SELECT * FROM ${tableName} WHERE ticket = ?;`
+    const checkTicket = (columns) => `SELECT (${columns}) FROM ${tableName} WHERE ticket = ?;`
 
     const insertTicket = `INSERT INTO ${tableName} VALUES (?, ?, '{}', '{}', 1, '');`
 

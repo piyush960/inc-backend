@@ -4,15 +4,17 @@ import { getRegistrationsController, createRegistrationsController } from '../..
 const eventsRouter = Router()
 
 function createEventsRouter(eventsServices, middlewares, eventsValidations) {
-    const { registrationLimiter, validator } = middlewares
+    const { registrationLimiter, validator, memberIDParser } = middlewares
     const { ticketValidation, paymentValidation } = eventsValidations
-    eventsRouter.get('/verify', paymentValidation(), validator, getRegistrationsController(eventsServices).getPaymentDetails)
-    eventsRouter.get('/ticket/verify', ticketValidation(), validator, getRegistrationsController(eventsServices).getTicketDetails)
-    eventsRouter.get('/concepts/user-verify', getRegistrationsController(eventsServices).concepts_checkUserRegistration)
+    const { getPaymentDetails, getTicketDetails, concepts_checkUserRegistration } = getRegistrationsController(eventsServices)
+    const { concepts_saveProject, concepts_insertMember, concepts_saveCollegeDetails } = createRegistrationsController(eventsServices)
+    eventsRouter.get('/verify', paymentValidation(), validator, getPaymentDetails)
+    eventsRouter.get('/ticket/verify', ticketValidation(), validator, getTicketDetails)
+    eventsRouter.get('/concepts/user-verify', concepts_checkUserRegistration)
     eventsRouter.use(registrationLimiter)
-    eventsRouter.post('/concepts/step_1', createRegistrationsController(eventsServices).concepts_saveProject)
-    eventsRouter.post('/concepts/step_2', ticketValidation(), validator, createRegistrationsController(eventsServices).concepts_saveTeam)
-    eventsRouter.post('/concepts/step_3', ticketValidation(), validator, createRegistrationsController(eventsServices).concepts_saveCollegeDetails)
+    eventsRouter.post('/concepts/step_1', concepts_saveProject)
+    eventsRouter.post('/concepts/step_2', memberIDParser,  validator, concepts_insertMember)
+    eventsRouter.post('/concepts/step_3', ticketValidation(), validator, concepts_saveCollegeDetails)
 
     return eventsRouter
 }

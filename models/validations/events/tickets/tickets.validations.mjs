@@ -6,6 +6,12 @@ function ticketValidation() {
     ]
 }
 
+function insertMemberValidation() {
+    return [
+
+    ]
+}
+
 function paymentValidation() {
     return [
         query('pid', 'Error while handling query').trim().isLength({ min: 17, max: 18 }).escape().withMessage('Invalid request, pid required in query'),
@@ -14,5 +20,6 @@ function paymentValidation() {
 
 export const ticketValidations = {
     ticketValidation,
+    insertMemberValidation,
     paymentValidation
 }

@@ -35,4 +35,4 @@ function refreshToken(decoded) {
     return createToken(decoded.data)
 }
 
-export { createToken, verifyToken, refreshToken };
+export { createToken, verifyToken, refreshToken }

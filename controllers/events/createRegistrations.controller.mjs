@@ -1,4 +1,4 @@
-import { sendCookie, randomID } from '../../utils/index.js';
+import { sendCookie, randomID, AppError } from '../../utils/index.js';
 
 function createRegistrationsController(eventsServices) {
     async function concepts_saveProject(req, res, next) {
@@ -19,11 +19,16 @@ function createRegistrationsController(eventsServices) {
         } catch (err) { next(err) }
     }
 
-    async function concepts_saveTeam(req, res, next) {
+    async function concepts_insertMember(req, res, next) {
         try {
             const { ticket } = req.signedCookies
-            const team_members = JSON.parse(req.body.body)
-            const _ = await eventsServices.editTicketData(ticket, 2, team_members)
+            const member_details = JSON.parse(JSON.parse(req.body.member_details))
+            const existing_members = await eventsServices.getMembersFromTicket(ticket) || []
+            if (Array.isArray(existing_members.step_2)) {
+                if (existing_members.step_2.length === 5)
+                    throw new AppError(400, 'fail', 'Maximum number of members reached')
+                else await eventsServices.editTicketData(ticket, 2, [...existing_members.step_2, member_details])
+            } else await eventsServices.editTicketData(ticket, 2, [{ ...member_details }])
             sendCookie(
                 res,
                 { ticket },
@@ -46,7 +51,7 @@ function createRegistrationsController(eventsServices) {
 
     return {
         concepts_saveProject,
-        concepts_saveTeam,
+        concepts_insertMember,
         concepts_saveCollegeDetails
     }
 }
