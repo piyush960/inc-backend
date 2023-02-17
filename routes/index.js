@@ -5,10 +5,11 @@ import createAdminRouter from './admin/admin.router.mjs';
 import createEventsRouter from './events/events.router.mjs';
 
 function connectRouter(server, databaseService) {
+    const { adminServices, eventsServices, filesServices } = databaseService
     server.get('/', healthCheck)
     server.use(middlewares.apiLimiter)
-    server.use('/admin', createAdminRouter(adminController(databaseService.adminServices), middlewares, adminValidations))
-    server.use('/events', createEventsRouter(databaseService.eventsServices, middlewares, eventsValidations))
+    server.use('/admin', createAdminRouter(adminController(adminServices), middlewares, adminValidations))
+    server.use('/events', createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations))
     server.use('*', undefinedRoute)
     server.use(globalError)
     return server

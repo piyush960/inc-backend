@@ -6,6 +6,7 @@ import { apiLimiter, registrationLimiter } from './rateLimiter.mjs';
 import protectRoute from './protectRoute.mjs';
 import validator from './validator.mjs';
 import { memberIDParser } from './fileParsers.mjs';
+import formDataParser from './formDataParser.mjs';
 
 function useDefaultMiddlewares(server) {
     server.use([
@@ -25,5 +26,6 @@ export const middlewares = {
     registrationLimiter,
     protectRoute,
     validator,
-    memberIDParser
+    memberIDParser,
+    formDataParser
 }

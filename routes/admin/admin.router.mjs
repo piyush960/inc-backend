@@ -4,9 +4,9 @@ const adminRouter = Router()
 
 function createAdminRouter(adminController, middlewares, adminValidations) {
     const { registrationLimiter, validator } = middlewares
-    const { adminLoginValidations, createAdminValidations } = adminValidations
+    const { adminLoginValidation, createAdminValidation } = adminValidations
     adminRouter.use(registrationLimiter)
-    adminRouter.post('/login', adminLoginValidations(), validator, adminController.login)
+    adminRouter.post('/login', adminLoginValidation(), validator, adminController.login)
 
     return adminRouter
 }

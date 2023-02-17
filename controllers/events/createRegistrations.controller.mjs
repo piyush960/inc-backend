@@ -1,6 +1,6 @@
 import { sendCookie, randomID, AppError } from '../../utils/index.js';
 
-function createRegistrationsController(eventsServices) {
+function createRegistrationsController(eventsServices, filesServices) {
     async function concepts_saveProject(req, res, next) {
         try {
             const { ticket } = req.signedCookies
@@ -22,13 +22,25 @@ function createRegistrationsController(eventsServices) {
     async function concepts_insertMember(req, res, next) {
         try {
             const { ticket } = req.signedCookies
-            const member_details = JSON.parse(JSON.parse(req.body.member_details))
-            const existing_members = await eventsServices.getMembersFromTicket(ticket) || []
+            const member_details = req.body
+            const member_id_file = req.file
+            const existing_members = await eventsServices.getMembersFromTicket(ticket)
+            if (!existing_members) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (Array.isArray(existing_members.step_2)) {
                 if (existing_members.step_2.length === 5)
                     throw new AppError(400, 'fail', 'Maximum number of members reached')
-                else await eventsServices.editTicketData(ticket, 2, [...existing_members.step_2, member_details])
-            } else await eventsServices.editTicketData(ticket, 2, [{ ...member_details }])
+                else {
+                    existing_members.step_2.forEach(member => {
+                        if (member.email === member_details.email)
+                            throw new AppError(400, 'fail', 'Duplicate email address found in a team')
+                    })
+                    await filesServices.insertFile(member_details.email, member_id_file)
+                    await eventsServices.editTicketData(ticket, 2, [...existing_members.step_2, member_details])
+                }
+            } else {
+                await filesServices.insertFile(member_details.email, member_id_file)
+                await eventsServices.editTicketData(ticket, 2, [{ ...member_details }])
+            }
             sendCookie(
                 res,
                 { ticket },

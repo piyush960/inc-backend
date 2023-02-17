@@ -1,10 +1,10 @@
-import { conceptsQueries, ticketQueries } from '../../../models/index.js';
+import { eventsQueries, ticketQueries } from '../../../models/index.js';
 import { AppError } from '../../../utils/index.js';
 
 function eventsServices(db) {
-    async function concepts_getRegistration(email) {
+    async function getRegistration(event_name, email) {
         try {
-            const [results] = await db.execute(conceptsQueries.checkRegistration, [email]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute(eventsQueries.checkRegistration(event_name), [email]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw new AppError(500, 'fail', err)
@@ -48,7 +48,7 @@ function eventsServices(db) {
     }
 
     return {
-        concepts_getRegistration,
+        getRegistration,
         getTicketDetails,
         getMembersFromTicket,
         insertTicket,

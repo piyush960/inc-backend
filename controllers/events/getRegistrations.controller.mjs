@@ -1,10 +1,10 @@
 import { AppError } from '../../utils/index.js';
 
-function getRegistrationsController(eventsServices) {
-    async function concepts_checkUserRegistration(req, res, next) {
+function getRegistrationsController(eventsServices, filesServices) {
+    async function getUserRegistration(req, res, next) {
         try {
             const { email } = req.query
-            const user = await eventsServices.getConceptsRegistration(email)
+            const user = await eventsServices.getRegistration(req.params.event_name, email)
             if (!user) throw new AppError(404, 'fail', 'Email not registered for concepts')
             res.status(200).json(user)
         } catch (err) { next(err) }
@@ -28,10 +28,20 @@ function getRegistrationsController(eventsServices) {
         } catch (err) { next(err) }
     }
 
+    async function getUserIDFile(req, res, next) {
+        try {
+            const { email } = req.query
+            const results = await filesServices.checkFile(email)
+            if (!results) throw new AppError(404, 'fail', 'No file exist for this email')
+            res.status(302).json({ data: results.file })
+        } catch (err) { next(err) }
+    }
+
     return {
-        concepts_checkUserRegistration,
+        getUserRegistration,
         getTicketDetails,
         getPaymentDetails,
+        getUserIDFile
     }
 }
 

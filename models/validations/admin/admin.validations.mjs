@@ -1,13 +1,13 @@
 import { check } from 'express-validator';
 
-function adminLoginValidations() {
+function adminLoginValidation() {
 	return [
 		check('username').trim().isLength({ min: 6 }).escape(),
 		check('password').isLength({ min: 5 }),
 	]
 }
 
-function createAdminValidations() {
+function createAdminValidation() {
 	return [
 		check('username').trim().isLength({ min: 6 }).escape(),
 		check('password').isLength({ min: 5 }),
@@ -16,6 +16,6 @@ function createAdminValidations() {
 }
 
 export const adminValidations = {
-	adminLoginValidations,
-	createAdminValidations
+	adminLoginValidation,
+	createAdminValidation
 }

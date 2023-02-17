@@ -3,17 +3,18 @@ import { getRegistrationsController, createRegistrationsController } from '../..
 
 const eventsRouter = Router()
 
-function createEventsRouter(eventsServices, middlewares, eventsValidations) {
-    const { registrationLimiter, validator, memberIDParser } = middlewares
-    const { ticketValidation, paymentValidation } = eventsValidations
-    const { getPaymentDetails, getTicketDetails, concepts_checkUserRegistration } = getRegistrationsController(eventsServices)
-    const { concepts_saveProject, concepts_insertMember, concepts_saveCollegeDetails } = createRegistrationsController(eventsServices)
+function createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations) {
+    const { registrationLimiter, validator, memberIDParser, formDataParser } = middlewares
+    const { ticketValidation, paymentValidation, fileValidation, insertMemberValidation } = eventsValidations
+    const { getPaymentDetails, getTicketDetails, getUserIDFile, getUserRegistration } = getRegistrationsController(eventsServices, filesServices)
+    const { concepts_saveProject, concepts_insertMember, concepts_saveCollegeDetails } = createRegistrationsController(eventsServices, filesServices)
     eventsRouter.get('/verify', paymentValidation(), validator, getPaymentDetails)
-    eventsRouter.get('/ticket/verify', ticketValidation(), validator, getTicketDetails)
-    eventsRouter.get('/concepts/user-verify', concepts_checkUserRegistration)
+    eventsRouter.get('/verify/ticket', ticketValidation(), validator, getTicketDetails)
+    eventsRouter.get('/verify/file', fileValidation(), validator, getUserIDFile)
+    eventsRouter.get('/verify/user/:event_name', getUserRegistration)
     eventsRouter.use(registrationLimiter)
     eventsRouter.post('/concepts/step_1', concepts_saveProject)
-    eventsRouter.post('/concepts/step_2', memberIDParser,  validator, concepts_insertMember)
+    eventsRouter.post('/concepts/step_2', memberIDParser, formDataParser, insertMemberValidation(), validator, concepts_insertMember)
     eventsRouter.post('/concepts/step_3', ticketValidation(), validator, concepts_saveCollegeDetails)
 
     return eventsRouter
