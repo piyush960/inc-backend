@@ -13,7 +13,7 @@ function eventsServices(db) {
 
     async function getTicketDetails(ticket) {
         try {
-            const [results] = await db.execute(ticketQueries.checkTicket('*'), [ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute({ sql: ticketQueries.checkTicket('*'), namedPlaceholders: true }, { ticket }).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw new AppError(500, 'fail', err)
@@ -38,9 +38,20 @@ function eventsServices(db) {
         }
     }
 
-    async function editTicketData(ticket, step_no, data) {
+    async function editStepData(ticket, step_no, data) {
         try {
-            const [results] = await db.execute(ticketQueries.editStepData(step_no), [data, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute(ticketQueries.editStepData(step_no), [data, step_no, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            console.log(results);
+            return results[0]
+        } catch (err) {
+            throw new AppError(500, 'fail', err)
+        }
+    }
+
+    async function editPaymentAndStep(ticket, updated_step, payment_id) {
+        try {
+            const [results] = await db.execute(ticketQueries.editPaymentAndStep, [updated_step, payment_id, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            console.log(results);
             return results[0]
         } catch (err) {
             throw new AppError(500, 'fail', err)
@@ -52,7 +63,8 @@ function eventsServices(db) {
         getTicketDetails,
         getMembersFromTicket,
         insertTicket,
-        editTicketData,
+        editStepData,
+        editPaymentAndStep,
     }
 }
 

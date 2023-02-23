@@ -1,15 +1,16 @@
-import { middlewares } from '../middlewares/index.js';
-import { healthCheck, undefinedRoute, globalError, adminController } from '../controllers/index.js';
-import { adminValidations, eventsValidations } from '../models/index.js';
+import { healthCheck, undefinedRoute, globalError } from '../controllers/index.js';
+import { adminValidations, eventsValidations, judgesValidations } from '../models/index.js';
 import createAdminRouter from './admin/admin.router.mjs';
 import createEventsRouter from './events/events.router.mjs';
+import createJudgesRouter from './judges/judges.router.mjs';
 
-function connectRouter(server, databaseService) {
-    const { adminServices, eventsServices, filesServices } = databaseService
+function connectRouter(server, databaseService, middlewares) {
+    const { adminServices, eventsServices, filesServices, judgesServices } = databaseService
     server.get('/', healthCheck)
     server.use(middlewares.apiLimiter)
-    server.use('/admin', createAdminRouter(adminController(adminServices), middlewares, adminValidations))
+    server.use('/admin', createAdminRouter(adminServices, middlewares, adminValidations))
     server.use('/events', createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations))
+    server.use('/judge', createJudgesRouter(judgesServices, middlewares, judgesValidations, adminValidations))
     server.use('*', undefinedRoute)
     server.use(globalError)
     return server

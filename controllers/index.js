@@ -4,3 +4,5 @@ export { default as globalError } from './globalError.controller.mjs';
 export { default as adminController } from './admin/admin.controller.mjs';
 export { default as getRegistrationsController } from './events/getRegistrations.controller.mjs';
 export { default as createRegistrationsController } from './events/createRegistrations.controller.mjs';
+export { default as creationsJudgesController } from './judges/creations.judges.controller.mjs';
+export { default as gettingJudgesController } from './judges/getting.judges.controller.mjs'

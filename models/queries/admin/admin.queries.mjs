@@ -6,4 +6,4 @@ function adminQueries(tableName) {
   }
 }
 
-export { adminQueries };
+export { adminQueries }

@@ -1,27 +1,22 @@
-import { promisify } from 'util';
-import { verifyToken } from '../utils/index.js';
+import { AppError, verifyToken } from '../utils/index.js';
 
-async function protectRoute(req, res, next) {
-  try {
-    const token = req.signedCookies.admin
-    if (!token) {
-      return next(new AppError(
-        401,
-        'fail',
-        'You are not logged in! Please login in to continue',
-      ),
-        req, res, next,
-      )
-    }
+function protectRoute(adminServices) {
 
-    const decode = await promisify(verifyToken)(token)
+  async function verifyAdminLogin(req, _, next) {
+    try {
+      const { token } = req.signedCookies.admin_data
+      if (!token) {
+        throw new AppError(401, 'fail', 'You are not logged in! Please login in to continue')
+      }
+      const decode = verifyToken(token)
+      const result = await adminServices.findAdmin(decode.username)
+      if (!result) throw new AppError(404, 'fail', 'Invalid token, please login again')
+      next()
+    } catch (err) { next(err) }
+  }
 
-    const user = await User.findById(decode.data)
-
-    req.user = user
-    next()
-  } catch (err) {
-    next(err)
+  return {
+    verifyAdminLogin,
   }
 }
 

@@ -11,7 +11,7 @@ function createToken(data) {
             { algorithm: 'HS256', expiresIn: env.TOKEN_EXPIRY },
         )
         return token
-    } catch (error) { throw new AppError(500, 'fail', 'Error creating token') }
+    } catch (err) { throw new AppError(500, 'fail', err) }
 }
 
 function verifyToken(token) {
@@ -20,9 +20,13 @@ function verifyToken(token) {
             token,
             env.JWT_SECRET,
             { algorithms: ['HS256'], maxAge: env.TOKEN_EXPIRY },
+            function (err, decoded) {
+                if (err) throw new AppError(500, 'fail', err)
+                return decoded
+            }
         )
         return decoded
-    } catch (error) { throw new AppError(500, 'fail', 'Session verification failed/expired') }
+    } catch (err) { throw new AppError(500, 'fail', err) }
 }
 
 function refreshToken(decoded) {
