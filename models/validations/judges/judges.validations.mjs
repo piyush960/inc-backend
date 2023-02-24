@@ -26,6 +26,7 @@ function insertJudgeValidation() {
         body('domains').isArray({ min: 1, max: 6 }).custom(domains => domains.every(domain => projectDomainsArray.includes(domain.trim()))).withMessage('Invalid domains selected'),
         body('slots').isArray({ min: 1, max: 4 }).custom(slots => slots.every(slot => slotsDataArray.includes(slot.trim()))).withMessage('Invalid slots selected'),
         body('min_projects').trim().isInt({ min: 3, max: 10 }).escape().withMessage('Invalid minimum projects selected'),
+        body('referral').trim().isLength({ min: 0, max: 100 }).isAlpha('en-US', { ignore: ' .,' }).escape().withMessage('Invalid name'),
     ]
 }
 
