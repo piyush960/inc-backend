@@ -30,9 +30,9 @@ function projectValidation() {
         body('sponsored').isIn(['1', '0']).withMessage('Invalid selection of sponsorship status'),
         body('company').trim().escape().if(body('sponsored').equals('1')).isLength({ min: 3, max: 100 }).withMessage('Invalid company name'),
         body('nda').isIn(['1', '0']).withMessage('Invalid selection of nda status'),
+        body('demo').if(param('event_name').equals(eventsName[1])).exists().withMessage('Demonstration status required').isIn(['1', '0']).withMessage('Invalid selection of demonstration status'),
+        body('reason_of_demo').if(param('event_name').equals(eventsName[1])).exists().withMessage('Reason of demonstration required').if(body('reason_of_mode').equals('0')).trim().isLength({ min: 5, max: 100 }).escape().withMessage('Invalid reason of demonstration'),
         body('abstract').trim().isLength({ min: 50, max: 1000 }).escape().withMessage('Invalid abstract data'),
-        body('mode').isIn(['1', '0']).withMessage('Invalid selection of presentation mode'),
-        body('reason_of_mode').escape().if(body('mode').equals('1')).trim().isLength({ min: 5, max: 100 }).withMessage('Invalid text entered in reason of mode'),
     ]
 }
 
@@ -68,6 +68,8 @@ function collegeValidation() {
                 body('locality').isIn(['1', '0']).withMessage('Invalid locality selected')
                 // .if(body('college').equals('Pune Institute of Computer Technology')).equals('1').withMessage('Invalid locality selected for PICT')
                 ,
+                body('mode').isIn(['1', '0']).withMessage('Invalid selection of presentation mode').if(body('city').equals('Pune')).equals('1').withMessage('Invalid mode of presentation, participants from Pune are expected to be in offline mode'),
+                body('reason_of_mode').if(body('mode').equals('0')).trim().isLength({ min: 5, max: 100 }).escape().withMessage('Invalid text entered in reason of mode'),
             ]
         ]),
         oneOf([
@@ -75,7 +77,7 @@ function collegeValidation() {
             body('year', 'Invalid year of study').if(param('event_name').equals(eventsName[1])).isIn(['FE', 'SE', 'TE']).withMessage('Invalid year of study'),
             body('year', 'Invalid year of study').if(param('event_name').equals(eventsName[2])).isIn(['FE', 'SE', 'TE', 'BE']).withMessage('Invalid year of study'),
         ]),
-        body('referral').trim().isAlpha('en-US', { ignore: ' -' }).isLength({ min: 0, max: 50 }).escape().withMessage('Invalid referral id'),
+        body('referral').trim().exists().if(body('referral').notEmpty()).isAlpha('en-US', { ignore: ' -' }).isLength({ min: 3, max: 50 }).escape().withMessage('Invalid referral id'),
     ]
 }
 

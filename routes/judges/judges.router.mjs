@@ -3,12 +3,12 @@ import { gettingJudgesController, creationsJudgesController } from '../../contro
 
 const judgesRouter = Router()
 
-function createJudgesRouter(judgesServices, middlewares, judgesValidations, adminValidations) {
+function createJudgesRouter(judgesServices, emailService, middlewares, judgesValidations, adminValidations) {
     const { apiLimiter, registrationLimiter, verifyAdminLogin, validator } = middlewares
     const { insertJudgeValidation, getJudgeValidation, loginJudgeValidation } = judgesValidations
     const { verifyAdminValidation } = adminValidations
     const { getJudge, loginJudge } = gettingJudgesController(judgesServices)
-    const { insertJudge } = creationsJudgesController(judgesServices)
+    const { insertJudge } = creationsJudgesController(judgesServices, emailService)
     judgesRouter.use(registrationLimiter)
     judgesRouter.post('/register', insertJudgeValidation(), validator, insertJudge)
     judgesRouter.post('/login', loginJudgeValidation(), validator, loginJudge)

@@ -19,14 +19,14 @@ function insertJudgeValidation() {
         body('name').trim().isLength({ min: 3, max: 100 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
         body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
-        body('address').trim().isLength({ min: 5, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'' }).escape().withMessage('Invalid address'),
-        body('company').trim().isLength({ min: 0, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'' }).escape().withMessage('Invalid company name'),
+        body('address').trim().isLength({ min: 4, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'' }).escape().withMessage('Invalid address'),
+        body('company').trim().isLength({ min: 0, max: 100 }).if(body('company').isLength({ min: 1, max: 100 })).isAlphanumeric('en-US', { ignore: ' ,.-\'' }).escape().withMessage('Invalid company name'),
         body('exp').trim().isInt({ min: 0, max: 90 }).escape().withMessage('Invalid year of experience'),
-        body('events').isArray({ min: 1, max: 2 }).custom(events => events.every(event => eventsName.includes(event.trim()))).withMessage('Invalid events selected'),
-        body('domains').isArray({ min: 1, max: 6 }).custom(domains => domains.every(domain => projectDomainsArray.includes(domain.trim()))).withMessage('Invalid domains selected'),
-        body('slots').isArray({ min: 1, max: 4 }).custom(slots => slots.every(slot => slotsDataArray.includes(slot.trim()))).withMessage('Invalid slots selected'),
+        body('events').isArray({ min: 1, max: 2 }).withMessage('events should be an array of size [1 - 2]').custom(events => events.every(event => eventsName.includes(event.trim()))).withMessage('Invalid events selected'),
+        body('domains').isArray({ min: 1, max: 6 }).withMessage('domains should be an array of size [1 - 6]').custom(domains => domains.every(domain => projectDomainsArray.includes(domain.trim()))).withMessage('Invalid domains selected'),
+        body('slots').isArray({ min: 1, max: 4 }).withMessage('slots should be an array of size [1 - 4]').custom(slots => slots.every(slot => slotsDataArray.includes(slot.trim()))).withMessage('Invalid slots selected'),
         body('min_projects').trim().isInt({ min: 3, max: 10 }).escape().withMessage('Invalid minimum projects selected'),
-        body('referral').trim().isLength({ min: 0, max: 100 }).isAlpha('en-US', { ignore: ' .,' }).escape().withMessage('Invalid name'),
+        body('referral').isLength({ min: 0, max: 100 }).if(body('referral').isLength({ min: 1, max: 100 })).isAlpha('en-US', { ignore: ' .,' }).escape().withMessage('Invalid referral'),
     ]
 }
 

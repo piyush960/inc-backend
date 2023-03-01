@@ -4,13 +4,13 @@ import createAdminRouter from './admin/admin.router.mjs';
 import createEventsRouter from './events/events.router.mjs';
 import createJudgesRouter from './judges/judges.router.mjs';
 
-function connectRouter(server, databaseService, middlewares) {
+function connectRouter(server, databaseService, emailService, middlewares) {
     const { adminServices, eventsServices, filesServices, judgesServices } = databaseService
     server.get('/', healthCheck)
     server.use(middlewares.apiLimiter)
     server.use('/admin', createAdminRouter(adminServices, middlewares, adminValidations))
-    server.use('/events', createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations))
-    server.use('/judge', createJudgesRouter(judgesServices, middlewares, judgesValidations, adminValidations))
+    server.use('/events', createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations,adminValidations))
+    server.use('/judge', createJudgesRouter(judgesServices, emailService, middlewares, judgesValidations, adminValidations))
     server.use('*', undefinedRoute)
     server.use(globalError)
     return server

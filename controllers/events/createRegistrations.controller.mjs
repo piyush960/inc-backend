@@ -68,15 +68,34 @@ function createRegistrationsController(eventsServices, filesServices) {
         } catch (err) { next(err) }
     }
 
-    async function completeRegistration(req, res, next) {
+    async function requestRegistration(req, res, next) {
         try {
-            const { ticket } = req.signedCookies
+            if (req.body?.isPICT === '1') {
+                req.body = { ticket: req.signedCookies.ticket, payment_id: 'PICT' }
+            }
             const results = await eventsServices.getTicketDetails(ticket)
-            if (results.step_no === 3) {
-                await eventsServices.editPaymentAndStep(ticket, 5, '')
+            if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
+            if (results.step_no === 4) throw new AppError(400, 'fail', 'Registration done using this ticket and payment under verification')
+            else if (results.step_no === 3) {
+                await eventsServices.editPaymentAndStep(req.body, 4)
                 res.status(200).end()
-            } else if (results.step_no === 5) throw new AppError(400, 'fail', 'Registration already completed using this ticket')
-            else throw new AppError(400, 'fail', 'Registration not completed')
+            }
+            else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
+            else throw new AppError(400, 'fail', 'Registration steps not completed')
+        } catch (err) { next(err) }
+    }
+
+    async function verifyPendingPayment(req, res, next) {
+        try {
+            const { ticket } = req.body
+            const results = await eventsServices.getTicketDetails(ticket)
+            if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
+            if (results.step_no === 4) {
+                await eventsServices.completeRegistration({ ...req.body, payment_id: results.payment_id })
+                res.status(200).end()
+            }
+            else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
+            else throw new AppError(400, 'fail', 'Registration steps not completed')
         } catch (err) { next(err) }
     }
 
@@ -84,7 +103,8 @@ function createRegistrationsController(eventsServices, filesServices) {
         saveProject,
         insertMember,
         saveCollegeDetails,
-        completeRegistration,
+        requestRegistration,
+        verifyPendingPayment,
     }
 }
 

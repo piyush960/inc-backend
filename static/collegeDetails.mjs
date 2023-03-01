@@ -4,7 +4,9 @@ const pictDetails = {
     state: 'Maharashtra',
     city: 'Pune',
     district: 'Pune',
-    locality: '1'
+    locality: '1',
+    mode: '1',
+    reason_of_mode: ''
 }
 
 export { pictDetails }

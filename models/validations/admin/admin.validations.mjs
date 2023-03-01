@@ -17,7 +17,12 @@ function createAdminValidation() {
 }
 
 function verifyAdminValidation(min_role) {
-	const allowed_roles = rolesData.slice(0, min_role)
+	let allowed_roles = rolesData
+	if (typeof min_role === 'number') {
+		allowed_roles = rolesData.slice(0, min_role)
+	} else if (Array.isArray(min_role)) {
+		allowed_roles = min_role
+	}
 
 	return [
 		cookie('admin_data').customSanitizer((_, { req }) => req.signedCookies.admin_data).exists().isObject().withMessage('Invalid session cookie for admin access'),
