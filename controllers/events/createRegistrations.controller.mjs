@@ -1,5 +1,5 @@
 import { sendCookie, randomID, AppError } from '../../utils/index.js';
-import { teamSize } from '../../static/eventsData.mjs';
+import { eventsName, teamSize } from '../../static/eventsData.mjs';
 import { pictDetails } from '../../static/collegeDetails.mjs';
 
 function createRegistrationsController(eventsServices, filesServices) {
@@ -70,13 +70,17 @@ function createRegistrationsController(eventsServices, filesServices) {
 
     async function requestRegistration(req, res, next) {
         try {
-            if (req.body?.isPICT === '1') {
-                req.body = { ticket: req.signedCookies.ticket, payment_id: 'PICT' }
-            }
+            const { ticket } = req.signedCookies
             const results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) throw new AppError(400, 'fail', 'Registration done using this ticket and payment under verification')
             else if (results.step_no === 3) {
+                if (req.body?.isPICT === '1') {
+                    req.body = { ticket, payment_id: 'PICT' }
+                }
+                if (req.body?.isInternational === '1') {
+                    req.body = { ticket, payment_id: 'INTERNATIONAL' }
+                }
                 await eventsServices.editPaymentAndStep(req.body, 4)
                 res.status(200).end()
             }
@@ -91,7 +95,7 @@ function createRegistrationsController(eventsServices, filesServices) {
             const results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) {
-                await eventsServices.completeRegistration({ ...req.body, payment_id: results.payment_id })
+                await eventsServices.completeRegistration(req.params.event_name, { ...req.body, payment_id: results.payment_id })
                 res.status(200).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')

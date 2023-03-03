@@ -27,7 +27,10 @@ function fileValidation() {
 function verifyPICTOrPayments() {
     return [
         oneOf([
-            cookie('ticket').exists().if(body('isPICT').equals('1')).trim().isLength({ min: 17, max: 18 }).isAlphanumeric('en-US', { ignore: '-' }).escape().withMessage('Invalid ticket in cookies'),
+            [
+                body('isPICT').equals('1').if(cookie('ticket').exists()).trim().isLength({ min: 17, max: 18 }).isAlphanumeric('en-US', { ignore: '-' }).escape().withMessage('Invalid ticket in cookies'),
+                body('isInternational').equals('1').if(cookie('ticket').exists()).trim().isLength({ min: 17, max: 18 }).isAlphanumeric('en-US', { ignore: '-' }).escape().withMessage('Invalid ticket in cookies')
+            ],
             [
                 body('ticket').exists().withMessage('Invalid request, ticket required').trim().isLength({ min: 17, max: 18 }).escape().isAlphanumeric('en-US', { ignore: '-' }).withMessage('Invalid ticket in body'),
                 body('payment_id').exists().withMessage('Invalid request, payment_id required').trim().isLength({ min: 8, max: 10 }).escape().isAlphanumeric('en-US').withMessage('Invalid payment_id in body'),
