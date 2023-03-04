@@ -8,11 +8,11 @@ function createRegistrationsController(eventsServices, filesServices) {
             const { event_name } = req.params
             const { ticket } = req.signedCookies
             if (ticket) {
-                await eventsServices.editStepData({ ticket, step_1: req.body })
+                await eventsServices.editStepData(ticket, 1, req.body)
                 res.status(200).end()
             } else {
                 const ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
-                await eventsServices.insertTicket(ticket, req.body)
+                await eventsServices.insertTicket({ ticket, step_1: req.body })
                 sendCookie(
                     res,
                     { ticket },

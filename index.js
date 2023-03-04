@@ -1,7 +1,7 @@
 import server from './config/server.js';
 
-server.listen(process.env.PORT, '0.0.0.0', () => {
-  console.log('Server listening on port ', process.env.PORT)
+server.listen(process.env.PORT || '3001', '0.0.0.0', () => {
+  console.log('Server listening on port ', process.env.PORT || '3001')
 })
 
 process.on('uncaughtException', err => {
