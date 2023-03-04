@@ -39,9 +39,9 @@ function eventsServices(db) {
         }
     }
 
-    async function insertTicket(ticket, data) {
+    async function insertTicket(data) {
         try {
-            const [results] = await db.execute(ticketQueries.insertTicket, [ticket, data]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute({ sql: ticketQueries.insertTicket, namedPlaceholders: true }, data).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err

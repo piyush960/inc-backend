@@ -6,7 +6,7 @@ function creationsJudgesController(judgesServices, emailService) {
         try {
             const jid = 'INC-J' + randomID(7)
             const password = randomID(8)
-            await judgesServices.insertJudge({ ...req.body, jid, password, roles: [roles[5]] })
+            await judgesServices.insertJudge({ ...req.body, jid, password, roles: [roles[6]] })
             await emailService.judgeRegistrationEmail({ ...req.body, jid })
             sendCookie(
                 res,
