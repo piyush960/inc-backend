@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { projectDomains, slotsData } from '../../static/eventsData.mjs';
 import emailTemplates from './htmlGenerators.email.mjs';
 
 function emailService() {
@@ -17,6 +18,8 @@ function emailService() {
 
     async function judgeRegistrationEmail(judge) {
         try {
+            judge.domains = judge.domains.map(domain => projectDomains[domain])
+            judge.slots = judge.slots.map(slot => slotsData[slot])
             const mailOptions = {
                 from: `InC'2023 ${process.env.EMAIL_ADDRESS}`,
                 to: `${judge.name} ${judge.email}`,
@@ -29,7 +32,6 @@ function emailService() {
             }
             return transporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
-                    console.log(err)
                     throw err
                 }
                 return info

@@ -13,12 +13,14 @@ function judgesServices(db) {
 
     async function insertJudge(data) {
         try {
-            const [results] = await db.execute({ sql: judgesQueries.insertJudge, namedPlaceholders: true }, data).catch(err => {
-                if(err?.code === 'ER_DUP_ENTRY') { throw new AppError(400, 'fail', 'Judge already exists for this email and phone') }
-                throw new AppError(400, 'fail', err.sqlMessage) })
-            return results[0]
+            await db.execute({ sql: judgesQueries.insertJudge, namedPlaceholders: true }, data)
+            return
         } catch (err) {
-            throw err
+            if (err.code === 'ER_DUP_ENTRY') {
+                if (err.sqlMessage.includes('PRIMARY')) return
+                throw new AppError(400, 'fail', 'Judge already exists for given email-phone combination')
+            }
+            throw new AppError(400, 'fail', err.sqlMessage)
         }
     }
 
