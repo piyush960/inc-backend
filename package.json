@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "npx env-cmd -f .env.dev nodemon DEBUG=express:* index.js",
-    "prod": "npx env-cmd -f .env.prod nodemon index.js",
+    "prod": "env-cmd -f .env.prod node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
