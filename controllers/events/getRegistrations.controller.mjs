@@ -5,8 +5,8 @@ function getRegistrationsController(eventsServices, filesServices) {
         try {
             const { event_name } = req.params
             const { email } = req.query
-            const user = await eventsServices.getUserRegistration(event_name, email)
-            if (!user) throw new AppError(404, 'fail', `Email not registered for ${event_name}`)
+            const user_email = await eventsServices.getUserRegistration(event_name, email)
+            if (!user_email) throw new AppError(404, 'fail', `Email ${user_email} not registered for ${event_name}`)
             res.status(302).json(user)
         } catch (err) { next(err) }
     }

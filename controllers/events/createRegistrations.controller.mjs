@@ -1,5 +1,5 @@
 import { sendCookie, randomID, AppError } from '../../utils/index.js';
-import { eventsName, teamSize } from '../../static/eventsData.mjs';
+import { teamSize } from '../../static/eventsData.mjs';
 import { pictDetails } from '../../static/collegeDetails.mjs';
 
 function createRegistrationsController(eventsServices, filesServices) {
@@ -13,20 +13,20 @@ function createRegistrationsController(eventsServices, filesServices) {
             } else {
                 const ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
                 await eventsServices.insertTicket({ ticket, step_1: req.body })
-                sendCookie(
-                    res,
-                    { ticket },
-                    `/events/${event_name}`
-                ).status(200).end()
+                sendCookie(res, { ticket }, `/register/events/${event_name}`).status(200).end()
             }
         } catch (err) { next(err) }
     }
 
     async function insertMember(req, res, next) {
         try {
+            console.log(req);
             const { event_name } = req.params
             const { ticket } = req.signedCookies
             const member_details = req.body
+            const email = await eventsServices.getUserRegistration(event_name, member_details.email)
+            console.log(email);
+            if (email) throw new AppError(404, 'fail', `Email ${email} already registered for ${event_name}`)
             const member_id_file = req.file
             const existing_members = await eventsServices.getMembersFromTicket(ticket)
             if (!existing_members) throw new AppError(404, 'fail', 'Ticket does not exist')
@@ -48,7 +48,7 @@ function createRegistrationsController(eventsServices, filesServices) {
             sendCookie(
                 res,
                 { ticket },
-                `/events/${event_name}`
+                `/register/events/${event_name}`
             ).status(200).end()
         } catch (err) { next(err) }
     }
@@ -63,7 +63,7 @@ function createRegistrationsController(eventsServices, filesServices) {
             sendCookie(
                 res,
                 { ticket },
-                `/events/${req.params.event_name}`
+                `/register/events/${req.params.event_name}`
             ).status(200).end()
         } catch (err) { next(err) }
     }

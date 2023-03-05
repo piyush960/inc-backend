@@ -11,7 +11,7 @@ function creationsJudgesController(judgesServices, emailService) {
             sendCookie(
                 res,
                 { jid },
-                `/judge`
+                `/admin/judge`
             ).status(201).end()
         } catch (err) { next(err) }
     }

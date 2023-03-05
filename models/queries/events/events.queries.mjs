@@ -4,11 +4,11 @@ function eventsQueries(tableName) {
     const checkUserRegistration = (event_name) => {
         switch (event_name) {
             case eventsName[0]:
-                return `SELECT * FROM ${tableName.conceptsUsersTable} WHERE email = ?;`
+                return `SELECT email FROM ${tableName.conceptsUsersTable} WHERE email = ?;`
             case eventsName[1]:
-                return `SELECT * FROM ${tableName.impetusUsersTable} WHERE email = ?;`
+                return `SELECT email FROM ${tableName.impetusUsersTable} WHERE email = ?;`
             case eventsName[2]:
-                return `SELECT * FROM ${tableName.pradnyaUsersTable} WHERE email = ?;`
+                return `SELECT email FROM ${tableName.pradnyaUsersTable} WHERE email = ?;`
         }
     }
 
