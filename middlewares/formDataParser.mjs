@@ -1,6 +1,6 @@
 function formDataParser(req, _, next) {
     try {
-        const parsedBody = JSON.parse(JSON.parse(req.body.body))
+        const parsedBody = JSON.parse(req.body.body)
         req.body = parsedBody || {}
         next()
     } catch (err) { next(err) }

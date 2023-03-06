@@ -1,4 +1,4 @@
-import { eventsQueries, ticketQueries, conceptsQueries } from '../../../models/index.js';
+import { eventsQueries, ticketQueries } from '../../../models/index.js';
 import { AppError } from '../../../utils/index.js';
 import { eventsName, projectDomains } from '../../../static/eventsData.mjs';
 
@@ -14,7 +14,7 @@ function eventsServices(db) {
 
     async function getTicketDetails(ticket) {
         try {
-            const [results] = await db.execute({ sql: ticketQueries.checkTicket('*'), namedPlaceholders: true }, { ticket }).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [[results]] = await db.execute(ticketQueries.checkTicket, [ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
@@ -32,7 +32,7 @@ function eventsServices(db) {
 
     async function getMembersFromTicket(ticket) {
         try {
-            const [results] = await db.execute(ticketQueries.checkTicket('step_2'), [ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute({ sql: ticketQueries.checkTicket('step_2'), namedPlaceholders: true }, { ticket }).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
@@ -51,7 +51,6 @@ function eventsServices(db) {
     async function editStepData(ticket, step_no, data) {
         try {
             const [results] = await db.execute(ticketQueries.editStepData(step_no), [data, step_no, ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
-            console.log(results);
             return results[0]
         } catch (err) {
             throw err
@@ -61,7 +60,6 @@ function eventsServices(db) {
     async function editPaymentAndStep(data, updated_step) {
         try {
             const [results] = await db.execute(ticketQueries.editPaymentAndStep, [updated_step, data.payment_id, data.ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
-            console.log(results);
             return results[0]
         } catch (err) {
             throw err
@@ -137,7 +135,7 @@ function eventsServices(db) {
     async function getPendingPayments(event_name) {
         try {
             const [results] = await db.execute(ticketQueries.getPendingPayments, [event_name[0].toUpperCase()]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
-            return results
+            return results[0]
         } catch (err) {
             throw err
         }

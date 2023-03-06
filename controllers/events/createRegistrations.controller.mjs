@@ -20,13 +20,11 @@ function createRegistrationsController(eventsServices, filesServices) {
 
     async function insertMember(req, res, next) {
         try {
-            console.log(req);
             const { event_name } = req.params
             const { ticket } = req.signedCookies
-            const member_details = req.body
-            const email = await eventsServices.getUserRegistration(event_name, member_details.email)
-            console.log(email);
-            if (email) throw new AppError(404, 'fail', `Email ${email} already registered for ${event_name}`)
+            const { email } = req.body
+            const user_email = await eventsServices.getUserRegistration(event_name, email)
+            if (user_email) throw new AppError(404, 'fail', `Email ${user_email} already registered for ${event_name}`)
             const member_id_file = req.file
             const existing_members = await eventsServices.getMembersFromTicket(ticket)
             if (!existing_members) throw new AppError(404, 'fail', 'Ticket does not exist')
@@ -35,15 +33,15 @@ function createRegistrationsController(eventsServices, filesServices) {
                     throw new AppError(400, 'fail', 'Maximum number of members reached')
                 else {
                     existing_members.step_2.forEach(member => {
-                        if (member.email === member_details.email)
+                        if (member.email === email)
                             throw new AppError(400, 'fail', 'Duplicate email address found in a team')
                     })
-                    await filesServices.insertFile(member_details.email, member_id_file)
-                    await eventsServices.editStepData(ticket, 2, [...existing_members.step_2, member_details])
+                    await filesServices.insertFile(email, member_id_file)
+                    await eventsServices.editStepData(ticket, 2, [...existing_members.step_2, req.body])
                 }
             } else {
-                await filesServices.insertFile(member_details.email, member_id_file)
-                await eventsServices.editStepData(ticket, 2, [{ ...member_details }])
+                await filesServices.insertFile(email, member_id_file)
+                await eventsServices.editStepData(ticket, 2, [{ ...req.body }])
             }
             sendCookie(
                 res,
@@ -71,18 +69,18 @@ function createRegistrationsController(eventsServices, filesServices) {
     async function requestRegistration(req, res, next) {
         try {
             const { ticket } = req.signedCookies
-            const results = await eventsServices.getTicketDetails(ticket)
+            let results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
-            if (results.step_no === 4) throw new AppError(400, 'fail', 'Registration done using this ticket and payment under verification')
+            if (results.payment_id !== '') throw new AppError(400, 'fail', 'Registration done using this ticket and payment under verification')
             else if (results.step_no === 3) {
-                if (req.body?.isPICT === '1') {
+                const { isPICT, isInternational } = req.body
+                if (isPICT === '1') {
                     req.body = { ticket, payment_id: 'PICT' }
-                }
-                if (req.body?.isInternational === '1') {
+                } else if (isInternational === '1') {
                     req.body = { ticket, payment_id: 'INTERNATIONAL' }
                 }
-                await eventsServices.editPaymentAndStep(req.body, 4)
-                res.status(200).end()
+                await eventsServices.editPaymentAndStep({ ...req.body, ticket }, 4)
+                res.status(201).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
             else throw new AppError(400, 'fail', 'Registration steps not completed')

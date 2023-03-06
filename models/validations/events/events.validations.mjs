@@ -38,8 +38,8 @@ function projectValidation() {
 
 function memberValidation() {
     return [
-        param('event_name').custom((event_name, { req }) => event_name[0] === req.signedCookies[4].toLowerCase()).withMessage('Invalid cookie'),
-        body('name').trim().notEmpty().isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
+        param('event_name').custom((event_name, { req }) => event_name[0] === req.signedCookies.ticket[4].toLowerCase()).withMessage('Invalid cookie'),
+        body('name').trim().notEmpty().isLength({ min: 3, max: 20 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
         body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
         body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Invalid gender value'),
@@ -48,7 +48,7 @@ function memberValidation() {
 
 function collegeValidation() {
     return [
-        param('event_name').custom((event_name, { req }) => event_name[0] === req.signedCookies[4].toLowerCase()).withMessage('Invalid cookie'),
+        param('event_name').custom((event_name, { req }) => event_name[0] === req.signedCookies.ticket[4].toLowerCase()).withMessage('Invalid cookie'),
         oneOf([
             body('isPICT').equals('1'),
             [

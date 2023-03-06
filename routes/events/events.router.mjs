@@ -20,7 +20,7 @@ function createEventsRouter(eventsServices, filesServices, middlewares, eventsVa
     eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), validator, saveProject)
     eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), validator, insertMember)
     eventsRouter.post('/:event_name/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), validator, saveCollegeDetails)
-    eventsRouter.post('/:event_name/step_4', eventNameParamValidation(), verifyPICTOrPayments(), validator, requestRegistration)
+    eventsRouter.post('/:event_name/step_4', eventNameParamValidation(), ticketValidation(), verifyPICTOrPayments(), validator, requestRegistration)
 
     return eventsRouter
 }

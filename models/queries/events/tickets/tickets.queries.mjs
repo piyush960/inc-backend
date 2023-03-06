@@ -1,7 +1,7 @@
 const env = process.env
 
 function ticketQueries(tableName) {
-    const checkTicket = (columns) => `SELECT ${columns} FROM ${tableName} WHERE ticket = :ticket;`
+    const checkTicket = env.GET_TICKET_DETAILS
 
     const getPendingPayments = env.GET_PENDING_PAYMENTS
 

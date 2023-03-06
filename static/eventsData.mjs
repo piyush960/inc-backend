@@ -111,10 +111,18 @@ const slotsData = {
     '4': 'Sunday 9th April (1:00 PM - 6:00 PM)',
 }
 
+const paymentLinks = new Map([
+    ['test', 'https://easebuzz.in/quickpay/owhseppfut'],
+    ['concepts', 'https://easebuzz.in/quickpay/pkwfmmpssi'],
+    ['impetus', 'https://easebuzz.in/quickpay/jkxuiptnhq'],
+    ['pradnya', 'https://easebuzz.in/quickpay/cwxuyvrypr'],
+])
+
 export {
     eventsName,
     projectDomains,
     projectTypes,
     teamSize,
     slotsData,
+    paymentLinks,
 }
