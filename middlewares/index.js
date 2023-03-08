@@ -14,7 +14,7 @@ function initializeMiddlewares(dbService) {
     function useDefaultMiddlewares(server) {
         server.use([
             cors({
-                origin: process.env.FRONTEND_URL,
+                origin: '*',
                 credentials: true
             }), // Allow Cross-Origin requests,
             helmet(), // Set security HTTP headers
