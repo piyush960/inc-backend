@@ -21,6 +21,15 @@ function eventsServices(db) {
         }
     }
 
+    async function getMembersFromTicket(ticket) {
+        try {
+            const [results] = await db.execute(ticketQueries.getMembers, [ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            return results[0]
+        } catch (err) {
+            throw err
+        }
+    }
+
     async function getPaymentDetails(pid, event_name) {
         try {
             const [results] = await db.execute({ sql: ticketQueries.getPayment, namedPlaceholders: true }, { pid, event_name: event_name[0].toUpperCase() }).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
@@ -144,6 +153,7 @@ function eventsServices(db) {
     return {
         getUserRegistration,
         getTicketDetails,
+        getMembersFromTicket,
         getPaymentDetails,
         getMembersFromTicket,
         insertTicket,

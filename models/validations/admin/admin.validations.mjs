@@ -1,4 +1,4 @@
-import { body, check, cookie } from 'express-validator';
+import { body, cookie } from 'express-validator';
 import { roles as rolesData } from '../../../static/adminData.mjs';
 
 function adminLoginValidation() {
@@ -13,6 +13,14 @@ function createAdminValidation() {
 		body('username').trim().isLength({ min: 6, max: 50 }).escape().withMessage('Invalid username'),
 		body('password').isLength({ min: 8, max: 50 }).isStrongPassword().withMessage('Invalid password'),
 		body('roles').isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => rolesData.includes(role.trim()))).withMessage('Invalid roles for admin'),
+	]
+}
+
+function verifyAdminTicket() {
+	return [
+		cookie('admin_data').customSanitizer((_, { req }) => req.signedCookies.admin_data).exists().isObject().withMessage('You are not logged in! Please login in for admin access'),
+		cookie('admin_data.token').customSanitizer((_, { req }) => req.signedCookies.admin_data.token).escape().isJWT().withMessage('Invalid session token for admin access'),
+		cookie('admin_data.roles').customSanitizer((_, { req }) => req.signedCookies.admin_data.roles).isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => rolesData.includes(role.trim()))).withMessage('Invalid roles for admin access'),
 	]
 }
 
@@ -34,5 +42,6 @@ function verifyAdminValidation(min_role) {
 export const adminValidations = {
 	adminLoginValidation,
 	createAdminValidation,
+	verifyAdminTicket,
 	verifyAdminValidation,
 }

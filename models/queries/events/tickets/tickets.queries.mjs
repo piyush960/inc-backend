@@ -3,6 +3,8 @@ const env = process.env
 function ticketQueries(tableName) {
     const checkTicket = env.GET_TICKET_DETAILS
 
+    const getMembers = env.GET_MEMBERS_FROM_TICKET
+
     const getPendingPayments = env.GET_PENDING_PAYMENTS
 
     const getPayment = env.GET_PAYMENT
@@ -15,6 +17,7 @@ function ticketQueries(tableName) {
 
     return {
         checkTicket,
+        getMembers,
         getPendingPayments,
         getPayment,
         insertTicket,
