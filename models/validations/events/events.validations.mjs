@@ -52,11 +52,11 @@ function collegeValidation() {
         oneOf([
             body('isPICT').equals('1'),
             [
-                body('college').trim().isAlpha('en-US', { ignore: ' .-\'' }).isLength({ min: 5, max: 100 }).escape().withMessage('Invalid college name'),
+                body('college').trim().isAlpha('en-US', { ignore: ' .-\'' }).isLength({ min: 3, max: 100 }).escape().withMessage('Invalid college name'),
                 body('country').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid country name')
                 // .if(body('college').equals('Pune Institute of Computer Technology')).equals('India').withMessage('Invalid country entered for PICT')
                 ,
-                body('state').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid state name')
+                body('state').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 3, max: 20 }).escape().withMessage('Invalid state name')
                 // .if(body('college').equals('Pune Institute of Computer Technology')).equals('Maharashtra').withMessage('Invalid state entered for PICT')
                 ,
                 body('district').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid district name')
