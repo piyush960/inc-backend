@@ -14,7 +14,6 @@ const middlewares = initializeMiddlewares(dbService)
 
 server = middlewares.useDefaultMiddlewares(server)
 
-
 server = connectRouter(server, dbService, emailServices, middlewares)
 
 export default server;

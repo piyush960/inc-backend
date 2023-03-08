@@ -3,12 +3,12 @@ import { getRegistrationsController, createRegistrationsController } from '../..
 
 const eventsRouter = Router()
 
-function createEventsRouter(eventsServices, filesServices, middlewares, eventsValidations, adminValidations) {
+function createEventsRouter(eventsServices, filesServices, emailService, middlewares, eventsValidations, adminValidations) {
     const { registrationLimiter, verifyAdminLogin, validator, memberIDParser, formDataParser } = middlewares
     const { getPaymentValidation, ticketValidation, getRegistrationValidation, paymentValidation, fileValidation, eventNameParamValidation, getUserRegistrationValidation, projectValidation, memberValidation, collegeValidation, verifyPICTOrPayments } = eventsValidations
     const { verifyAdminValidation } = adminValidations
     const { getPaymentDetails, getTicketDetails, getUserIDFile, getUserRegistration, getRegistration, getPendingPayments } = getRegistrationsController(eventsServices, filesServices)
-    const { saveProject, insertMember, saveCollegeDetails, requestRegistration, verifyPendingPayment } = createRegistrationsController(eventsServices, filesServices)
+    const { saveProject, insertMember, saveCollegeDetails, requestRegistration, verifyPendingPayment } = createRegistrationsController(eventsServices, filesServices, emailService)
     eventsRouter.get('/verify/:event_name', eventNameParamValidation(), getPaymentValidation(), verifyAdminValidation(3), validator, verifyAdminLogin, getPaymentDetails)
     eventsRouter.get('/verify/file', fileValidation(), verifyAdminValidation(6), validator, verifyAdminLogin, getUserIDFile)
     eventsRouter.get('/verify/payment/:event_name', eventNameParamValidation(), verifyAdminValidation(3), validator, verifyAdminLogin, getPendingPayments)

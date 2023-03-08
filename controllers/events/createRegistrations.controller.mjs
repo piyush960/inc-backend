@@ -2,7 +2,7 @@ import { sendCookie, randomID, AppError } from '../../utils/index.js';
 import { teamSize } from '../../static/eventsData.mjs';
 import { pictDetails } from '../../static/collegeDetails.mjs';
 
-function createRegistrationsController(eventsServices, filesServices) {
+function createRegistrationsController(eventsServices, filesServices, emailService) {
     async function saveProject(req, res, next) {
         try {
             const { event_name } = req.params
@@ -90,11 +90,13 @@ function createRegistrationsController(eventsServices, filesServices) {
     async function verifyPendingPayment(req, res, next) {
         try {
             const { ticket } = req.body
+            const { event_name } = req.params
             const results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) {
-                await eventsServices.completeRegistration(req.params.event_name, { ...req.body, payment_id: results.payment_id })
-                res.status(200).end()
+                await eventsServices.completeRegistration(event_name, { ...req.body, payment_id: results.payment_id })
+                await emailService.eventRegistrationEmail(results, event_name)
+                res.status(201).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
             else throw new AppError(400, 'fail', 'Registration steps not completed')
