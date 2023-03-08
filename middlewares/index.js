@@ -14,7 +14,7 @@ function initializeMiddlewares(dbService) {
     function useDefaultMiddlewares(server) {
         server.use([
             cors({
-                origin: '*',
+                origin: true,
                 credentials: true,
                 preflightContinue: true,
             }), // Allow Cross-Origin requests,
