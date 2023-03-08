@@ -4,7 +4,7 @@ const options = {
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     signed: true,
-    sameSite: 'Strict'
+    sameSite: 'Node'
 }
 
 function sendCookie(res, cookies, path) {
