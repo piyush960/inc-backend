@@ -38,7 +38,6 @@ function projectValidation() {
 
 function memberValidation() {
     return [
-        param('event_name').exists().if(param('event_name').equals(eventsName[2])).optional().custom((event_name, { req }) => event_name[0] === req.signedCookies.ticket[4].toLowerCase()).withMessage('Invalid cookie'),
         body('name').trim().notEmpty().isLength({ min: 3, max: 20 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
         body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),

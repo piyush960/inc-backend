@@ -21,11 +21,22 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
     async function insertMember(req, res, next) {
         try {
             const { event_name } = req.params
-            const { ticket } = req.signedCookies
+            let { ticket } = req.signedCookies
             const { email } = req.body
             const user_email = await eventsServices.getUserRegistration(event_name, email)
             if (user_email) throw new AppError(404, 'fail', `Email ${user_email} already registered for ${event_name}`)
             const member_id_file = req.file
+            if (event_name === eventsName[2]) {
+                ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
+                await eventsServices.insertTicket({ ticket, step_1: {}, step_2: [{ ...req.body }], step_no: 2 })
+                await filesServices.insertFile(email, member_id_file)
+                sendCookie(
+                    res,
+                    { ticket },
+                    `/register/events/${event_name}`
+                ).status(201).end()
+                return
+            }
             const existing_members = await eventsServices.getMembersFromTicket(ticket)
             if (!existing_members) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (Array.isArray(existing_members.step_2)) {
@@ -40,11 +51,8 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
                     await eventsServices.editStepData(ticket, 2, [...existing_members.step_2, req.body])
                 }
             } else {
-                if (event_name === eventsName[2]) {
-                    ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
-                    await eventsServices.insertTicket({ ticket, step_1: {}, step_2: [{ ...req.body }], step_no: 2 })
-                } else await eventsServices.editStepData(ticket, 2, [{ ...req.body }])
                 await filesServices.insertFile(email, member_id_file)
+                await eventsServices.editStepData(ticket, 2, [{ ...req.body }])
             }
             sendCookie(
                 res,
