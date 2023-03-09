@@ -1,5 +1,5 @@
 import { sendCookie, randomID, AppError } from '../../utils/index.js';
-import { teamSize } from '../../static/eventsData.mjs';
+import { eventsName, teamSize } from '../../static/eventsData.mjs';
 import { pictDetails } from '../../static/collegeDetails.mjs';
 
 function createRegistrationsController(eventsServices, filesServices, emailService) {
@@ -12,7 +12,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
                 res.status(200).end()
             } else {
                 const ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
-                await eventsServices.insertTicket({ ticket, step_1: req.body })
+                await eventsServices.insertTicket({ ticket, step_1: req.body, step_2: {}, step_no: 1 })
                 sendCookie(res, { ticket }, `/register/events/${event_name}`).status(200).end()
             }
         } catch (err) { next(err) }
@@ -40,8 +40,11 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
                     await eventsServices.editStepData(ticket, 2, [...existing_members.step_2, req.body])
                 }
             } else {
+                if (event_name === eventsName[2]) {
+                    ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
+                    await eventsServices.insertTicket({ ticket, step_1: {}, step_2: [{ ...req.body }], step_no: 2 })
+                } else await eventsServices.editStepData(ticket, 2, [{ ...req.body }])
                 await filesServices.insertFile(email, member_id_file)
-                await eventsServices.editStepData(ticket, 2, [{ ...req.body }])
             }
             sendCookie(
                 res,
