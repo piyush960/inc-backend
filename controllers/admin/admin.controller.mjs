@@ -1,4 +1,4 @@
-import { AppError, createToken, sendCookie, clearCookie } from '../../utils/index.js';
+import { AppError, createToken, verifyToken, sendCookie, clearCookie } from '../../utils/index.js';
 
 function adminController(adminServices) {
 	async function loginAdmin(req, res, next) {
@@ -7,14 +7,13 @@ function adminController(adminServices) {
 			const user = await adminServices.findAdmin(username)
 			if (!user) throw new AppError(404, 'fail', 'Admin account does not exist')
 			if (user.password !== password) {
-				res = await clearCookie(res, 'admin_data', '/')
+				res = await clearCookie(res, 'admin_data')
 				throw new AppError(403, 'fail', 'Invalid Credentials')
 			}
 			const token = createToken({ username })
 			sendCookie(
 				res,
-				{ admin_data: { token, roles: user.roles } },
-				'/'
+				{ admin_data: { token, roles: user.roles } }
 			).status(200).end()
 		} catch (err) { next(err) }
 	}
