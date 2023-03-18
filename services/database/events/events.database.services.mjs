@@ -17,6 +17,7 @@ function eventsServices(db) {
             const [[results]] = await db.execute(ticketQueries.checkTicket, [ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
+            console.log(err)
             throw err
         }
     }
@@ -62,6 +63,7 @@ function eventsServices(db) {
             const [results] = await db.execute(ticketQueries.editPaymentAndStep, [updated_step, data.payment_id, data.ticket]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
+            console.log(err)
             throw err
         }
     }

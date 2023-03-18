@@ -26,7 +26,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             const user_email = await eventsServices.getUserRegistration(event_name, email)
             if (user_email) throw new AppError(404, 'fail', `Email ${user_email} already registered for ${event_name}`)
             const member_id_file = req.file
-            if (event_name === eventsName[2]) {
+            if (event_name === eventsName[2] && !ticket ) {
                 ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
                 await eventsServices.insertTicket({ ticket, step_1: {}, step_2: [{ ...req.body }], step_no: 2 })
                 await filesServices.insertFile(email, member_id_file)
@@ -90,7 +90,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
                 } else if (isInternational === '1') {
                     req.body = { ticket, payment_id: 'INTERNATIONAL' }
                 }
-                await eventsServices.editPaymentAndStep({ ...req.body, ticket }, 4)
+                await eventsServices.editPaymentAndStep(req.body , 4)
                 res.status(201).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
