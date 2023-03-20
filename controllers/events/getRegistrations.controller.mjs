@@ -53,7 +53,8 @@ function getRegistrationsController(eventsServices, filesServices) {
         try {
             const results = await eventsServices.getPendingPayments(req.params.event_name)
             if (!results) throw new AppError(404, 'fail', 'No pending payments')
-            res.status(302).json(results)
+            const filteredResults = results.map(item => ({ email: item.step_2[0].email, ticket: item.ticket, payment_id: item.payment_id }))
+            res.status(302).json(filteredResults)
         } catch (err) { next(err) }
     }
 

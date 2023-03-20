@@ -24,9 +24,9 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             let { ticket } = req.signedCookies
             const { email } = req.body
             const user_email = await eventsServices.getUserRegistration(event_name, email)
-            if (user_email) throw new AppError(404, 'fail', `Email ${user_email} already registered for ${event_name}`)
+            if (user_email) throw new AppError(404, 'fail', `Email ${user_email.email} already registered for ${event_name}`)
             const member_id_file = req.file
-            if (event_name === eventsName[2] && !ticket ) {
+            if (event_name === eventsName[2] && !ticket) {
                 ticket = 'INC-' + event_name[0].toUpperCase() + randomID(12)
                 await eventsServices.insertTicket({ ticket, step_1: {}, step_2: [{ ...req.body }], step_no: 2 })
                 await filesServices.insertFile(email, member_id_file)
@@ -105,7 +105,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             const results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) {
-                await eventsServices.completeRegistration(event_name, { ...req.body, payment_id: results.payment_id })
+                await eventsServices.completeRegistration(event_name, results)
                 await emailService.eventRegistrationEmail(results, event_name)
                 res.status(201).end()
             }

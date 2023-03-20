@@ -9,6 +9,7 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     const { verifyAdminValidation } = adminValidations
     const { getPaymentDetails, getTicketDetails, getUserIDFile, getUserRegistration, getRegistration, getPendingPayments } = getRegistrationsController(eventsServices, filesServices)
     const { saveProject, insertMember, saveCollegeDetails, requestRegistration, verifyPendingPayment } = createRegistrationsController(eventsServices, filesServices, emailService)
+   
     eventsRouter.get('/verify/:event_name', eventNameParamValidation(), getPaymentValidation(), verifyAdminValidation(3), validator, verifyAdminLogin, getPaymentDetails)
     eventsRouter.get('/verify/file', fileValidation(), verifyAdminValidation(6), validator, verifyAdminLogin, getUserIDFile)
     eventsRouter.get('/verify/payment/:event_name', eventNameParamValidation(), verifyAdminValidation(3), validator, verifyAdminLogin, getPendingPayments)

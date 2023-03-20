@@ -9,7 +9,7 @@ const options = {
 
 function sendCookie(res, cookies, path) {
     for (const key in cookies) {
-        res.cookie(key, cookies[key], { ...options, path: process.env.FRONTEND_URL + path })
+        res.cookie(key, cookies[key], { ...options, path: path ? process.env.FRONTEND_URL + path : '/' })
     }
     return res
 }
