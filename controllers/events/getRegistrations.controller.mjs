@@ -58,6 +58,8 @@ function getRegistrationsController(eventsServices, filesServices) {
         } catch (err) { next(err) }
     }
 
+    
+
     return {
         getUserRegistration,
         getRegistration,

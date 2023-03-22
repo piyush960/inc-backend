@@ -1,4 +1,5 @@
 const eventsName = ['concepts', 'impetus', 'pradnya']
+const eventsTableName = ['concepts_projects' , 'impetus_projects']
 
 // const projectDomains = new Map([
 //     ['concepts', ['APPLICATION DEVELOPMENT', 'COMMUNICATION NETWORKS AND SECURITY SYSTEMS', 'DIGITAL / IMAGE/ SPEECH / VIDEO PROCESSING', 'EMBEDDED/VLSI SYSTEMS', 'MACHINE LEARNING AND PATTERN RECOGNITION', 'OTHERS']],

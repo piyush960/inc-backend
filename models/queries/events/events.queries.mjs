@@ -18,9 +18,12 @@ function eventsQueries(tableName) {
         return process.env[`INSERT_${event_name.toUpperCase()}_${no_of_members}`] + placeholders + ');'
     }
 
+    const getProjects = (data) => `SELECT title , abstract , domain, mode FROM ${data}_projects INNER JOIN ${data}_group_info ON ${data}_projects.pid = ${data}_group_info.pid   WHERE  count_of_judges<5; `
+
     return {
         checkUserRegistration,
         completeRegistration,
+        getProjects
     }
 }
 
