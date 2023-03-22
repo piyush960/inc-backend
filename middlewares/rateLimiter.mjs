@@ -10,7 +10,7 @@ const apiLimiter = rateLimit({
 
 const registrationLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
-    max: process.env.REQUEST_LIMITER || 10, // Limit each IP to 10 create account requests per `window` (here, per hour)
+    max: process.env.REQUEST_LIMITER || 25, // Limit each IP to 10 create account requests per `window` (here, per hour)
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     message: 'Too many accounts created from this IP, please try again after an hour',
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
