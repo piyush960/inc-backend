@@ -6,6 +6,9 @@ const apiLimiter = rateLimit({
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     message: 'Too many request created from this IP, please try again after 15 minutes',
     handler: (_, __, next, options) => next(options.message),
+    keyGenerator: function (req) {
+        return req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    }
 })
 
 const registrationLimiter = rateLimit({
@@ -15,6 +18,9 @@ const registrationLimiter = rateLimit({
     message: 'Too many accounts created from this IP, please try again after an hour',
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     handler: (_, __, next, options) => next(options.message),
+    keyGenerator: function (req) {
+        return req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    }
 })
 
 export {
