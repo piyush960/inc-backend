@@ -1,11 +1,20 @@
 import { eventsQueries, ticketQueries } from '../../../models/index.js';
 import { AppError } from '../../../utils/index.js';
-import { eventsName, projectDomains } from '../../../static/eventsData.mjs';
+import { eventsName } from '../../../static/eventsData.mjs';
 
 function eventsServices(db) {
     async function getUserRegistration(event_name, email) {
-        try {  
+        try {
             const [results] = await db.execute(eventsQueries.checkUserRegistration(event_name), [email]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            return results[0]
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async function getRegistrations(event_name) {
+        try {
+            const [results] = await db.execute(eventsQueries.getRegistrations(), [event_name]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
@@ -144,7 +153,7 @@ function eventsServices(db) {
             throw err
         }
     }
-    
+
     async function getProjects(event_name) {
         try {
             const [results] = await db.execute(eventsQueries.getProjects(event_name)).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
@@ -153,10 +162,11 @@ function eventsServices(db) {
             throw err
         }
     }
-    
+
 
     return {
         getUserRegistration,
+        getRegistrations,
         getTicketDetails,
         getMembersFromTicket,
         getPaymentDetails,

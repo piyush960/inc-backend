@@ -2,9 +2,9 @@ const options = {
     httpOnly: true,
     maxAge: process.env.TOKEN_EXPIRY,
     path: '/',
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     signed: true,
-    sameSite: 'None'
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict'
 }
 
 function sendCookie(res, cookies, path) {

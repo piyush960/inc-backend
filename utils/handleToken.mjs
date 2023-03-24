@@ -25,7 +25,6 @@ function verifyToken(token) {
                 return decoded
             }
         )
-        console.log(decoded)
         return decoded
     } catch (err) { throw new AppError(500, 'fail', err) }
 }

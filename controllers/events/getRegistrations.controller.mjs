@@ -21,6 +21,14 @@ function getRegistrationsController(eventsServices, filesServices) {
         } catch (err) { next(err) }
     }
 
+    async function getRegistrations(req, res, next) {
+        try {
+            const results = await eventsServices.getRegistrations(req.params.event_name)
+            if (!results) throw new AppError(404, 'fail', 'No registrations found')
+            res.status(302).json(results)
+        } catch (err) { next(err) }
+    }
+
     async function getTicketDetails(req, res, next) {
         try {
             const { ticket } = req.signedCookies
@@ -58,11 +66,12 @@ function getRegistrationsController(eventsServices, filesServices) {
         } catch (err) { next(err) }
     }
 
-    
+
 
     return {
         getUserRegistration,
         getRegistration,
+        getRegistrations,
         getTicketDetails,
         getPaymentDetails,
         getUserIDFile,
