@@ -86,11 +86,11 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             else if (results.step_no === 3) {
                 const { isPICT, isInternational } = req.body
                 if (isPICT === '1') {
-                    req.body = { ticket, payment_id: 'PICT' }
+                    req.body = { ...req.body, payment_id: 'PICT' }
                 } else if (isInternational === '1') {
-                    req.body = { ticket, payment_id: 'INTERNATIONAL' }
+                    req.body = { ...req.body, payment_id: 'INTERNATIONAL' }
                 }
-                await eventsServices.editPaymentAndStep(req.body , 4)
+                await eventsServices.editPaymentAndStep({ ...req.body, ticket }, 4)
                 res.status(201).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
