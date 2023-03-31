@@ -5,13 +5,26 @@ import emailTemplates from './htmlGenerators.email.mjs';
 const env = process.env
 
 function emailService() {
-    const transporter = nodemailer.createTransport({
+    const eventEmailTransporter = nodemailer.createTransport({
         pool: true,
         service: 'gmail',
         port: 465,
         auth: {
-            user: env.EMAIL_ADDRESS,
-            pass: env.EMAIL_PASSWORD
+            user: 'queries.pictinc2023@gmail.com',
+            pass: env.EVENTS_EMAIL_PASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    })
+
+    const judgingEmailTransporter = nodemailer.createTransport({
+        pool: true,
+        service: 'gmail',
+        port: 465,
+        auth: {
+            user: 'incjudging@pict.edu',
+            pass: env.JUDGE_EMAIL_PASSWORD
         },
         tls: {
             rejectUnauthorized: false
@@ -21,16 +34,16 @@ function emailService() {
     async function eventRegistrationEmail(data) {
         try {
             const mailOptions = {
-                from: `InC'2023 ${env.EMAIL_ADDRESS}`,
+                from: `InC'2023 queries.pictinc2023@gmail.com`,
                 to: `${data.step_2[0].name} ${data.step_2[0].email}`,
-                bcc: env.EMAIL_ADDRESS,
-                replyTo: env.EMAIL_ADDRESS,
+                bcc: 'queries.pictinc2023@gmail.com',
+                replyTo: 'queries.pictinc2023@gmail.com',
                 subject: `Registered for PICT InC 2023 - ${data.event_name}`,
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.eventRegistrationEmail(data)
             }
-            return transporter.sendMail(mailOptions, (err, info) => {
+            return eventEmailTransporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     throw err
                 }
@@ -44,16 +57,16 @@ function emailService() {
             judge.domains = judge.domains.map(domain => projectDomains[domain])
             judge.slots = judge.slots.map(slot => slotsData[slot])
             const mailOptions = {
-                from: `InC'2023 ${env.EMAIL_ADDRESS}`,
+                from: 'InC\'2023 Judging <incjudging@pict.edu>',
                 to: `${judge.name} ${judge.email}`,
-                bcc: env.EMAIL_ADDRESS,
-                replyTo: env.EMAIL_ADDRESS,
+                bcc: 'queries.pictinc2023@gmail.com',
+                replyTo: 'queries.pictinc2023@gmail.com',
                 subject: 'Registered for PICT InC 2023 Judging',
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.judgeRegistrationEmail(judge)
             }
-            return transporter.sendMail(mailOptions, (err, info) => {
+            return judgingEmailTransporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     throw err
                 }
