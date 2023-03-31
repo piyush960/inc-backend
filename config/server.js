@@ -3,7 +3,6 @@ import connectDatabase from './database.js';
 import { databaseService, emailService } from '../services/index.js';
 import initializeMiddlewares from '../middlewares/index.js';
 import { connectRouter } from '../routes/index.js';
-import testEmail from '../test/emailing.js';
 
 var server = express()
 
