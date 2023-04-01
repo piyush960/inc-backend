@@ -1,13 +1,14 @@
 import { sendCookie, randomID } from '../../utils/index.js';
-import { roles } from '../../static/adminData.mjs';
+import { groupLinks, roles } from '../../static/adminData.mjs';
 
 function creationsJudgesController(judgesServices, emailService) {
     async function insertJudge(req, res, next) {
         try {
+            const { event_name } = req.params
             const jid = 'INC-J' + randomID(7)
             const password = randomID(8)
-            await judgesServices.insertJudge({ ...req.body, jid, password, events: [req.params.event_name], roles: [roles[6]] })
-            await emailService.judgeRegistrationEmail({ ...req.body, jid, events: [req.params.event_name], password })
+            await judgesServices.insertJudge({ ...req.body, jid, password, events: [event_name], roles: [roles[6]] })
+            await emailService.judgeRegistrationEmail({ ...req.body, jid, events: [event_name], password, group_link: groupLinks.get(event_name) })
             sendCookie(
                 res,
                 { jid },
