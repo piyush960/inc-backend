@@ -9,11 +9,7 @@ function creationsJudgesController(judgesServices, emailService) {
             const password = randomID(8)
             await judgesServices.insertJudge({ ...req.body, jid, password, events: [event_name], roles: [roles[6]] })
             await emailService.judgeRegistrationEmail({ ...req.body, jid, events: [event_name], password, group_link: groupLinks.get(event_name) })
-            sendCookie(
-                res,
-                { jid },
-                `/judge`
-            ).status(201).end()
+            res.status(201).end()
         } catch (err) { next(err) }
     }
 
