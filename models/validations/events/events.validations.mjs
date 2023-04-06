@@ -39,7 +39,7 @@ function projectValidation() {
 function memberValidation() {
     return [
         body('name').trim().notEmpty().isLength({ min: 3, max: 20 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
-        body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
+        body('email').isEmail().normalizeEmail().withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
         body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Invalid gender value'),
     ]
