@@ -5,7 +5,16 @@ const groupLinks = new Map([
     ['impetus', ['Impetus judging 23', 'https://chat.whatsapp.com/HC4szxmTO7iDDTfymOVHJr']],
 ])
 
+const officialEmails = new Map([
+    ['queries', 'queries.pictinc2023@gmail.com'],
+    ['judging', 'incjudging@pict.edu'],
+    ['concepts', 'concepts.pictinc2023@gmail.com'],
+    ['impetus', 'impetus.pictinc2023@gmail.com'],
+    ['pradnya', 'prandnya.pictinc2023@gmail.com'],
+])
+
 export {
     roles,
     groupLinks,
+    officialEmails,
 }

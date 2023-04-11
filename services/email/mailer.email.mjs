@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { officialEmails } from '../../static/adminData.mjs';
 import { projectDomains, slotsData } from '../../static/eventsData.mjs';
 import emailTemplates from './htmlGenerators.email.mjs';
 
@@ -10,7 +11,7 @@ function emailService() {
         service: 'gmail',
         port: 465,
         auth: {
-            user: 'queries.pictinc2023@gmail.com',
+            user: officialEmails.get('queries'),
             pass: env.EVENTS_EMAIL_PASSWORD
         },
         tls: {
@@ -23,7 +24,7 @@ function emailService() {
         service: 'gmail',
         port: 465,
         auth: {
-            user: 'incjudging@pict.edu',
+            user: officialEmails.get('judging'),
             pass: env.JUDGE_EMAIL_PASSWORD
         },
         tls: {
@@ -31,17 +32,17 @@ function emailService() {
         }
     })
 
-    async function eventRegistrationEmail(data) {
+    async function eventRegistrationEmail(event_name, data) {
         try {
             const mailOptions = {
-                from: `InC'2023 queries.pictinc2023@gmail.com`,
+                from: `InC'2023 <${officialEmails.get('queries')}>`,
                 to: `${data.step_2[0].name} ${data.step_2[0].email}`,
-                bcc: 'queries.pictinc2023@gmail.com',
-                replyTo: 'queries.pictinc2023@gmail.com',
-                subject: `Registered for PICT InC 2023 - ${data.event_name}`,
+                bcc: `${officialEmails.get('queries')},${officialEmails.get(event_name)}`,
+                replyTo: officialEmails.get('queries'),
+                subject: `Registered for PICT InC 2023 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
-                html: await emailTemplates.eventRegistrationEmail(data)
+                html: await emailTemplates.eventRegistrationEmail({ ...data, event_name })
             }
             return eventEmailTransporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
@@ -57,10 +58,10 @@ function emailService() {
             judge.domains = judge.domains.map(domain => projectDomains[domain])
             judge.slots = judge.slots.map(slot => slotsData[slot])
             const mailOptions = {
-                from: 'InC\'2023 Judging <incjudging@pict.edu>',
+                from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
                 to: `${judge.name} ${judge.email}`,
-                bcc: 'queries.pictinc2023@gmail.com',
-                replyTo: 'queries.pictinc2023@gmail.com',
+                bcc: officialEmails.get('queries'),
+                replyTo: officialEmails.get('queries'),
                 subject: 'Registered for PICT InC 2023 Judging',
                 priority: 'high',
                 text: 'Email content',

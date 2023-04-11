@@ -8,7 +8,7 @@ const judgeTemplate = readFileSync(__dirname + '/views/emails/judgeRegistration.
 
 async function eventRegistrationEmail(data) {
     try {
-        return await ejs.render(eventsTemplate, { data, filename: __dirname + '/views/emails/eventRegistration.email.ejs', cache: true, async: true })
+        return ejs.render(eventsTemplate, { data, filename: __dirname + '/views/emails/eventRegistration.email.ejs', cache: true, async: true })
     } catch (err) {
         throw err
     }

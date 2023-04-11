@@ -106,7 +106,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) {
                 await eventsServices.completeRegistration(event_name, results)
-                await emailService.eventRegistrationEmail(results, event_name)
+                await emailService.eventRegistrationEmail(event_name, results)
                 res.status(201).end()
             }
             else if (results.step_no === 5 && results.payment_id !== '') throw new AppError(400, 'fail', 'Registration already completed using this ticket')
