@@ -105,7 +105,7 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
             const results = await eventsServices.getTicketDetails(ticket)
             if (!results) throw new AppError(404, 'fail', 'Ticket does not exist')
             if (results.step_no === 4) {
-                const pid = await eventsServices.completeRegistration(event_name, results)
+                const { pid } = await eventsServices.completeRegistration(event_name, results)
                 await emailService.eventRegistrationEmail(event_name, { ...results, pid })
                 res.status(201).end()
             }
