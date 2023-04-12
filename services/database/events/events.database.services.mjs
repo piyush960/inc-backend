@@ -137,7 +137,7 @@ function eventsServices(db) {
             // console.log(data);
             // console.log(eventsQueries.completeRegistration(event_name, step_2.length));
             // console.log(dataArray);
-            const [results] = await db.execute(eventsQueries.completeRegistration(event_name, step_2.length), dataArray).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [[results]] = await db.execute(eventsQueries.completeRegistration(event_name, step_2.length), dataArray).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
