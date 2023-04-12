@@ -4,9 +4,16 @@ import { AppError } from "../../../utils/index.js";
 function judgesServices(db) {
     async function getJudge(data) {
         try {
-            console.log(data)
-            console.log(judgesQueries.getJudge(data))
             const [results] = await db.execute({ sql: judgesQueries.getJudge(data), namedPlaceholders: true }, data).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            return results[0]
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async function getJudges(event_name) {
+        try {
+            const [results] = await db.execute(judgesQueries.getJudges(event_name)).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
@@ -35,10 +42,9 @@ function judgesServices(db) {
         }
     }
 
-    
-
     return {
         getJudge,
+        getJudges,
         insertJudge,
         loginJudge,
     }

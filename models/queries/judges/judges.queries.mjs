@@ -7,6 +7,7 @@ function judgesQueries(tableName) {
         if (data.hasOwnProperty('jid')) return `SELECT :columns FROM ${tableName} WHERE jid = :jid;`
     }
 
+    const getJudges = event_name => `CALL getJudges(${event_name})`
 
     const insertJudge = 'CALL insertJudge(:jid, :name, :email, :phone, :address, :company, :exp, :events, :domains, :slots, :min_projects, :referral, :password, :roles, :isPICT);'
 
@@ -14,9 +15,9 @@ function judgesQueries(tableName) {
 
     return {
         getJudge,
+        getJudges,
         insertJudge,
         loginJudge,
-
     }
 }
 
