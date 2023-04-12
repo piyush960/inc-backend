@@ -12,11 +12,12 @@ function createJudgesRouter(judgesServices, eventsServices, emailService, middle
     const { insertJudge } = creationsJudgesController(judgesServices, emailService)
     judgesRouter.use(apiLimiter)
     judgesRouter.get('/:event_name/allocations', eventNameParamValidation(), validator, getProjects)
-    judgesRouter.get('/view/:event_name', eventNameParamValidation(), validator, getJudges)
+    judgesRouter.get('/registration/view/:event_name', eventNameParamValidation(), validator, getJudges)
     judgesRouter.get('/verify', getJudgeValidation(), verifyAdminValidation(5), validator, verifyAdminLogin, getJudge)
     judgesRouter.use(registrationLimiter)
     judgesRouter.post('/register/:event_name', eventNameParamValidation(), insertJudgeValidation(), validator, insertJudge)
     judgesRouter.post('/login', loginJudgeValidation(), validator, loginJudge)
+
 
     return judgesRouter
 }
