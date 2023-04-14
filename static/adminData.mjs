@@ -10,7 +10,7 @@ const officialEmails = new Map([
     ['judging', 'incjudging@pict.edu'],
     ['concepts', 'concepts.pictinc2023@gmail.com'],
     ['impetus', 'impetus.pictinc2023@gmail.com'],
-    ['pradnya', 'prandnya.pictinc2023@gmail.com'],
+    ['pradnya', 'pradnya.pictinc2023@gmail.com'],
 ])
 
 export {
