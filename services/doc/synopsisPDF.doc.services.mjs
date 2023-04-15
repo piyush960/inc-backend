@@ -32,49 +32,73 @@ function createSynopsis(projects) {
       documentAssembly: true,
     },
     header: {
-      margin: [50, 10, 50, 10],
-      columns: [
-        {
-          text: "Pune Institute of Computer Technology, Pune-43",
-          alignment: "left",
-        },
-        {
-          text: "Impetus Synopsis: InC 2023",
-          alignment: "right",
-        },
-      ],
-      lineHeight: 1.5,
-      fontSize: 10,
-      
-      canvas: [
-        {
-          type: "line",
-          x1: 0,
-          y1: 55,
-          x2: 600,
-          y2: 55,
-          lineWidth: 1,
-          lineColor: "#aaa",
-        },
-      ],
-    },
+        margin: [42, 10, 40, 10],
+        columns: [
+          {
+            text: "Pune Institute of Computer Technology, Pune-43",
+            alignment: "left",
+            width: "50%",
+          },
+          {
+            text: "Impetus Synopsis: InC 2023",
+            alignment: "right",
+            width: "50%",
+          },
+        ],
+        lineHeight: 1.5,
+        decoration : "underline",
+        fontSize: 10,
+        canvas: [
+          {
+            type: "line",
+            x1: 0,
+            y1: 30,
+            x2: 595.28,
+            y2: 30,
+            lineWidth: 1,
+            lineColor: "#aaa",
+          },
+        ],
+      },
     footer: function (currentPage, pageCount) {
       return {
         text: currentPage.toString() + " of " + pageCount,
         margin: [10, 20, 10, 20], // top, right, bottom, left
         alignment: "center",
-       
       };
     },
-    content: [
-        
-      { text: "Project Summaries", fontSize: 18, bold: true, marginBottom: 10 },
-      ...projects.map((project) => [
+    content: 
+    [
+      {
+        toc: {
+          title: { text: "Contents", style: "header" , alignment: "left" , fontSize: 24 , fontWeight: "bold" , margin: [10,10] , marginBottom:40 },
+          textMargin: [5, 5, 5, 5],
+          //textStyle: {italics: true},
+          numberStyle: { bold: true },
+          numberMargin: [10, 10, 10, 10],
+          pagebreak : "after",
+    
+            
+        },
+      },
+
+      {
+        text: "Project Summaries",
+        fontSize: 18,
+        bold: true,
+        marginBottom: 10,
+        pageBreak: "before", 
+       
+      },
+      ...projects.map((project) => 
+      [
         {
           text: `${project.projectId} : ${project.projectTitle} `,
           fontSize: 14,
           bold: true,
           marginBottom: 8,
+          tocItem: true,
+         
         },
         //{ text: `Project ID:`, fontSize: 12 },
         { text: `Project Abstract: ${project.projectAbstract}`, fontSize: 12 },
