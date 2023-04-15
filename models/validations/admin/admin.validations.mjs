@@ -18,9 +18,9 @@ function createAdminValidation() {
 
 function verifyAdminTicket() {
 	return [
-		cookie('admin_data').customSanitizer((_, { req }) => req.signedCookies.admin_data).exists().isObject().withMessage('You are not logged in! Please login in for admin access'),
-		cookie('admin_data.token').customSanitizer((_, { req }) => req.signedCookies.admin_data.token).escape().isJWT().withMessage('Invalid session token for admin access'),
-		cookie('admin_data.roles').customSanitizer((_, { req }) => req.signedCookies.admin_data.roles).isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => rolesData.includes(role.trim()))).withMessage('Invalid roles for admin access'),
+		cookie('admin_data').customSanitizer((_, { req }) => req.signedCookies?.admin_data).exists().isObject().withMessage('You are not logged in! Please login in for admin access'),
+		cookie('admin_data.token').customSanitizer((_, { req }) => req.signedCookies?.admin_data?.token).exists().withMessage('Please login again').escape().isJWT().withMessage('Invalid session token for admin access'),
+		cookie('admin_data.roles').customSanitizer((_, { req }) => req.signedCookies?.admin_data?.roles).isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => rolesData.includes(role.trim()))).withMessage('Invalid roles for admin access'),
 	]
 }
 
@@ -33,9 +33,9 @@ function verifyAdminValidation(min_role) {
 	}
 
 	return [
-		cookie('admin_data').customSanitizer((_, { req }) => req.signedCookies.admin_data).exists().isObject().withMessage('Invalid session cookie for admin access'),
-		cookie('admin_data.token').customSanitizer((_, { req }) => req.signedCookies.admin_data.token).escape().isJWT().withMessage('Invalid session token for admin access'),
-		cookie('admin_data.roles').customSanitizer((_, { req }) => req.signedCookies.admin_data.roles).isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => allowed_roles.includes(role.trim()))).withMessage('Invalid roles for admin access'),
+		cookie('admin_data').exists().withMessage('You are not logged in! Please login in for admin access').customSanitizer((_, { req }) => req.signedCookies?.admin_data).isObject().withMessage('Invalid session cookie for admin access'),
+		cookie('admin_data.token').customSanitizer((_, { req }) => req.signedCookies.admin_data?.token).escape().isJWT().withMessage('Invalid session token for admin access'),
+		cookie('admin_data.roles').customSanitizer((_, { req }) => req.signedCookies.admin_data?.roles).isArray({ min: 1, max: 5 }).custom(roles => roles.every(role => allowed_roles.includes(role.trim()))).withMessage('Invalid roles for admin access'),
 	]
 }
 

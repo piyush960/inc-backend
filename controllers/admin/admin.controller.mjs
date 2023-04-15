@@ -1,6 +1,6 @@
 import { AppError, createToken, verifyToken, sendCookie, clearCookie } from '../../utils/index.js';
 
-function adminController(adminServices) {
+function adminController(adminServices, docServices) {
 	async function loginAdmin(req, res, next) {
 		try {
 			const { username, password } = req.body
@@ -28,9 +28,17 @@ function adminController(adminServices) {
 		} catch (err) { next(err) }
 	}
 
+	async function getSynopsis(req, res, next) {
+		try {
+			const pdfDoc = docServices.synopsisPDF()
+			docServices.sendPDF(res, 'synopsis', pdfDoc)
+		} catch (err) { next(err) }
+	}
+
 	return {
 		loginAdmin,
 		verifyAdminLogin,
+		getSynopsis,
 	}
 }
 
