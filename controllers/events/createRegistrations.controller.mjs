@@ -196,7 +196,6 @@ function createRegistrationsController(
         domain: req.body.domain,
         guide_name: req.body.guide_name || '' ,
         guide_email: req.body.guide_email || '',
-        guide_phone: req.body.guide_phone || '',
         project_type: projectTypes[req.body.project_type],
         name: req.body.name,
         phone: req.body.phone,
