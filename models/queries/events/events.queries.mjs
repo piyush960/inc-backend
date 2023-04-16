@@ -18,7 +18,7 @@ function eventsQueries(tableName) {
         return process.env[`INSERT_${event_name.toUpperCase()}_${no_of_members}`] + placeholders + ');'
     }
 
-    const completePICTRegistration = (no_of_members) => {
+    const insertPICT = (no_of_members) => {
         let placeholders = ''
         for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'
         return 'CALL insert_c_internal_' + `${no_of_members}` + placeholders + ');'
@@ -35,7 +35,7 @@ function eventsQueries(tableName) {
     return {
         checkUserRegistration,
         completeRegistration,
-        completePICTRegistration,
+        insertPICT,
         getRegistrations,
         getProjects,
         getProject,
