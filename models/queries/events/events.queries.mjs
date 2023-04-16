@@ -18,6 +18,12 @@ function eventsQueries(tableName) {
         return process.env[`INSERT_${event_name.toUpperCase()}_${no_of_members}`] + placeholders + ');'
     }
 
+    const completePICTRegistration = (no_of_members) => {
+        let placeholders = ''
+        for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'
+        return 'CALL insert_c_internal_' + `${no_of_members}` + placeholders + ');'
+    }
+
     const getRegistrations = () => 'CALL getRegistrations(?);'
 
     const getProjects = (data) => `SELECT title, ${data}_projects.pid ,  abstract , domain, mode FROM ${data}_projects INNER JOIN ${data}_group_info ON ${data}_projects.pid = ${data}_group_info.pid;`
@@ -29,6 +35,7 @@ function eventsQueries(tableName) {
     return {
         checkUserRegistration,
         completeRegistration,
+        completePICTRegistration,
         getRegistrations,
         getProjects,
         getProject,

@@ -639,7 +639,6 @@ function eventsServices(db) {
         domain,
         guide_email,
         guide_name,
-        guide_phone,
         project_type,
         name,
         phone,
@@ -651,14 +650,13 @@ function eventsServices(db) {
           dataArray = [
             title,
             domain,
-            abstract,
             project_type,
             guide_name,
             guide_email,
-            guide_phone,
+            abstract,
             name[0],
-            phone[0],
             email[0],
+            phone[0],
           ];
           break;
 
@@ -666,17 +664,16 @@ function eventsServices(db) {
           dataArray = [
             title,
             domain,
-            abstract,
             project_type,
             guide_name,
             guide_email,
-            guide_phone,
+            abstract,
             name[0],
-            phone[0],
             email[0],
+            phone[0],
             name[1],
-            phone[1],
             email[1],
+            phone[1],
           ];
           break;
 
@@ -684,20 +681,19 @@ function eventsServices(db) {
           dataArray = [
             title,
             domain,
-            abstract,
             project_type,
             guide_name,
             guide_email,
-            guide_phone,
+            abstract,
             name[0],
-            phone[0],
             email[0],
+            phone[0],
             name[1],
-            phone[1],
             email[1],
+            phone[1],
             name[2],
-            phone[2],
             email[2],
+            phone[2],
           ];
           break;
 
@@ -705,23 +701,22 @@ function eventsServices(db) {
           dataArray = [
             title,
             domain,
-            abstract,
             project_type,
             guide_name,
             guide_email,
-            guide_phone,
+            abstract,
             name[0],
-            phone[0],
             email[0],
+            phone[0],
             name[1],
-            phone[1],
             email[1],
+            phone[1],
             name[2],
-            phone[2],
             email[2],
+            phone[2],
             name[3],
-            phone[3],
             email[3],
+            phone[3],
           ];
           break;
 
@@ -729,26 +724,25 @@ function eventsServices(db) {
           dataArray = [
             title,
             domain,
-            abstract,
             project_type,
             guide_name,
             guide_email,
-            guide_phone,
+            abstract,
             name[0],
-            phone[0],
             email[0],
+            phone[0],
             name[1],
-            phone[1],
             email[1],
+            phone[1],
             name[2],
-            phone[2],
             email[2],
+            phone[2],
             name[3],
-            phone[3],
             email[3],
+            phone[3],
             name[4],
-            phone[4],
             email[4],
+            phone[4],
           ];
           break;
       }
