@@ -199,8 +199,7 @@ function createRegistrationsController(
         project_type: projectTypes[req.body.project_type],
         name: req.body.name,
         phone: req.body.phone,
-        email: req.body.email,
-        mode : req.body.mode,
+        email: req.body.email
       };
       await eventsServices.insertPICT(newData);
       res.status(200).end();
