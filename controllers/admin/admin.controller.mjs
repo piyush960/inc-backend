@@ -1,4 +1,4 @@
-import { projects } from "../../static/adminData.mjs";
+import { projects} from "../../static/adminData.mjs";
 import {
   AppError,
   createToken,

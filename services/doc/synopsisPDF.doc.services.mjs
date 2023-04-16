@@ -38,13 +38,19 @@ function createSynopsis(projects) {
         {
           columns: [
             {
-              text: "InC Synopsis",
+              text: "Pune Institute of Computer Technology, Pune-43",
+              fontSize: 10,
+              italics: "true",
+              alignment: "left",
+            },
+            {
+              text: "Impetus Synopsis: InC 2023",
               fontSize: 10,
               italics: "true",
               alignment: "right",
             },
           ],
-          margin: [30, 20, 30, 0],
+          margin: [50, 20, 50, 0],
         },
         ,
         {
@@ -53,7 +59,7 @@ function createSynopsis(projects) {
               type: "line",
               x1: 50,
               y1: 10,
-              x2: 595 - 30,
+              x2: 595 - 50,
               y2: 10,
               lineWidth: 1,
             },
@@ -76,40 +82,16 @@ function createSynopsis(projects) {
           ],
         },
         {
-          columns: [
-            {
-              text: "InC Synopsis",
-              fontSize: 10,
-              italics: "true",
-              alignment: "right",
-              margin: [20, 0, 0, 0],
-              alignment: "left",
-              italics: true,
-            },
-            {
-              text: currentPage.toString(),
-              fontSize: 10,
-              italics: "true",
-              alignment: "right",
-              margin: [20, 0, 0, 0],
-              alignment: "center",
-              italics: true,
-            },
-            {
-              text: "PICT , Pune",
-              fontSize: 10,
-              italics: "true",
-              alignment: "right",
-              margin: [20, 0, 0, 0],
-              alignment: "right",
-              italics: true,
-            },
-          ],
+          text: currentPage.toString(),
+          fontSize: 10,
+          italics: "true",
+          alignment: "center",
           margin: [30, 10, 30, 0],
         },
       ];
     },
     content: [
+      // toc header
       {
         toc: {
           title: {
@@ -128,22 +110,26 @@ function createSynopsis(projects) {
           pagebreak: "after",
         },
       },
-
+      // toc section
       {
         text: "Project Summaries",
-        fontSize: 18,
+        fontSize: 20,
         bold: true,
-        marginBottom: 10,
+        margin: [10, 20],
         pageBreak: "before",
+        tocItem: true,
+        alignment: "center",
+        tocStyle: { bold: true, fontSize: 16 },
       },
+      // toc sub-sections
       ...projects.map((project) => [
         {
-          
           text: `${project.projectId} : ${project.projectTitle} `,
           fontSize: 14,
           bold: true,
-          marginBottom: 8,
           tocItem: true,
+          tocMargin: [20, 0, 0, 0],
+          marginBottom: 8,
         },
         //{ text: `Project ID:`, fontSize: 12 },
         {
@@ -154,14 +140,13 @@ function createSynopsis(projects) {
               bold: true,
               width: "auto",
               margin: [0, 0, 10, 0],
-            
             },
             {
               text: `${project.projectAbstract}`,
               fontSize: 12,
               width: "auto",
-              
-            }
+              alignment : "justify"
+            },
           ],
         },
 
@@ -171,7 +156,7 @@ function createSynopsis(projects) {
               type: "line",
               x1: 0,
               y1: 5,
-              x2: 595 - 2 * 40,
+              x2: 595 - 120,
               y2: 5,
               lineWidth: 0.5,
               lineColor: "#aaa",
@@ -181,6 +166,7 @@ function createSynopsis(projects) {
         }, // horizontal line between projects
       ]),
     ],
+
     pageMargins: [60, 60],
     defaultStyle: {
       font: "Times",
