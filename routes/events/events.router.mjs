@@ -8,7 +8,7 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     const { getPaymentValidation, ticketValidation, getRegistrationValidation, paymentValidation, fileValidation, eventNameParamValidation, getUserRegistrationValidation, projectValidation, memberValidation, collegeValidation, verifyPICTOrPayments } = eventsValidations
     const { verifyAdminValidation } = adminValidations
     const { getPaymentDetails, getTicketDetails, getUserIDFile, getUserRegistration, getRegistration, getRegistrations, getPendingPayments, getSynopsis } = getRegistrationsController(eventsServices, filesServices , docServices)
-    const { saveProject, insertMember, saveCollegeDetails, requestRegistration, verifyPendingPayment , updateProject } = createRegistrationsController(eventsServices, filesServices, emailService)
+    const { saveProject, insertMember, saveCollegeDetails, requestRegistration, verifyPendingPayment , updateProject , insertPICT } = createRegistrationsController(eventsServices, filesServices, emailService)
     eventsRouter.get('/registrations/:event_name', verifyAdminValidation(2), validator, verifyAdminLogin, getRegistrations)
     eventsRouter.get('/verify/:event_name', eventNameParamValidation(), getPaymentValidation(), verifyAdminValidation(3), validator, verifyAdminLogin, getPaymentDetails)
     eventsRouter.get('/verify/file', fileValidation(), verifyAdminValidation(6), validator, verifyAdminLogin, getUserIDFile)
@@ -19,7 +19,7 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     eventsRouter.get('/verify/user/:event_name', eventNameParamValidation(), getUserRegistrationValidation(), validator, getUserRegistration)
     eventsRouter.get('/verify/ticket', ticketValidation(), validator, getTicketDetails)
     eventsRouter.patch('/:event_name/:pid', updateProject)
-    
+    eventsRouter.post('/:event_name/internal', insertPICT)
     eventsRouter.use(registrationLimiter)
     eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), validator, saveProject)
     eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), validator, insertMember)

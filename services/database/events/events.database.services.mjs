@@ -612,19 +612,154 @@ function eventsServices(db) {
   }
 
   async function updateProject(data) {
-    try{
-        const [results] = await db.execute({sql: eventsQueries.updateProject(data), namedPlaceholders: true}, data)
+    try {
+      const [results] = await db
+        .execute(
+          { sql: eventsQueries.updateProject(data), namedPlaceholders: true },
+          data
+        )
         .catch((err) => {
-            console.log(err);
+          console.log(err);
 
-            throw new AppError(400, "fail", err.sqlMessage);
+          throw new AppError(400, "fail", err.sqlMessage);
         });
 
-        return results[0];
+      return results[0];
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
-    catch(err){
-        console.log(err);
-        throw err;
+  }
+
+  async function insertPICT(data) {
+    try {
+      const {
+        title,
+        abstract,
+        domain,
+        guide_email,
+        guide_name,
+        guide_phone,
+        project_type,
+        name,
+        phone,
+        email,
+      } = data;
+      let dataArray = [];
+      switch (name.length) {
+        case 1:
+          dataArray = [
+            title,
+            domain,
+            abstract,
+            project_type,
+            guide_name,
+            guide_email,
+            guide_phone,
+            name[0],
+            phone[0],
+            email[0],
+          ];
+          break;
+
+        case 2:
+          dataArray = [
+            title,
+            domain,
+            abstract,
+            project_type,
+            guide_name,
+            guide_email,
+            guide_phone,
+            name[0],
+            phone[0],
+            email[0],
+            name[1],
+            phone[1],
+            email[1],
+          ];
+          break;
+
+        case 3:
+          dataArray = [
+            title,
+            domain,
+            abstract,
+            project_type,
+            guide_name,
+            guide_email,
+            guide_phone,
+            name[0],
+            phone[0],
+            email[0],
+            name[1],
+            phone[1],
+            email[1],
+            name[2],
+            phone[2],
+            email[2],
+          ];
+          break;
+
+        case 4:
+          dataArray = [
+            title,
+            domain,
+            abstract,
+            project_type,
+            guide_name,
+            guide_email,
+            guide_phone,
+            name[0],
+            phone[0],
+            email[0],
+            name[1],
+            phone[1],
+            email[1],
+            name[2],
+            phone[2],
+            email[2],
+            name[3],
+            phone[3],
+            email[3],
+          ];
+          break;
+
+        case 5:
+          dataArray = [
+            title,
+            domain,
+            abstract,
+            project_type,
+            guide_name,
+            guide_email,
+            guide_phone,
+            name[0],
+            phone[0],
+            email[0],
+            name[1],
+            phone[1],
+            email[1],
+            name[2],
+            phone[2],
+            email[2],
+            name[3],
+            phone[3],
+            email[3],
+            name[4],
+            phone[4],
+            email[4],
+          ];
+          break;
+      }
+      const [[results]] = await db
+        .execute(eventsQueries.insertPICT, dataArray)
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results[0];
+    } catch (err) {
+      throw err;
     }
   }
 
@@ -642,6 +777,7 @@ function eventsServices(db) {
     getProjects,
     getProject,
     updateProject,
+    insertPICT,
   };
 }
 
