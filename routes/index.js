@@ -9,7 +9,7 @@ function connectRouter(server, databaseService, emailService, docServices, middl
     server.get('/', healthCheck)
     server.use(middlewares.apiLimiter)
     server.use('/admin', createAdminRouter(adminServices, docServices, middlewares, adminValidations))
-    server.use('/events', createEventsRouter(eventsServices, filesServices, emailService, middlewares, eventsValidations, adminValidations))
+    server.use('/events', createEventsRouter(eventsServices, filesServices, emailService, middlewares, eventsValidations, adminValidations, docServices))
     server.use('/judge', createJudgesRouter(judgesServices, eventsServices, emailService, middlewares, judgesValidations, adminValidations, eventsValidations))
     server.use('*', undefinedRoute)
     server.use(globalError)

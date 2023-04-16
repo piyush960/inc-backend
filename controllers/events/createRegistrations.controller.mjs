@@ -114,12 +114,22 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
         } catch (err) { next(err) }
     }
 
+    async function updateProject(req,res,next)
+    {
+        try{
+            const {pid , event_name} = req.params
+            await eventsServices.updateProject({pid,event_name , ...req.body})
+            res.status(200).end()
+        }catch(err){ next(err) }
+    }
+
     return {
         saveProject,
         insertMember,
         saveCollegeDetails,
         requestRegistration,
         verifyPendingPayment,
+        updateProject
     }
 }
 

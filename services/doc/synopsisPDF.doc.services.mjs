@@ -112,8 +112,8 @@ function createSynopsis(projects) {
       },
       // toc section
       {
-        text: "Project Summaries",
-        fontSize: 20,
+        text: "PROJECTS LIST",
+        fontSize: 24,
         bold: true,
         margin: [10, 20],
         pageBreak: "before",
@@ -124,12 +124,13 @@ function createSynopsis(projects) {
       // toc sub-sections
       ...projects.map((project) => [
         {
-          text: `${project.projectId} : ${project.projectTitle} `,
+          text: `${project.pid} : ${project.title} `,
           fontSize: 14,
           bold: true,
           tocItem: true,
-          tocMargin: [20, 0, 0, 0],
+          tocMargin: [10, 0, 0, 0],
           marginBottom: 8,
+          tocStyle: {fontSize: 12 , alignment : "justify" , marginBottom: 10},
         },
         //{ text: `Project ID:`, fontSize: 12 },
         {
@@ -142,7 +143,7 @@ function createSynopsis(projects) {
               margin: [0, 0, 10, 0],
             },
             {
-              text: `${project.projectAbstract}`,
+              text: `${project.abstract}`,
               fontSize: 12,
               width: "auto",
               alignment : "justify"

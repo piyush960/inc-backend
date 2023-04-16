@@ -1,6 +1,6 @@
 import { AppError } from '../../utils/index.js';
 
-function getRegistrationsController(eventsServices, filesServices) {
+function getRegistrationsController(eventsServices, filesServices, docServices) {
     async function getUserRegistration(req, res, next) {
         try {
             const { event_name } = req.params
@@ -66,7 +66,17 @@ function getRegistrationsController(eventsServices, filesServices) {
         } catch (err) { next(err) }
     }
 
-
+    async function getSynopsis(req, res, next) {
+        try {
+          const event_name = req.params.event_name;
+          const projects = await eventsServices.getProjects(event_name);
+          console.log(projects.filter((project) => project.domain === "CN"))
+          const pdfDoc = docServices.synopsisPDF(projects.filter((project) => project.domain === "CN"))
+          docServices.sendPDF(res, "synopsis", pdfDoc);
+        } catch (err) {
+          next(err);
+        }
+      }
 
     return {
         getUserRegistration,
@@ -76,6 +86,7 @@ function getRegistrationsController(eventsServices, filesServices) {
         getPaymentDetails,
         getUserIDFile,
         getPendingPayments,
+        getSynopsis
     }
 }
 

@@ -1,4 +1,3 @@
-import { projects} from "../../static/adminData.mjs";
 import {
   AppError,
   createToken,
@@ -39,21 +38,10 @@ function adminController(adminServices, docServices) {
       next(err);
     }
   }
-
-  async function getSynopsis(req, res, next) {
-    try {
-      
-      const pdfDoc = docServices.synopsisPDF(projects)
-      docServices.sendPDF(res, "synopsis", pdfDoc);
-    } catch (err) {
-      next(err);
-    }
-  }
-
+  
   return {
     loginAdmin,
     verifyAdminLogin,
-    getSynopsis,
   };
 }
 
