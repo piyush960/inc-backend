@@ -21,7 +21,7 @@ function eventsQueries(tableName) {
     const insertPICT = (no_of_members) => {
         let placeholders = ''
         for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'
-        return 'CALL insert_c_internal_' + `${no_of_members}` + placeholders + ');'
+        return 'CALL insert_c_internal_' + `${no_of_members}` + '(?,?,?,?,?,?' + placeholders + ');'
     }
 
     const getRegistrations = () => 'CALL getRegistrations(?);'
