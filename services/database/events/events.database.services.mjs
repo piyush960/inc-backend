@@ -598,6 +598,19 @@ function eventsServices(db) {
     }
   }
 
+  async function getProject(event_name, pid) {
+    try {
+      const [results] = await db
+        .execute(eventsQueries.getProject(event_name), [pid])
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results[0];
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async function updateProject(data) {
     try{
         const [results] = await db.execute({sql: eventsQueries.updateProject(data), namedPlaceholders: true}, data)
@@ -627,6 +640,7 @@ function eventsServices(db) {
     completeRegistration,
     getPendingPayments,
     getProjects,
+    getProject,
     updateProject,
   };
 }

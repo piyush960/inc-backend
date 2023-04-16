@@ -114,11 +114,18 @@ function createRegistrationsController(eventsServices, filesServices, emailServi
         } catch (err) { next(err) }
     }
 
-    async function updateProject(req,res,next)
+    async function updateProject(req, res, next)
     {
         try{
-            const {pid , event_name} = req.params
-            await eventsServices.updateProject({pid,event_name , ...req.body})
+            const { pid , event_name } = req.params
+            const existingData = await eventsServices.getProject(event_name, pid)
+            if(!existingData) throw new AppError(404, 'fail', 'Project does not exist')
+            const newData = {
+                title: req.body.title || existingData.title,
+                abstract: req.body.abstract || existingData.abstract,
+                mode: req.body.mode || existingData.mode,
+            }
+            await eventsServices.updateProject({ pid, event_name, ...newData })
             res.status(200).end()
         }catch(err){ next(err) }
     }
