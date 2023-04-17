@@ -24,6 +24,12 @@ function eventsQueries(tableName) {
         return 'CALL insert_c_internal_' + `${no_of_members}` + '(?,?,?,?,?,?' + placeholders + ');'
     }
 
+    const insertImpetusPICT = (no_of_members) => {
+        let placeholders = ''
+        for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'
+        return 'CALL insert_i_internal_' + `${no_of_members}` + '(?,?,?,?,?' + placeholders + ');'
+    }
+
     const getRegistrations = () => 'CALL getRegistrations(?);'
 
     const getProjects = (data) => `SELECT title, ${data}_projects.pid ,  abstract , domain, mode FROM ${data}_projects INNER JOIN ${data}_group_info ON ${data}_projects.pid = ${data}_group_info.pid;`
@@ -36,6 +42,7 @@ function eventsQueries(tableName) {
         checkUserRegistration,
         completeRegistration,
         insertPICT,
+        insertImpetusPICT,
         getRegistrations,
         getProjects,
         getProject,

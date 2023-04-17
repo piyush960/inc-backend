@@ -1,5 +1,5 @@
 import { sendCookie, randomID, AppError } from "../../utils/index.js";
-import { eventsName, teamSize , projectTypes } from "../../static/eventsData.mjs";
+import { eventsName, teamSize, projectTypes } from "../../static/eventsData.mjs";
 import { pictDetails } from "../../static/collegeDetails.mjs";
 
 function createRegistrationsController(
@@ -188,21 +188,32 @@ function createRegistrationsController(
       next(err);
     }
   }
-  async function insertPICT(req, res, next) {
+  async function insertInternalPICT(req, res, next) {
     try {
+      const { event_name } = req.params
       const newData = {
         title: req.body.title,
         abstract: req.body.abstract,
         domain: req.body.domain,
-        guide_name: req.body.guide_name || '' ,
+        guide_name: req.body.guide_name || '',
         guide_email: req.body.guide_email || '',
         project_type: projectTypes[req.body.project_type],
+        year: req.body.year,
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email
       };
-      await eventsServices.insertPICT(newData);
-      res.status(200).end();
+      switch (event_name) {
+        case eventsName[0]:
+          const result = await eventsServices.insertPICT(newData)
+          res.status(200).send(result);
+          break;
+
+        case eventsName[1]:
+          await eventsServices.insertImpetusPICT(newData)
+          res.status(200).send(result);
+          break;
+      }
     } catch (err) {
       next(err);
     }
@@ -215,7 +226,7 @@ function createRegistrationsController(
     requestRegistration,
     verifyPendingPayment,
     updateProject,
-    insertPICT,
+    insertInternalPICT,
   };
 }
 

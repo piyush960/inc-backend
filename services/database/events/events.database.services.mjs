@@ -757,6 +757,127 @@ function eventsServices(db) {
     }
   }
 
+  async function insertImpetusPICT(data) {
+    try {
+      const {
+        title,
+        abstract,
+        domain,
+        guide_email,
+        guide_name,
+        project_type,
+        name,
+        phone,
+        email,
+      } = data;
+      let dataArray = [];
+      switch (name.length) {
+        case 1:
+          dataArray = [
+            title,
+            domain,
+            project_type,
+            abstract,
+            year,
+            name[0],
+            email[0],
+            phone[0],
+          ];
+          break;
+
+        case 2:
+          dataArray = [
+            title,
+            domain,
+            project_type,
+            abstract,
+            year,
+            name[0],
+            email[0],
+            phone[0],
+            name[1],
+            email[1],
+            phone[1],
+          ];
+          break;
+
+        case 3:
+          dataArray = [
+            title,
+            domain,
+            project_type,
+            abstract,
+            year,
+            name[0],
+            email[0],
+            phone[0],
+            name[1],
+            email[1],
+            phone[1],
+            name[2],
+            email[2],
+            phone[2],
+          ];
+          break;
+
+        case 4:
+          dataArray = [
+            title,
+            domain,
+            project_type,
+            abstract,
+            year,
+            name[0],
+            email[0],
+            phone[0],
+            name[1],
+            email[1],
+            phone[1],
+            name[2],
+            email[2],
+            phone[2],
+            name[3],
+            email[3],
+            phone[3],
+          ];
+          break;
+
+        case 5:
+          dataArray = [
+            title,
+            domain,
+            project_type,
+            abstract,
+            year,
+            name[0],
+            email[0],
+            phone[0],
+            name[1],
+            email[1],
+            phone[1],
+            name[2],
+            email[2],
+            phone[2],
+            name[3],
+            email[3],
+            phone[3],
+            name[4],
+            email[4],
+            phone[4],
+          ];
+          break;
+      }
+      const [[results]] = await db
+        .execute(eventsQueries.insertImpetusPICT(name.length), dataArray)
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results[0];
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return {
     getUserRegistration,
     getRegistrations,
@@ -772,6 +893,7 @@ function eventsServices(db) {
     getProject,
     updateProject,
     insertPICT,
+    insertImpetusPICT,
   };
 }
 
