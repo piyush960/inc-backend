@@ -749,6 +749,7 @@ function eventsServices(db) {
       const [[results]] = await db
         .execute(eventsQueries.insertPICT(name.length), dataArray)
         .catch((err) => {
+          
           throw new AppError(400, "fail", err.sqlMessage);
         });
       return results[0];
