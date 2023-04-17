@@ -198,7 +198,7 @@ function createRegistrationsController(
         guide_name: req.body.guide_name || '',
         guide_email: req.body.guide_email || '',
         project_type: projectTypes[req.body.project_type],
-        year: req.body.year,
+        year: req.body?.year,
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email
@@ -210,8 +210,8 @@ function createRegistrationsController(
           break;
 
         case eventsName[1]:
-          await eventsServices.insertImpetusPICT(newData)
-          res.status(200).send(result);
+          const results = await eventsServices.insertImpetusPICT(newData)
+          res.status(200).send(results);
           break;
       }
     } catch (err) {
