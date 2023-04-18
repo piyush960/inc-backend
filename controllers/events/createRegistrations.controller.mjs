@@ -188,6 +188,7 @@ function createRegistrationsController(
       next(err);
     }
   }
+
   async function insertInternalPICT(req, res, next) {
     try {
       const { event_name } = req.params
