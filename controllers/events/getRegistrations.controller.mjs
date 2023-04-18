@@ -125,11 +125,10 @@ function getRegistrationsController(
       const projects = await eventsServices.getProjects(event_name);
       let results = {};
       Object.entries(projectDomains).forEach(domain => {
-        const domainProjects = projects.filter(
+        results[domain[1]] = projects.filter(
           (project) => project.domain === domain[0]
-        );
-        results[domain[1]] = domainProjects;
-      });
+        )
+      }) 
       const pdfDoc = docServices.synopsisPDF(results);
       
       docServices.sendPDF(res, "synopsis", pdfDoc);
