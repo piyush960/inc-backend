@@ -17,7 +17,7 @@ function allocationServices(db) {
     async function allocate(event_name, data) {
         try {
             const [results] = await db.execute(allocationQueries.allocate(event_name, data.pids, data.jids, data.slots)).catch(err => {
-                console.log(err); throw new AppError(400, 'fail', err.sqlMessage)
+                throw new AppError(400, 'fail', err.sqlMessage)
             })
             return results[0]
         } catch (err) {

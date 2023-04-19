@@ -9,8 +9,8 @@ function allocationQueries() {
     let placeholders = ''
     const bigArray = pids.length === 1 ? jids : pids
     slots = slots.map(slot => `"${slot}"`)
-    for (let i = 1; i < bigArray.length; i++) placeholders += `, ('${bigArray[i]}', '${jids[0]}',  '', '[${slots}]', current_datetime(), '${event_name}')`
-    return `INSERT INTO allocations VALUES ('${bigArray[0]}', '${jids[0]}', '', '[${slots}]', current_datetime(), '${event_name}')${placeholders};`
+    for (let i = 1; i < bigArray.length; i++) placeholders += `, ('${bigArray[i]}', '${jids[0]}',  '', '[${slots}]', CURRENT_TIMESTAMP(), '${event_name}')`
+    return `INSERT INTO allocations VALUES ('${bigArray[0]}', '${jids[0]}', '', '[${slots}]', CURRENT_TIMESTAMP(), '${event_name}')${placeholders};`
   }
 
   return {

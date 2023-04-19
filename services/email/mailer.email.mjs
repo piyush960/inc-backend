@@ -76,17 +76,22 @@ function emailService() {
         } catch (err) { throw err }
     }
 
-    async function sendAllocationEmail(projects) {
+    async function sendAllocationEmail(event_name, projects, judge) {
         try {
+            judge.slots = judge.slots.map(slot => slotsData[slot])
+            projects.forEach(project => {
+                project.domains = project.domains.map(domain => projectDomains[domain])
+            })
+            console.log(judge);
             const mailOptions = {
                 from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
                 to: `${judge.name} ${judge.email}`,
                 bcc: officialEmails.get('queries'),
                 replyTo: officialEmails.get('queries'),
-                subject: 'Registered for PICT InC 2023 Judging',
+                subject: `Judging Schedule for PICT InC 2023 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
-                html: await emailTemplates.judgeRegistrationEmail(judge)
+                html: await emailTemplates.sendAllocationEmail(event_name, projects, judge)
             }
             return judgingEmailTransporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
@@ -100,6 +105,7 @@ function emailService() {
     return {
         eventRegistrationEmail,
         judgeRegistrationEmail,
+        sendAllocationEmail,
     }
 }
 

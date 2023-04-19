@@ -1,5 +1,5 @@
 function judgesQueries(tableName) {
-    const getJudge = `SELECT ? FROM ${tableName} WHERE jid = ?;`
+    const getJudge = (jid) => `SELECT * FROM ${tableName} WHERE jid = '${jid}';`
 
     const getJudges = event_name => `CALL getJudges('"${event_name}"')`
 
@@ -7,7 +7,7 @@ function judgesQueries(tableName) {
 
     const loginJudge = 'CALL loginJudge(:username, :password);'
 
-    const getAllocatedProjects = (jid,event_name)=> `SELECT ${event_name}_projects.pid, title , abstract , allocations.slots, domain , allocations.event_name FROM ${event_name}_projects JOIN allocations ON ${event_name}_projects.pid = allocations.pid WHERE allocations.jid='${jid}' AND allocations.event_name = '${event_name}'  ; `
+    const getAllocatedProjects = (jid, event_name) => `SELECT ${event_name}_projects.pid, title , abstract , allocations.slots, domain , allocations.event_name FROM ${event_name}_projects JOIN allocations ON ${event_name}_projects.pid = allocations.pid WHERE allocations.jid='${jid}' AND allocations.event_name = '${event_name}'  ; `
 
 
 

@@ -18,14 +18,14 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     eventsRouter.get('/:event_name/synopsis' , getSynopsis )
     eventsRouter.get('/verify/user/:event_name', eventNameParamValidation(), getUserRegistrationValidation(), validator, getUserRegistration)
     eventsRouter.get('/verify/ticket', ticketValidation(), validator, getTicketDetails)
-    eventsRouter.patch('/:event_name/:pid', updateProject)
+    eventsRouter.patch('/:event_name/:pid', verifyAdminValidation(2), validator, verifyAdminLogin, updateProject)
     eventsRouter.post('/:event_name/internal', insertInternalPICT)
     eventsRouter.use(registrationLimiter)
     eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), validator, saveProject)
     eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), validator, insertMember)
     eventsRouter.post('/:event_name/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), validator, saveCollegeDetails)
     eventsRouter.post('/:event_name/step_4', eventNameParamValidation(), ticketValidation(), verifyPICTOrPayments(), validator, requestRegistration)
-    
+
     return eventsRouter
 }
 

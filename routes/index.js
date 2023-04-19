@@ -12,7 +12,7 @@ function connectRouter(server, databaseService, emailService, docServices, middl
     server.use('/admin', createAdminRouter(adminServices, docServices, middlewares, adminValidations))
     server.use('/events', createEventsRouter(eventsServices, filesServices, emailService, middlewares, eventsValidations, adminValidations, docServices))
     server.use('/judge', createJudgesRouter(judgesServices, eventsServices, emailService, middlewares, judgesValidations, adminValidations, eventsValidations))
-    server.use('/allocations', createAllocationsRouter(adminServices, emailService, allocationServices, eventsServices, middlewares, adminValidations))
+    server.use('/allocations', createAllocationsRouter(emailService, allocationServices, eventsServices, judgesServices, middlewares, adminValidations))
 
     server.use('*', undefinedRoute)
     server.use(globalError)
