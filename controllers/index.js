@@ -6,3 +6,4 @@ export { default as getRegistrationsController } from './events/getRegistrations
 export { default as createRegistrationsController } from './events/createRegistrations.controller.mjs';
 export { default as creationsJudgesController } from './judges/creations.judges.controller.mjs';
 export { default as gettingJudgesController } from './judges/getting.judges.controller.mjs'
+export { default as createAllocationController } from './allocations/create.allocations.controller.mjs'

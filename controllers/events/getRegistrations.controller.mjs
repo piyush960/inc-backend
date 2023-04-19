@@ -129,6 +129,7 @@ function getRegistrationsController(
           (project) => project.domain === domain[0]
         )
       }) 
+      console.log(results["DIGITAL / IMAGE/ SPEECH / VIDEO PROCESSING"])
       const pdfDoc = docServices.synopsisPDF(results);
       
       docServices.sendPDF(res, "synopsis", pdfDoc);

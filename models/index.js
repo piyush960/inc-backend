@@ -10,7 +10,8 @@ import { eventsQueries as _eventsQueries } from './queries/events/events.queries
 import { conceptsQueries as _conceptsQueries } from './queries/events/concepts/concepts.queries.mjs';
 import { ticketQueries as _ticketQueries } from './queries/events/tickets/tickets.queries.mjs';
 import { filesQueries as _filesQueries } from './queries/files/files.queries.mjs';
-import { judgesQueries as _judgesQueries } from './queries/judges/judges.queries.mjs'
+import { judgesQueries as _judgesQueries } from './queries/judges/judges.queries.mjs';
+import { allocationQueries as _allocationQueries } from './queries/allocation/allocation.queries.mjs';
 
 const env = process.env
 
@@ -33,3 +34,4 @@ export const conceptsQueries = _conceptsQueries(tables.conceptsUsersTable)
 export const ticketQueries = _ticketQueries(tables.ticketTable)
 export const filesQueries = _filesQueries(tables.filesTable)
 export const judgesQueries = _judgesQueries(tables.judgesTable)
+export const allocationQueries = _allocationQueries()
