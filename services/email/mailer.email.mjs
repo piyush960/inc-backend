@@ -82,6 +82,7 @@ function emailService() {
             projects.forEach(project => {
                 project.domain = projectDomains[project.domain]
             })
+            event_name = event_name.charAt(0).toUpperCase() + event_name.slice(1)
             const mailOptions = {
                 from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
                 to: `${judge.name} ${judge.email}`,

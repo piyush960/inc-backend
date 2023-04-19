@@ -34,6 +34,7 @@ function gettingJudgesController(judgesServices, eventsService) {
             ).status(200).end()
         } catch (err) { next(err) }
     }
+
     async function getProjects(req, res, next) {
         try {
             const results = await eventsServices.getProjects(req.params.event_name)
@@ -72,7 +73,6 @@ function gettingJudgesController(judgesServices, eventsService) {
         getProjects,
         getAllocatedProjects,
         getJudgeFromJid,
-        getSlots
     }
 }
 

@@ -124,7 +124,7 @@
                               margin: 0;
                             "
                           >
-                            Allocation Schedule for <%= data.event_name.charAt(0).toUpperCase() + data.event_name.slice(1) %> 2023
+                            Allocation Schedule for <%= data.event_name %> 2023
                           </h2>
                           <tr>
                             <td
@@ -152,7 +152,7 @@
                                         color: #002538;
                                         font-family: 'Open Sans', Helvetica,
                                           Arial, sans-serif;
-                                        font-size: 16px;
+                                        font-size: 18px;
                                         font-weight: 400;
                                         font-style: normal;
                                         letter-spacing: normal;
@@ -351,7 +351,7 @@
                                       color: #002538;
                                       font-family: 'Open Sans', Helvetica, Arial,
                                         sans-serif;
-                                      font-size: 16px;
+                                      font-size: 18px;
                                       font-weight: 400;
                                       font-style: normal;
                                       letter-spacing: normal;
@@ -361,27 +361,38 @@
                                       font-style: italic;
                                     "
                                   >
-                                    Upon your arrival at the venue, you will be
-                                    provided with details of Groups, their
-                                    domain, and venue. We will also provide you
-                                    with an evaluation sheet, which can be
-                                    filled both online and offline mode for
-                                    group evaluation. The evaluation criteria
-                                    for the event are innovative ideas,
-                                    engineering approach, implementation, future
-                                    scope, and presentation. We request you to
-                                    kindly evaluate each team on these criteria
-                                    and provide us with your honest feedback. If
-                                    you have any questions or concerns, please
-                                    do not hesitate to contact us. Once again,
-                                    in behalf of "Concept" team thank you for
-                                    your commitment and dedication to the
-                                    "Concept" event. We are thrilled to have you
-                                    as part of our judging team, and we look
-                                    forward to seeing you at the event.
-                                    <br />
-                                    <br />
-                                    Best regards,
+                                  Upon your arrival at the venue, you will be provided with details of Groups,
+                                  their domain, and venue. We will also provide you with an evaluation sheet,
+                                  which can be filled both online and offline mode for group evaluation.
+                                  <br />
+                                  <br />
+                                  To evaluate the projects online (on the day of event): <a target="_blank" href="https://pictinc.org/judge/<%= data.judge.jid %>">Click Here</a>
+                                  <br />
+                                  <br />
+                                  The evaluation criteria for the event are innovative ideas, engineering
+                                  approach, implementation, future scope, and presentation. We request you to
+                                  kindly evaluate each team on these criteria and provide us with your honest
+                                  feedback.
+                                    <br>
+                                  If you have any questions or concerns, please do not hesitate to contact us.
+
+                                  Once again, in behalf of "<%= data.event_name %>" team thank you for your commitment and
+                                  dedication to the "<%= data.event_name %>" event. We are thrilled to have you as part of our
+                                  judging team, and we look forward to seeing you at the event.
+                                  <br />
+                                  <br />
+                                  If you have any questions or concerns, please do not hesitate to contact us.
+                                  <br />
+                                  Mahaveer Navlakha: <a style="color:black; text-decoration-color:blue;" href="tel:+919404065828">+919404065828</a>
+                                  <br />
+                                  Kalpesh Baviskar: <a style="color:black; text-decoration-color:blue;" href="tel:+917769945077">+917769945077</a>
+                                  <br />
+                                  Siddharth Singh: <a style="color:black; text-decoration-color:blue;" href="tel:+918237892072">+918237892072</a>
+                                  <br />
+                                  <br />
+                                  Best regards,
+                                  <br/>
+                                  <% data.event_name %> 2023 Team
                                   </p>
                                 </td>
                               </tr>
