@@ -62,7 +62,15 @@ function gettingJudgesController(judgesServices, eventsService) {
         try {
             const { jid } = req.params
             const judge = await judgesServices.getJudge({ jid, columns: '*' })
-            res.status(302).json(judge)
+            res.status(200).json(judge)
+        } catch (err) { next(err) }
+    }
+
+    async function getSlots(req, res, next) {
+        try {
+            const { jid } = req.params
+            const slots = await judgesServices.getSlots(jid)
+            res.status(200).json(slots)
         } catch (err) { next(err) }
     }
 
@@ -72,7 +80,8 @@ function gettingJudgesController(judgesServices, eventsService) {
         loginJudge,
         getProjects,
         getAllocatedProjects,
-        getJudgeFromJid
+        getJudgeFromJid,
+        getSlots
     }
 }
 
