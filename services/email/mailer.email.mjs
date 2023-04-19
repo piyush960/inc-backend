@@ -84,10 +84,10 @@ function emailService() {
             })
             event_name = event_name.charAt(0).toUpperCase() + event_name.slice(1)
             const mailOptions = {
-                from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
+                from: `InC\'2023 Judging <${officialEmails.get('official')}>`,
                 to: `${judge.name} ${judge.email}`,
-                bcc: officialEmails.get('queries'),
-                replyTo: officialEmails.get('queries'),
+                bcc: officialEmails.get('judging'),
+                replyTo: officialEmails.get('judging'),
                 subject: `Judging Schedule for PICT InC 2023 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
