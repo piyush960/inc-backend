@@ -71,7 +71,8 @@ function gettingJudgesController(judgesServices, eventsService) {
         loginJudge,
         getProjects,
         getAllocatedProjects,
-        getJudgeFromJid
+        getJudgeFromJid,
+        getSlots
     }
 }
 
