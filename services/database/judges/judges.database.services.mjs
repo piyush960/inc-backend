@@ -5,7 +5,7 @@ import { eventsName } from '../../../static/eventsData.mjs';
 function judgesServices(db) {
     async function getJudge(data) {
         try {
-            const [results] = await db.execute({ sql: judgesQueries.getJudge(data), namedPlaceholders: true }, data).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [results] = await db.execute(judgesQueries.getJudge, [data.columns, data.jid]).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             return results[0]
         } catch (err) {
             throw err
@@ -45,7 +45,7 @@ function judgesServices(db) {
 
     async function getAllocatedProjects(jid){
         try {
-        
+
             const [conceptsResults] = await db.execute(judgesQueries.getAllocatedProjects(jid,eventsName[0])).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
             const [impetuResults] = await db.execute(judgesQueries.getAllocatedProjects(jid,eventsName[1])).catch(err => {throw new AppError(400,'fail' , err.sqlMessage)} )
             return {concepts:conceptsResults , impetus: impetuResults}
@@ -53,7 +53,7 @@ function judgesServices(db) {
             throw err
         }
     }
-        
+
 
 
     return {

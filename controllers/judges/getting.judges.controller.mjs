@@ -3,8 +3,8 @@ import { AppError, clearCookie, createToken, sendCookie, verifyToken } from '../
 function gettingJudgesController(judgesServices, eventsService) {
     async function getJudgeFromToken(req, res, next) {
         try {
-            const { token } = req.signedCookies 
-            const judge = await judgesServices.getJudge({ jid: token, columns: '*' })
+            const { token } = req.signedCookies
+            const judge = await judgesServices.getJudge({ jid: token, columns: "*" })
             res.status(302).json(judge)
         } catch (err) { next(err) }
     }
@@ -45,15 +45,14 @@ function gettingJudgesController(judgesServices, eventsService) {
         }
     }
 
-    async function getAllocatedProjects(req , res, next)
-    {
-        try{
-            const {jid} = req.params
-            const getAllocatedProjects = await  judgesServices.getAllocatedProjects(jid)
+    async function getAllocatedProjects(req, res, next) {
+        try {
+            const { jid } = req.params
+            const getAllocatedProjects = await judgesServices.getAllocatedProjects(jid)
             if (!getAllocatedProjects) throw new AppError(404, 'fail', 'No Projects Found')
             res.status(200).json(getAllocatedProjects)
 
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
@@ -61,7 +60,7 @@ function gettingJudgesController(judgesServices, eventsService) {
     async function getJudgeFromJid(req, res, next) {
         try {
             const { jid } = req.params
-            const judge = await judgesServices.getJudge({ jid, columns: '*' })
+            const judge = await judgesServices.getJudge({ jid, columns: "*" })
             res.status(302).json(judge)
         } catch (err) { next(err) }
     }

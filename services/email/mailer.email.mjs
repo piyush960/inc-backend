@@ -76,6 +76,27 @@ function emailService() {
         } catch (err) { throw err }
     }
 
+    async function sendAllocationEmail(projects) {
+        try {
+            const mailOptions = {
+                from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
+                to: `${judge.name} ${judge.email}`,
+                bcc: officialEmails.get('queries'),
+                replyTo: officialEmails.get('queries'),
+                subject: 'Registered for PICT InC 2023 Judging',
+                priority: 'high',
+                text: 'Email content',
+                html: await emailTemplates.judgeRegistrationEmail(judge)
+            }
+            return judgingEmailTransporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    throw err
+                }
+                return info
+            })
+        } catch (err) { throw err }
+    }
+
     return {
         eventRegistrationEmail,
         judgeRegistrationEmail,
