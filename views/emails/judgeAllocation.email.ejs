@@ -147,6 +147,7 @@
                                     valign="top"
                                   >
                                     <p
+                                      align="justify"
                                       class="text"
                                       style="
                                         color: #002538;
@@ -162,18 +163,11 @@
                                         font-style: italic;
                                       "
                                     >
-                                      Dear Sir/Madam,
-                                      <br />
-                                      We would like to express our sincere
-                                      gratitude to you for participating as a
-                                      judge for the upcoming event "Concept".
-                                      Your participation and support will be
-                                      invaluable in making this event a success.
-                                      We are writing to provide you with your
-                                      assigned slots and Group IDs, along with
-                                      the abstracts of the projects that you
-                                      will be evaluating. Please find your slots
-                                      and Group IDs below
+                                    Respected Sir / Ma'am,
+                                    <br>
+                                    We would like to express our sincere gratitude to you for volunteering as a Judge for Concepts 2023.
+
+                                    Upon arrival at PICT, you will be directed to the <strong>Concepts Control Room - A2 101 (Reading Hall)</strong>. After refreshments, you will be directed for evaluation of the projects as per the details below -
                                     </p>
                                   </td>
                                 </tr>
@@ -239,7 +233,7 @@
                                   </td>
                                   <tr>
                                     <td
-                                    style="padding-bottom: 20px"
+                                    style="padding-bottom: 20px; padding-left: 80px; padding-right: 80px"
                                     class="description"
                                     valign="top"
                                     align="center"
@@ -328,7 +322,7 @@
                                     <td style="padding: 10px">
                                       <%= project.title %>
                                     </td>
-                                    <td style="padding: 10px">
+                                    <td style="padding: 10px" align="justify">
                                       <%= project.abstract %>
                                     </td>
                                     <td style="padding: 10px">
@@ -346,6 +340,7 @@
                                   valign="top"
                                 >
                                   <p
+                                    align="justify"
                                     class="text"
                                     style="
                                       color: #002538;
@@ -361,27 +356,12 @@
                                       font-style: italic;
                                     "
                                   >
-                                  Upon your arrival at the venue, you will be provided with details of Groups,
-                                  their domain, and venue. We will also provide you with an evaluation sheet,
-                                  which can be filled both online and offline mode for group evaluation.
+                                  The evaluation criteria for the event are innovative ideas, engineering approach, implementation, future scope, and presentation. Please <a target="_blank" href="https://pictinc.org/judge/<%= data.judge.jid %>">Click Here</a> (the link will be activated during the event) for data entry of these marks while evaluating using the login credentials sent to you at the time of registration. In case of requirement, a hardcopy of marksheet will also be made available.
+                                  <br>
+We request you to kindly evaluate each team on these criteria and provide us with your honest feedback.
+                                <br />
                                   <br />
-                                  <br />
-                                  To evaluate the projects online (on the day of event): <a target="_blank" href="https://pictinc.org/judge/<%= data.judge.jid %>">Click Here</a>
-                                  <br />
-                                  <br />
-                                  The evaluation criteria for the event are innovative ideas, engineering
-                                  approach, implementation, future scope, and presentation. We request you to
-                                  kindly evaluate each team on these criteria and provide us with your honest
-                                  feedback.
-                                    <br>
-                                  If you have any questions or concerns, please do not hesitate to contact us.
-
-                                  Once again, in behalf of "<%= data.event_name %>" team thank you for your commitment and
-                                  dedication to the "<%= data.event_name %>" event. We are thrilled to have you as part of our
-                                  judging team, and we look forward to seeing you at the event.
-                                  <br />
-                                  <br />
-                                  If you have any questions or concerns, please do not hesitate to contact us.
+                                  If you have any questions or concerns, please do not hesitate to contact us :
                                   <br />
                                   Mahaveer Navlakha: <a style="color:black; text-decoration-color:blue;" href="tel:+919404065828">+919404065828</a>
                                   <br />
@@ -390,9 +370,16 @@
                                   Siddharth Singh: <a style="color:black; text-decoration-color:blue;" href="tel:+918237892072">+918237892072</a>
                                   <br />
                                   <br />
+                                  We are thrilled to have you as part of our judging team, and look forward to seeing you at the event.
+
+Your participation and support will be invaluable in making this event a success.
+                                  <br />
+                                  <br />
                                   Best regards,
                                   <br/>
-                                  <% data.event_name %> 2023 Team
+                                  <%= data.event_name %> 2023 Team,
+                                  <br />
+                  <a href="https://goo.gl/maps/XNZ8QTqTK2SXzztq7" rel="noreferrer noopener" target="_blank">PUNE INSTITUTE OF COMPUTER TECHNOLOGY, <br /> SR. NO 27, NEAR TRIMURTI CHOWK, <br />DHANKAWADI, PUNE, MAHARASHTRA-411043</a>
                                   </p>
                                 </td>
                               </tr>
