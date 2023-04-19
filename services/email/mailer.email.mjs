@@ -80,9 +80,8 @@ function emailService() {
         try {
             judge.slots = judge.slots.map(slot => slotsData[slot])
             projects.forEach(project => {
-                project.domains = project.domains.map(domain => projectDomains[domain])
+                project.domain = projectDomains[project.domain]
             })
-            console.log(judge);
             const mailOptions = {
                 from: `InC\'2023 Judging <${officialEmails.get('judging')}>`,
                 to: `${judge.name} ${judge.email}`,

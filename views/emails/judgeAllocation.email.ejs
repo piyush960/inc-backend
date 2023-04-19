@@ -124,7 +124,7 @@
                               margin: 0;
                             "
                           >
-                            Allocation Schedule for PICT InC 2023 - <%= data.event_name %>
+                            Allocation Schedule for <%= data.event_name.charAt(0).toUpperCase() + data.event_name.slice(1) %> 2023
                           </h2>
                           <tr>
                             <td
@@ -214,7 +214,7 @@
                                 </tr>
                                 <tr>
                                   <td
-                                    style="padding-bottom: 20px"
+                                    style="padding-bottom: 5px"
                                     class="description"
                                     valign="top"
                                     align="center"
@@ -234,9 +234,37 @@
                                         margin: 0;
                                       "
                                     >
-                                      Time Slot : <%= data.judge.slots[0] %>
+                                      Time Slot
                                     </h4>
                                   </td>
+                                  <tr>
+                                    <td
+                                    style="padding-bottom: 20px"
+                                    class="description"
+                                    valign="top"
+                                    align="center"
+                                    >
+                                      <ul><% data.judge.slots.forEach(slot => { %>
+                                      <li
+                                        style="
+                                          color:black;
+                                          font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                                          font-size: 16px;
+                                          font-weight: 600;
+                                          font-style: normal;
+                                          letter-spacing: normal;
+                                          text-transform: none;
+                                          text-align: center;
+                                          padding: 0;
+                                          margin: 0;
+                                        "
+                                      >
+                                        <%= slot %>
+                                    </li>
+                                      <% }) %>
+                                      </ul>
+                                  </td>
+                                </tr>
                                 </tr>
                               </table>
                               <table
