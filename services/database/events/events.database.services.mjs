@@ -600,12 +600,13 @@ function eventsServices(db) {
 
   async function getProject(event_name, pid) {
     try {
+      pid = pid.map(id => `'${id}'`).join(",")
       const [results] = await db
-        .execute(eventsQueries.getProject(event_name), [pid])
+        .execute(eventsQueries.getProject({ event_name, pid }))
         .catch((err) => {
           throw new AppError(400, "fail", err.sqlMessage);
         });
-      return results[0];
+      return results;
     } catch (err) {
       throw err;
     }
@@ -749,7 +750,7 @@ function eventsServices(db) {
       const [[results]] = await db
         .execute(eventsQueries.insertPICT(name.length), dataArray)
         .catch((err) => {
-          
+
           throw new AppError(400, "fail", err.sqlMessage);
         });
       return results[0];

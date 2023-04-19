@@ -3,15 +3,14 @@ import { createAllocationController } from '../../controllers/index.js';
 
 const allocationsRouter = Router()
 
-function createAllocationsRouter(adminServices, emailServices, allocationServices, middlewares, adminValidations ,) {
+function createAllocationsRouter(emailServices, allocationServices, eventsServices, judgeServices, middlewares, adminValidations,) {
     const { verifyAdminLogin, validator } = middlewares
-    const { adminLoginValidation, createAdminValidation, verifyAdminTicket, verifyAdminValidation } = adminValidations
-    const { labAllocate , allocate } = createAllocationController(allocationServices, emailServices)
+    const { verifyAdminValidation } = adminValidations
+    const { labAllocate, allocate } = createAllocationController(allocationServices, emailServices, eventsServices, judgeServices)
 
-    allocationsRouter.patch("/:event_name/lab", labAllocate)
-    allocationsRouter.patch("/:event_name/allocate", allocate)
-    
-    
+    allocationsRouter.patch("/:event_name/lab", verifyAdminValidation(2), validator, verifyAdminLogin, labAllocate)
+    allocationsRouter.post("/:event_name/allocate", verifyAdminValidation(2), validator, verifyAdminLogin, allocate)
+
     return allocationsRouter
 }
 
