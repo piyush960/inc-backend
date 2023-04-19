@@ -12,6 +12,7 @@ function createAllocationController(allocationServices, emailServices) {
   async function allocate(req, res, next) {
     try {
         const { event_name } = req.params;
+        const {pid , jid} = req.body;
         await allocationServices.allocate(event_name, req.body);
         res.status(200).end();
     } catch (err) {

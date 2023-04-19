@@ -1,5 +1,6 @@
 import { judgesQueries } from '../../../models/index.js';
 import { AppError } from "../../../utils/index.js";
+import { eventsName } from '../../../static/eventsData.mjs';
 
 function judgesServices(db) {
     async function getJudge(data) {
@@ -42,11 +43,25 @@ function judgesServices(db) {
         }
     }
 
+    async function getAllocatedProjects(jid){
+        try {
+        
+            const [conceptsResults] = await db.execute(judgesQueries.getAllocatedProjects(jid,eventsName[0])).catch(err => { throw new AppError(400, 'fail', err.sqlMessage) })
+            const [impetuResults] = await db.execute(judgesQueries.getAllocatedProjects(jid,eventsName[1])).catch(err => {throw new AppError(400,'fail' , err.sqlMessage)} )
+            return {concepts:conceptsResults , impetus: impetuResults}
+        } catch (err) {
+            throw err
+        }
+    }
+        
+
+
     return {
         getJudge,
         getJudges,
         insertJudge,
         loginJudge,
+        getAllocatedProjects
     }
 }
 

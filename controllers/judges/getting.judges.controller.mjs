@@ -1,9 +1,9 @@
 import { AppError, clearCookie, createToken, sendCookie, verifyToken } from '../../utils/index.js';
 
-function gettingJudgesController(judgesServices, eventsServices) {
-    async function getJudge(req, res, next) {
+function gettingJudgesController(judgesServices, eventsService) {
+    async function getJudgeFromToken(req, res, next) {
         try {
-            const { token } = req.signedCookies
+            const { token } = req.signedCookies 
             const judge = await judgesServices.getJudge({ jid: token, columns: '*' })
             res.status(302).json(judge)
         } catch (err) { next(err) }
@@ -45,11 +45,34 @@ function gettingJudgesController(judgesServices, eventsServices) {
         }
     }
 
+    async function getAllocatedProjects(req , res, next)
+    {
+        try{
+            const {jid} = req.params
+            const getAllocatedProjects = await  judgesServices.getAllocatedProjects(jid)
+            if (!getAllocatedProjects) throw new AppError(404, 'fail', 'No Projects Found')
+            res.status(200).json(getAllocatedProjects)
+
+        }catch(err){
+            next(err)
+        }
+    }
+
+    async function getJudgeFromJid(req, res, next) {
+        try {
+            const { jid } = req.params
+            const judge = await judgesServices.getJudge({ jid, columns: '*' })
+            res.status(302).json(judge)
+        } catch (err) { next(err) }
+    }
+
     return {
-        getJudge,
+        getJudgeFromToken,
         getJudges,
         loginJudge,
-        getProjects
+        getProjects,
+        getAllocatedProjects,
+        getJudgeFromJid
     }
 }
 
