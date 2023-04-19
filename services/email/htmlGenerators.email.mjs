@@ -26,13 +26,13 @@ async function judgeRegistrationEmail(judge) {
 
 async function sendAllocationEmail(event_name, projects, judge) {
     try {
-        switch (event_name) {
-            case 'concepts':
-                return ejs.render(conceptsJudgeAllocationTemplate, { data: { projects, judge }, filename: __dirname + '/views/emails/concepts.judgeAllocation.email.ejs', cache: true, async: true })
+        return ejs.render(conceptsJudgeAllocationTemplate, { data: { projects, judge }, filename: __dirname + '/views/emails/concepts.judgeAllocation.email.ejs', cache: true, async: true })
+        // switch (event_name) {
+        //     case 'concepts':
 
-            case 'impetus':
-                return ejs.render(impetusJudgeAllocationTemplate, { data: { projects, judge }, filename: __dirname + '/views/emails/impetus.judgeAllocation.email.ejs', cache: true, async: true })
-        }
+        //     case 'impetus':
+        //         return ejs.render(impetusJudgeAllocationTemplate, { data: { projects, judge }, filename: __dirname + '/views/emails/impetus.judgeAllocation.email.ejs', cache: true, async: true })
+        // }
     } catch (err) {
         throw err
     }
