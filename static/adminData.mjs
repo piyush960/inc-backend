@@ -11,6 +11,7 @@ const officialEmails = new Map([
     ['concepts', 'concepts.pictinc2023@gmail.com'],
     ['impetus', 'impetus.pictinc2023@gmail.com'],
     ['pradnya', 'pradnya.pictinc2023@gmail.com'],
+    ['official', 'inc@pict.edu']
 ])
 
 
@@ -678,7 +679,7 @@ const projects = [
       "projectAbstract": "In this project, we will be designing and developing a food delivery app that will allow users to order food from their favorite restaurants and have it delivered to their door."
     },
   ]
-  
+
 
 
   const projectsDomain2 = [
