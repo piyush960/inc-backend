@@ -3,10 +3,10 @@ import { AppError } from "../../../utils/index.js";
 import { eventsName } from "../../../static/eventsData.mjs";
 
 function judgesServices(db) {
-  async function getJudge(jid) {
+  async function getJudge(data) {
     try {
       const [results] = await db
-        .execute(judgesQueries.getJudge(jid))
+        .execute(judgesQueries.getJudge(data))
         .catch((err) => {
           throw new AppError(400, "fail", err.sqlMessage);
         });
@@ -83,9 +83,9 @@ function judgesServices(db) {
     }
   }
 
-  async function modifySlots(jid , slots, mode) {
+  async function modifySlots(jid, slots, mode) {
     try {
-      const [results] = await db.execute(judgesQueries.modifySlots(slots,jid, mode)).catch(err => {
+      const [results] = await db.execute(judgesQueries.modifySlots(slots, jid, mode)).catch(err => {
         throw new AppError(400, 'fail', err.sqlMessage)
       })
       return results[0]
