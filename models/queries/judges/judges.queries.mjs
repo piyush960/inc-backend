@@ -10,16 +10,16 @@ function judgesQueries(tableName) {
 
   const loginJudge = 'CALL loginJudge(:username, :password);'
 
-  const getAllocatedProjects = (jid, event_name) => `SELECT ${event_name}_projects.pid, title , abstract , allocations.slots, domain , allocations.event_name FROM ${event_name}_projects JOIN allocations ON ${event_name}_projects.pid = allocations.pid WHERE allocations.jid='${jid}' AND allocations.event_name = '${event_name}';`
+  const getAllocatedProjects = (jid, event_name) => `SELECT ${event_name}_projects.pid, title , abstract , allocations.slots, domain, allocations.event_name, ${event_name}_projects.lab FROM ${event_name}_projects JOIN allocations ON ${event_name}_projects.pid = allocations.pid WHERE allocations.jid='${jid}' AND allocations.event_name = '${event_name}' AND ${event_name}_projects.pid NOT IN (SELECT ${event_name}_evaluation.pid FROM ${event_name}_evaluation WHERE ${event_name}_evaluation.pid = ${event_name}_projects.pid AND ${event_name}_evaluation.jid = '${jid}');`
 
   const modifySlots = (slots, jid, mode) => {
     slots = slots.map(slot => `"${slot}"`)
     return `UPDATE judges SET slots = '[${slots}]', mode = '${mode}' WHERE jid = '${jid}';`;
   }
 
-  const insertConceptsEvaluation = "INSERT INTO concepts_evaluation (pid, jid, innovation, approachToIdeas, approachToImplementation, principles, presentation) VALUES (:pid, :jid, :innovation, :approachToIdeas, :approachToImplementation, :principles, :presentation);"
+  const insertImpetusEvaluation = "INSERT INTO impetus_evaluation (pid, jid, startUp, impact, original, patent, presentation, relevance, test) VALUES (:pid, :jid, :startUp, :impact, :original, :patent, :presentation, :relevance, :test);"
 
-  const insertImpetusEvaluation = `INSERT INTO impetus_evaluations VALUES (:pid,:jid , );`
+  const insertConceptsEvaluation = "INSERT INTO concepts_evaluation (pid, jid, innovation, approachToIdeas, approachToImplementation, principles, presentation) VALUES (:pid, :jid, :innovation, :approachToIdeas, :approachToImplementation, :principles, :presentation);"
 
   return {
     getJudge,
