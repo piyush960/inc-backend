@@ -61,7 +61,7 @@ function gettingJudgesController(judgesServices, eventsService) {
     async function getJudgeFromJid(req, res, next) {
         try {
             const { jid } = req.params
-            const judge = await judgesServices.getJudge({ jid, columns: "*" })
+            const judge = await judgesServices.getJudge(jid)
             res.status(302).json(judge)
         } catch (err) { next(err) }
     }

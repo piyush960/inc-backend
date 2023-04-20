@@ -13,8 +13,17 @@ function creationsJudgesController(judgesServices, emailService) {
         } catch (err) { next(err) }
     }
 
+    async function evaluateProject(req, res, next) {
+        try {
+            const { event_name } = req.body
+            await judgesServices.evaluateProject(event_name, req.body)
+            res.status(201).end()
+        } catch (err) { next(err) }
+    }
+
     return {
-        insertJudge
+        insertJudge,
+        evaluateProject
     }
 }
 
