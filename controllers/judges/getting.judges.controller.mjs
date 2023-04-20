@@ -66,6 +66,16 @@ function gettingJudgesController(judgesServices, eventsService) {
         } catch (err) { next(err) }
     }
 
+    async function modifySlots(req, res, next) {
+        try {
+            const { jid } = req.params
+            const { slots } = req.body
+            const judge = await judgesServices.modifySlots(jid,slots)
+            res.status(200).end()
+        } catch (err) { next(err) }
+    }
+
+
     return {
         getJudgeFromToken,
         getJudges,
@@ -73,6 +83,7 @@ function gettingJudgesController(judgesServices, eventsService) {
         getProjects,
         getAllocatedProjects,
         getJudgeFromJid,
+        modifySlots
     }
 }
 
