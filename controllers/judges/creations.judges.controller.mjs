@@ -15,7 +15,7 @@ function creationsJudgesController(judgesServices, emailService) {
 
     async function evaluateProject(req, res, next) {
         try {
-            const { event_name } = req.body
+            const { event_name } = req.params
             await judgesServices.evaluateProject(event_name, req.body)
             res.status(201).end()
         } catch (err) { next(err) }
