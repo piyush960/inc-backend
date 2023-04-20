@@ -24,10 +24,21 @@ function allocationServices(db) {
             throw err
         }
     }
+    async function deallocate(event_name, data) {
+        try {
+            const [results] = await db.execute(allocationQueries.deallocate(event_name, data.pids, data.jids)).catch(err => {
+                throw new AppError(400, 'fail', err.sqlMessage)
+            })
+            return results[0]
+        } catch (err) {
+            throw err
+        }
+    }
 
     return {
         updateLab,
         allocate,
+        deallocate,
     }
 }
 

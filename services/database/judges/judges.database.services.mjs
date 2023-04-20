@@ -83,9 +83,9 @@ function judgesServices(db) {
     }
   }
 
-  async function modifySlots(jid , slots) {
+  async function modifySlots(jid , slots, mode) {
     try {
-      const [results] = await db.execute(judgesQueries.modifySlots(slots,jid)).catch(err => {
+      const [results] = await db.execute(judgesQueries.modifySlots(slots,jid, mode)).catch(err => {
         throw new AppError(400, 'fail', err.sqlMessage)
       })
       return results[0]
