@@ -93,25 +93,27 @@ function judgesServices(db) {
       throw err
     }
   }
-  
+
   async function evaluateProject(event_name, data) {
     try {
-  
       switch (event_name) {
         case eventsName[0]:
-          await db.execute( { sql: judgesQueries.evaluateConceptsProject, namedPlaceholders: true }, data);
-          break;
+          await db.execute({ sql: judgesQueries.insertConceptsEvaluation, namedPlaceholders: true }, data).catch(err => {
+        throw new AppError(400, 'fail', err.sqlMessage)
+      })
+          break
         case eventsName[1]:
-          await db.execute({ sql: judgesQueries.evaluateImpetusProject, namedPlaceholders: true }, data);
-          break;
+          await db.execute({ sql: judgesQueries.insertImpetusEvaluation, namedPlaceholders: true }, data).catch(err => {
+        throw new AppError(400, 'fail', err.sqlMessage)
+      })
+          break
         default:
-          throw new AppError(400, "fail", "Invalid event name");
+          throw new AppError(400, "fail", "Invalid event name")
       }
-      
-      return true;
+      return
     } catch (err) {
-      throw new AppError(400, "fail", err.sqlMessage);
-    }    
+      throw err
+    }
   }
 
   return {
@@ -122,7 +124,7 @@ function judgesServices(db) {
     getAllocatedProjects,
     modifySlots,
     evaluateProject
-  };
+  }
 }
 
 export default judgesServices;
