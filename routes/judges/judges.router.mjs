@@ -21,8 +21,6 @@ function createJudgesRouter(judgesServices, eventsServices, emailService, middle
     judgesRouter.post('/register/:event_name', eventNameParamValidation(), insertJudgeValidation(), validator, insertJudge)
     judgesRouter.post('/login', loginJudgeValidation(), validator, loginJudge)
 
-
-
     return judgesRouter
 }
 
