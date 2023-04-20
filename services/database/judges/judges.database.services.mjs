@@ -93,6 +93,26 @@ function judgesServices(db) {
       throw err
     }
   }
+  
+  async function evaluateProject(event_name, data) {
+    try {
+  
+      switch (event_name) {
+        case eventsName[0]:
+          await db.execute( { sql: judgesQueries.evaluateConceptsProject, namedPlaceholders: true }, data);
+          break;
+        case eventsName[1]:
+          await db.execute({ sql: judgesQueries.evaluateImpetusProject, namedPlaceholders: true }, data);
+          break;
+        default:
+          throw new AppError(400, "fail", "Invalid event name");
+      }
+      
+      return true;
+    } catch (err) {
+      throw new AppError(400, "fail", err.sqlMessage);
+    }    
+  }
 
   return {
     getJudge,
@@ -101,6 +121,7 @@ function judgesServices(db) {
     loginJudge,
     getAllocatedProjects,
     modifySlots,
+    evaluateProject
   };
 }
 
