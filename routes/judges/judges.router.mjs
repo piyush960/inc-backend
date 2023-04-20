@@ -15,7 +15,7 @@ function createJudgesRouter(judgesServices, eventsServices, emailService, middle
     judgesRouter.get('/registration/view/:event_name', eventNameParamValidation(), validator, getJudges)
     judgesRouter.get('/verify', getJudgeValidation(), verifyAdminValidation(6), validator, verifyAdminLogin, getJudgeFromToken)
     judgesRouter.get('/allocations/:jid', getAllocatedProjects)
-    judgesRouter.get('/:jid', getJudgeValidation(), verifyAdminValidation(6), validator, verifyAdminLogin, getJudgeFromJid)
+    judgesRouter.get('/:jid', getJudgeValidation(), validator, getJudgeFromJid)
     judgesRouter.patch('/modify_slots/:jid', modifySlots)
     judgesRouter.post('/:event_name/evaluate', evaluateProject )
     judgesRouter.use(registrationLimiter)
