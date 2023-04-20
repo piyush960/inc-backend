@@ -15,11 +15,11 @@ function judgesQueries(tableName) {
   const modifySlots = (slots, jid, mode) => {
     slots = slots.map(slot => `"${slot}"`)
     return `UPDATE judges SET slots = '[${slots}]', mode = '${mode}' WHERE jid = '${jid}';`;
-      
-    const evaluateConceptsProject = `INSERT INTO concepts_projects VALUES (:pid,:jid , );`
-    
-    const evaluateImpetusProject = `INSERT INTO impetus_projects VALUES (:pid,:jid , );`
   }
+
+  const insertConceptsEvaluation = `INSERT INTO concepts_evaluations VALUES (:pid,:jid , );`
+
+  const insertImpetusEvaluation = `INSERT INTO impetus_evaluations VALUES (:pid,:jid , );`
 
   return {
     getJudge,
@@ -27,7 +27,9 @@ function judgesQueries(tableName) {
     insertJudge,
     loginJudge,
     getAllocatedProjects,
-    modifySlots
+    modifySlots,
+    insertConceptsEvaluation,
+    insertImpetusEvaluation
   }
 }
 
