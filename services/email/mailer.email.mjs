@@ -88,7 +88,7 @@ function emailService() {
                 to: `${judge.name} ${judge.email}`,
                 cc: officialEmails.get('official'),
                 replyTo: officialEmails.get('judging'),
-                subject: `Judging Schedule for PICT InC 2023 - ${event_name}`,
+                subject: `Updated Judging Schedule for PICT InC 2023 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.sendAllocationEmail(event_name, projects, judge)
