@@ -6,10 +6,11 @@ const allocationsRouter = Router()
 function createAllocationsRouter(emailServices, allocationServices, eventsServices, judgeServices, middlewares, adminValidations,) {
     const { verifyAdminLogin, validator } = middlewares
     const { verifyAdminValidation } = adminValidations
-    const { labAllocate, allocate } = createAllocationController(allocationServices, emailServices, eventsServices, judgeServices)
+    const { labAllocate, allocate , deallocate } = createAllocationController(allocationServices, emailServices, eventsServices, judgeServices)
 
     allocationsRouter.patch("/:event_name/lab", verifyAdminValidation(2), validator, verifyAdminLogin, labAllocate)
     allocationsRouter.post("/:event_name/allocate", verifyAdminValidation(2), validator, verifyAdminLogin, allocate)
+    allocationsRouter.patch("/:event_name/deallocate",  deallocate)
 
     return allocationsRouter
 }

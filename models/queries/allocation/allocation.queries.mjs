@@ -14,9 +14,16 @@ function allocationQueries() {
     return `INSERT INTO allocations VALUES ('${bigArray[0]}', '${jids[0]}', '', '[${slots}]', CURRENT_TIMESTAMP(), '${event_name}')${placeholders};`
   }
 
+  const deallocate = (event_name, pids, jids) => {
+    let placeholders = ''
+    for (let i = 1; i < pids.length; i++) placeholders += `,'${pids[i]}'`
+    return `DELETE FROM allocations WHERE (pid IN  ('${pids[0]}'${placeholders}) AND jid = '${jids[0]}' AND event_name = '${event_name}');`
+  }
+
   return {
     updateLab,
     allocate,
+    deallocate,
   }
 }
 

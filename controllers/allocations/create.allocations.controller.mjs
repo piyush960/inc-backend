@@ -21,9 +21,20 @@ function createAllocationController(allocationServices, emailServices, eventsSer
     } catch (err) { next(err) }
   }
 
+  async function deallocate(req, res, next) {
+    try {
+      const { event_name } = req.params
+      await allocationServices.deallocate(event_name, req.body)
+      res.status(200).end()
+    } catch (err) { next(err) }
+  }
+
+
+
   return {
     labAllocate,
     allocate,
+    deallocate,
   }
 }
 

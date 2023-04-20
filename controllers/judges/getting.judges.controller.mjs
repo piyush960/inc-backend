@@ -69,8 +69,8 @@ function gettingJudgesController(judgesServices, eventsService) {
     async function modifySlots(req, res, next) {
         try {
             const { jid } = req.params
-            const { slots } = req.body
-            const judge = await judgesServices.modifySlots(jid,slots)
+            const { slots, mode } = req.body
+            await judgesServices.modifySlots(jid, slots, mode || '0')
             res.status(200).end()
         } catch (err) { next(err) }
     }
