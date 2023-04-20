@@ -17,7 +17,7 @@ function judgesQueries(tableName) {
     return `UPDATE judges SET slots = '[${slots}]', mode = '${mode}' WHERE jid = '${jid}';`;
   }
 
-  const insertImpetusEvaluation = "INSERT INTO impetus_evaluation (pid, jid, startUp, impact, original, patent, presentation, relevance, test) VALUES (:pid, :jid, :startUp, :impact, :original, :patent, :presentation, :relevance, :test);"
+  const insertImpetusEvaluation = "INSERT INTO impetus_evaluation (pid, jid, startUp, impact, original, patent, presentation, relevance, test) VALUES (:pid, :jid, :startUp, :impact, :original, :patent, :presentation, :relevance, :test);"
 
   const insertConceptsEvaluation = "INSERT INTO concepts_evaluation (pid, jid, innovation, approachToIdeas, approachToImplementation, principles, presentation) VALUES (:pid, :jid, :innovation, :approachToIdeas, :approachToImplementation, :principles, :presentation);"
 
