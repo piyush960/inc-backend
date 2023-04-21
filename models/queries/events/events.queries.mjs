@@ -38,6 +38,8 @@ function eventsQueries(tableName) {
 
     const updateProject = (data) => `UPDATE _projects INNER JOIN ${data.event_name}_group_info ON ${data.event_name}_projects.pid = ${data.event_name}_group_info.pid SET ${data.event_name}_projects.title = :title, ${data.event_name}_projects.abstract = :abstract, ${data.event_name}_group_info.mode = :mode WHERE ${data.event_name}_projects.pid = :pid;`
 
+    
+
     return {
         checkUserRegistration,
         completeRegistration,

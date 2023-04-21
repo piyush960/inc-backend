@@ -55,7 +55,7 @@ function createSynopsis(projects) {
               alignment: "left",
             },
             {
-              text: "Impetus Synopsis: InC 2023",
+              text: "Concepts Synopsis: InC 2023",
               fontSize: 10,
               italics: "true",
               alignment: "right",
