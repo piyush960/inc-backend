@@ -119,6 +119,17 @@ function judgesServices(db) {
     }
   }
 
+  async function existingAllocation(pid, jid) {
+    try {
+      const [results] = await db.execute(judgesQueries.existingAllocation(pid, jid)).catch(err => {
+        throw new AppError(400, 'fail', err.sqlMessage)
+      })
+      return results[0]
+    } catch (err) {
+      throw err
+    }
+  }
+
   return {
     getJudge,
     getJudges,
@@ -126,7 +137,8 @@ function judgesServices(db) {
     loginJudge,
     getAllocatedProjects,
     modifySlots,
-    evaluateProject
+    evaluateProject,
+    existingAllocation
   }
 }
 

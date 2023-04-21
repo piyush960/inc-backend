@@ -21,6 +21,8 @@ function judgesQueries(tableName) {
 
   const insertConceptsEvaluation = "INSERT INTO concepts_evaluation (pid, jid, innovation, approachToIdeas, approachToImplementation, principles, presentation) VALUES (:pid, :jid, :innovation, :approachToIdeas, :approachToImplementation, :principles, :presentation);"
 
+  const existingAllocation = (pid, jid) => `SELECT COUNT(*) FROM allocations WHERE pid = '${pid}' AND jid = '${jid}';`
+
   return {
     getJudge,
     getJudges,
@@ -29,7 +31,8 @@ function judgesQueries(tableName) {
     getAllocatedProjects,
     modifySlots,
     insertConceptsEvaluation,
-    insertImpetusEvaluation
+    insertImpetusEvaluation,
+    existingAllocation
   }
 }
 
