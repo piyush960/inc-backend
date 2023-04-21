@@ -38,8 +38,8 @@ function projectValidation() {
 
 function memberValidation() {
     return [
-        body('name').trim().notEmpty().isLength({ min: 3, max: 20 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
-        body('email').isEmail().escape().withMessage('Invalid email'),
+        body('name').trim().notEmpty().isLength({ min: 3, max: 30 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
+        body('email').trim().notEmpty().escape().withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
         body('gender').isIn(['Male', 'Female', 'Other']).withMessage('Invalid gender value'),
     ]

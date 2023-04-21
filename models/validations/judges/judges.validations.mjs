@@ -17,7 +17,7 @@ function insertJudgeValidation() {
 
     return [
         body('name').trim().isLength({ min: 3, max: 100 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
-        body('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
+        body('email').isEmail().withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
         body('address').trim().isLength({ min: 4, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid address'),
         body('company').trim().isLength({ min: 0, max: 100 }).if(body('company').isLength({ min: 1, max: 100 })).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid company name'),
