@@ -30,7 +30,7 @@ function verifyPICTOrPayments() {
         oneOf([
             body('isPICT').equals('1').withMessage('Invalid request, status of PICT required'),
             body('isInternational').equals('1').withMessage('Invalid request, status of International required'),
-            body('payment_id').exists().withMessage('Invalid request, transaction id required').trim().isLength({ min: 8, max: 10 }).escape().isAlphanumeric('en-US').withMessage('Invalid transaction id in body'),
+            body('payment_id').exists().withMessage('Invalid request, transaction id required').trim().isLength({ min: 12, max: 12 }).escape().isAlphanumeric('en-US').withMessage('Invalid transaction id in body'),
         ])
     ]
 }
