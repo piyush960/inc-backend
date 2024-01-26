@@ -35,11 +35,11 @@ function emailService() {
     async function eventRegistrationEmail(event_name, data) {
         try {
             const mailOptions = {
-                from: `InC'2023 <${officialEmails.get('queries')}>`,
+                from: `InC'2024 <${officialEmails.get('queries')}>`,
                 to: `${data.step_2[0].name} ${data.step_2[0].email}`,
                 bcc: `${officialEmails.get('queries')},${officialEmails.get(event_name)}`,
                 replyTo: officialEmails.get('queries'),
-                subject: `Registered for PICT InC 2023 - ${event_name}`,
+                subject: `Registered for PICT InC 2024 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.eventRegistrationEmail({ ...data, event_name })

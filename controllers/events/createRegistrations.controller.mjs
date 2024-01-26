@@ -154,6 +154,7 @@ function createRegistrationsController(
           event_name,
           results
         );
+
         await emailService.eventRegistrationEmail(event_name, {
           ...results,
           pid,
