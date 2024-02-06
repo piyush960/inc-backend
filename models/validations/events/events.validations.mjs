@@ -23,9 +23,9 @@ function projectValidation() {
         // ]),
         body('domain', 'Invalid project domain').isIn(Object.keys(projectDomains)).withMessage('Invalid project domain selected'),
         body('project_type').isIn(projectTypes).withMessage('Invalid project type selected'),
-        body('guide_name').trim().isAlpha('en-US', { ignore: ' .' }).isLength({ min: 3, max: 50 }).escape().withMessage('Invalid guide name'),
-        body('guide_email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid guide email'),
-        body('guide_phone').trim().escape().isMobilePhone().withMessage('Invalid guide phone'),
+        // body('guide_name').trim().isAlpha('en-US', { ignore: ' .' }).isLength({ min: 3, max: 50 }).escape().withMessage('Invalid guide name'),
+        // body('guide_email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid guide email'),
+        // body('guide_phone').trim().escape().isMobilePhone().withMessage('Invalid guide phone'),
         body('hod_email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid hod email'),
         body('sponsored').isIn(['1', '0']).withMessage('Invalid selection of sponsorship status'),
         body('company').trim().escape().if(body('sponsored').equals('1')).isLength({ min: 3, max: 100 }).withMessage('Invalid company name'),
@@ -55,7 +55,7 @@ function collegeValidation() {
                 body('country').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid country name')
                 // .if(body('college').equals('Pune Institute of Computer Technology')).equals('India').withMessage('Invalid country entered for PICT')
                 ,
-                body('state').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 3, max: 20 }).escape().withMessage('Invalid state name')
+                body('state').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid state name')
                 // .if(body('college').equals('Pune Institute of Computer Technology')).equals('Maharashtra').withMessage('Invalid state entered for PICT')
                 ,
                 body('district').trim().isAlpha('en-US', { ignore: ' -\'' }).isLength({ min: 2, max: 20 }).escape().withMessage('Invalid district name')
