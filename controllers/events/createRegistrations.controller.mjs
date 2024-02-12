@@ -150,6 +150,8 @@ function createRegistrationsController(
       const results = await eventsServices.getTicketDetails(ticket);
       if (!results) throw new AppError(404, "fail", "Ticket does not exist");
       if (results.step_no === 4) {
+        // console.log(results);
+      
         const { pid } = await eventsServices.completeRegistration(
           event_name,
           results
@@ -203,19 +205,21 @@ function createRegistrationsController(
         year: req.body?.year,
         name: req.body.name,
         phone: req.body.phone,
-        email: req.body.email
+        email: req.body.email,
+        department: req.body.department
       };
-      switch (event_name) {
-        case eventsName[0]:
-          const result = await eventsServices.insertPICT(newData)
-          res.status(200).send(result);
-          break;
+      console.log(newData);
+      // switch (event_name) {
+      //   case eventsName[0]:
+      //     const result = await eventsServices.insertPICT(newData)
+      //     res.status(200).send(result);
+      //     break;
 
-        case eventsName[1]:
-          const results = await eventsServices.insertImpetusPICT(newData)
-          res.status(200).send(results);
-          break;
-      }
+      //   case eventsName[1]:
+      //     const results = await eventsServices.insertImpetusPICT(newData)
+      //     res.status(200).send(results);
+      //     break;
+      // }
     } catch (err) {
       next(err);
     }

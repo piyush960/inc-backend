@@ -36,22 +36,23 @@ function emailService() {
         try {
             const mailOptions = {
                 from: `InC'2024 <${officialEmails.get('queries')}>`,
-                to: `${data.step_2[0].name} ${data.step_2[0].email}`,
+                to: data.step_2.map(participant => `${participant.name} <${participant.email}>`).join(', '),
                 bcc: `${officialEmails.get('queries')},${officialEmails.get(event_name)}`,
                 replyTo: officialEmails.get('queries'),
                 subject: `Registered for PICT InC 2024 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.eventRegistrationEmail({ ...data, event_name })
-            }
-            return eventEmailTransporter.sendMail(mailOptions, (err, info) => {
-                if (err) {
-                    throw err
-                }
-                return info
-            })
-        } catch (err) { throw err }
+            };
+    
+            await eventEmailTransporter.sendMail(mailOptions);
+    
+            return "Emails sent successfully";
+        } catch (err) {
+            throw err;
+        }
     }
+    
 
     async function judgeRegistrationEmail(judge) {
         try {

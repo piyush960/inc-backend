@@ -66,7 +66,7 @@ function eventsServices(db) {
         .catch((err) => {
           throw new AppError(400, "fail", err.sqlMessage);
         });
-      return results[0];
+      return results;
     } catch (err) {
       throw err;
     }
@@ -142,6 +142,7 @@ function eventsServices(db) {
           college,
           year,
           country,
+          department,
           state,
           district,
           city,
@@ -181,6 +182,7 @@ function eventsServices(db) {
                 step_2[1].phone,
                 step_2[1].gender,
                 college,
+                department,
                 country,
                 state,
                 district,
@@ -220,6 +222,7 @@ function eventsServices(db) {
                 step_2[2].phone,
                 step_2[2].gender,
                 college,
+                department,
                 country,
                 state,
                 district,
@@ -263,6 +266,7 @@ function eventsServices(db) {
                 step_2[3].phone,
                 step_2[3].gender,
                 college,
+                department,
                 country,
                 state,
                 district,
@@ -310,6 +314,7 @@ function eventsServices(db) {
                 step_2[4].phone,
                 step_2[4].gender,
                 college,
+                department,
                 country,
                 state,
                 district,
@@ -511,6 +516,7 @@ function eventsServices(db) {
                 step_2[0].email,
                 step_2[0].phone,
                 step_2[0].gender,
+                step_2[0].codechef_id,
                 college,
                 year,
                 country,
@@ -532,10 +538,12 @@ function eventsServices(db) {
                 step_2[0].email,
                 step_2[0].phone,
                 step_2[0].gender,
+                step_2[0].codechef_id,
                 step_2[1].name,
                 step_2[1].email,
                 step_2[1].phone,
                 step_2[1].gender,
+                step_2[1].codechef_id,
                 college,
                 year,
                 country,
@@ -556,6 +564,7 @@ function eventsServices(db) {
       // console.log(data);
       // console.log(eventsQueries.completeRegistration(event_name, step_2.length));
       // console.log(dataArray);
+      // console.log(event_name)
       const [[results]] = await db
         .execute(
           eventsQueries.completeRegistration(event_name, step_2.length),

@@ -13,11 +13,22 @@ function eventsQueries(tableName) {
     }
 
     const completeRegistration = (event_name, no_of_members) => {
+        console.log(event_name)
         let placeholders = ''
-        for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?, ?'
+        if(event_name === 'pradnya'){
+            for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?, ?, ?'
+        }else{
+            console.log("Hello")
+            for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?, ?'
+        }
         return process.env[`INSERT_${event_name.toUpperCase()}_${no_of_members}`] + placeholders + ');'
     }
 
+
+
+    
+
+    
     const insertPICT = (no_of_members) => {
         let placeholders = ''
         for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'

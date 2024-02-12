@@ -106,13 +106,19 @@ function getRegistrationsController(
       const results = await eventsServices.getPendingPayments(
         req.params.event_name
       );
+      // console.log(results);
+      // const step_2_data = data.step_2;
+      // console.log(results[0].step_2);
       if (!results) throw new AppError(404, "fail", "No pending payments");
       const filteredResults = results.map((item) => ({
         email: item.step_2[0].email,
         ticket: item.ticket,
         payment_id: item.payment_id,
         date: item.date,
+        mode: item.mode,
+        step_2 : item.step_2
       }));
+      // console.log(filteredResults[0].step_2)
       res.status(302).json(filteredResults);
     } catch (err) {
       next(err);
