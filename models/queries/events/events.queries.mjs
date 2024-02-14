@@ -13,12 +13,12 @@ function eventsQueries(tableName) {
     }
 
     const completeRegistration = (event_name, no_of_members) => {
-        console.log(event_name)
+        // console.log(event_name)
         let placeholders = ''
-        if(event_name === 'pradnya'){
+        if (event_name === 'pradnya') {
             for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?, ?, ?'
-        }else{
-            console.log("Hello")
+        } else {
+            // console.log("Hello")
             for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?, ?'
         }
         return process.env[`INSERT_${event_name.toUpperCase()}_${no_of_members}`] + placeholders + ');'
@@ -26,9 +26,9 @@ function eventsQueries(tableName) {
 
 
 
-    
 
-    
+
+
     const insertPICT = (no_of_members) => {
         let placeholders = ''
         for (let i = 0; i < no_of_members; i++) placeholders += ', ?, ?, ?'
@@ -49,7 +49,7 @@ function eventsQueries(tableName) {
 
     const updateProject = (data) => `UPDATE _projects INNER JOIN ${data.event_name}_group_info ON ${data.event_name}_projects.pid = ${data.event_name}_group_info.pid SET ${data.event_name}_projects.title = :title, ${data.event_name}_projects.abstract = :abstract, ${data.event_name}_group_info.mode = :mode WHERE ${data.event_name}_projects.pid = :pid;`
 
-    
+
 
     return {
         checkUserRegistration,
