@@ -15,6 +15,7 @@ function ticketQueries(tableName) {
 
     const editPaymentAndStep = `UPDATE ${tableName} SET step_no = ?, payment_id = ? WHERE ticket = ?;`
 
+
     return {
         checkTicket,
         getMembers,
@@ -22,7 +23,7 @@ function ticketQueries(tableName) {
         getPayment,
         insertTicket,
         editStepData,
-        editPaymentAndStep,
+        editPaymentAndStep
     }
 }
 
