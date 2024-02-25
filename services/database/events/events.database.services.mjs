@@ -38,7 +38,7 @@ function eventsServices(db) {
         });
       return results[0];
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   }
@@ -88,6 +88,7 @@ function eventsServices(db) {
     }
   }
 
+
   async function editStepData(ticket, step_no, data) {
     try {
       const [results] = await db
@@ -103,6 +104,7 @@ function eventsServices(db) {
 
   async function editPaymentAndStep(data, updated_step) {
     try {
+      // console.log(data)
       const [results] = await db
         .execute(ticketQueries.editPaymentAndStep, [
           updated_step,
@@ -114,7 +116,7 @@ function eventsServices(db) {
         });
       return results[0];
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   }
@@ -144,6 +146,10 @@ function eventsServices(db) {
           country,
           department,
           group_id,
+          techfiesta,
+          tech_group_id,
+          tech_Transaction_id,
+          group_leader_email,
           state,
           district,
           city,
@@ -193,6 +199,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -234,6 +244,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -279,6 +293,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -328,6 +346,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
           }
@@ -370,6 +392,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -412,6 +438,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -458,6 +488,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
 
@@ -508,6 +542,10 @@ function eventsServices(db) {
                 referral,
                 ticket,
                 payment_id,
+                techfiesta,
+                tech_group_id,
+                tech_Transaction_id,
+                group_leader_email,
               ];
               break;
           }
@@ -568,7 +606,9 @@ function eventsServices(db) {
       }
       // console.log(data);
       // console.log(eventsQueries.completeRegistration(event_name, step_2.length));
-      // console.log(dataArray);
+      console.log("dataArray = ", dataArray.length);
+      console.log(dataArray);
+
       // console.log(event_name)
       const [[results]] = await db
         .execute(
@@ -634,14 +674,14 @@ function eventsServices(db) {
           data
         )
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
 
           throw new AppError(400, "fail", err.sqlMessage);
         });
 
       return results[0];
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   }

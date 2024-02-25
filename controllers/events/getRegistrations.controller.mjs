@@ -51,6 +51,7 @@ function getRegistrationsController(
         req.params.event_name
       );
       if (!results) throw new AppError(404, "fail", "No registrations found");
+      // console.log(results);
       res.status(302).json(results);
     } catch (err) {
       next(err);
@@ -101,6 +102,22 @@ function getRegistrationsController(
     }
   }
 
+  async function getMembersFromTicket(req, res, next) {
+    try {
+      const { ticket } = req.signedCookies;
+      const results = await eventsServices.getMemberDetails(ticket);
+      if (!results)
+        throw new AppError(
+          404,
+          "fail",
+          "No members were found"
+        );
+      res.status(302).json(results);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async function getPendingPayments(req, res, next) {
     try {
       const results = await eventsServices.getPendingPayments(
@@ -116,7 +133,8 @@ function getRegistrationsController(
         payment_id: item.payment_id,
         date: item.date,
         mode: item.mode,
-        step_2 : item.step_2
+        step_2: item.step_2,
+        step_3: item.step_3
       }));
       // console.log(filteredResults[0].step_2)
       res.status(302).json(filteredResults);
@@ -147,11 +165,13 @@ function getRegistrationsController(
     getUserRegistration,
     getRegistration,
     getRegistrations,
+    getMembersFromTicket,
     getTicketDetails,
     getPaymentDetails,
     getUserIDFile,
     getPendingPayments,
     getSynopsis,
+
   };
 }
 
