@@ -606,8 +606,8 @@ function eventsServices(db) {
       }
       // console.log(data);
       // console.log(eventsQueries.completeRegistration(event_name, step_2.length));
-      console.log("dataArray = ", dataArray.length);
-      console.log(dataArray);
+      // console.log("dataArray = ", dataArray.length);
+      // console.log(dataArray);
 
       // console.log(event_name)
       const [[results]] = await db
