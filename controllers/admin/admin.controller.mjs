@@ -18,20 +18,34 @@ function adminController(adminServices, docServices, judgeServices) {
         throw new AppError(403, "fail", "Invalid Credentials");
       }
       const token = createToken({ username });
-      // if (user.roles.includes("JUDGE")) {
-      //   const judge = await judgeServices.findJudge({ email: user.email })
-      //   if (!judge) throw new AppError(404, "fail", "Judge account not found")
-      //   var { jid } = judge
-      //   sendCookie(res, { admin_data: { token, roles: user.roles } })
-      //     .status(200)
-      //     .json({ roles: user.roles, jid })
-      //   return
-      // }
+      if (user.roles.includes("JUDGE")) {
+        // console.log(username)
+        const judge = await adminServices.loginJudge({username, password})
+        // console.log(judge)
+        if (!judge) throw new AppError(404, "fail", "Judge account not found")
+        const { jid } = judge[0]
+      // console.log(jid)
+        sendCookie(res, { judge_data: { token, roles: user.roles } })
+          .status(200)
+          .json({ roles: user.roles, jid })
+        return
+      }
       sendCookie(res, { admin_data: { token, roles: user.roles } })
         .status(200)
         .end()
     } catch (err) { next(err) }
   }
+
+  async function logout(req, res, next) {
+    try {
+      res = await clearCookie(res, "admin_data");
+      // console.log("logout")
+      res.status(200).json({ message: "Logged out successfully" });
+    } catch (err) {
+      next(err);
+    }
+  }
+
 
   async function verifyAdminLogin(req, res, next) {
     try {
@@ -49,6 +63,7 @@ function adminController(adminServices, docServices, judgeServices) {
   return {
     loginAdmin,
     verifyAdminLogin,
+    logout
   };
 }
 

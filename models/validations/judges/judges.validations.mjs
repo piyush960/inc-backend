@@ -4,7 +4,12 @@ import { eventsName, projectDomains, slotsData } from '../../../static/eventsDat
 function getJudgeValidation() {
     return [
         oneOf([
-            check('jid').trim().isLength({ min: 12, max: 12 }).escape().isAlphanumeric('en-US', { ignore: '-' }).withMessage('Invalid judge id'),
+            check('jid')
+                .trim()
+                .isLength({ min: 12, max: 12 }).withMessage('Judge ID must be 12 characters long')
+                .escape()
+                .matches(/^[a-zA-Z0-9-]+$/).withMessage('Judge ID must be alphanumeric'),
+
             check('email').isEmail().normalizeEmail({ gmail_remove_dots: false }).withMessage('Invalid email'),
             check('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
         ])
@@ -19,7 +24,8 @@ function insertJudgeValidation() {
         body('name').trim().isLength({ min: 3, max: 100 }).isAlpha('en-US', { ignore: ' .' }).escape().withMessage('Invalid name'),
         body('email').isEmail().withMessage('Invalid email'),
         body('phone').trim().escape().isMobilePhone().withMessage('Invalid phone'),
-        body('address').trim().isLength({ min: 4, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid address'),
+        body('commercial_address').trim().isLength({ min: 4, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid commercial address'),
+        body('residential_address').trim().isLength({ min: 4, max: 100 }).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid residential address'),
         body('company').trim().isLength({ min: 0, max: 100 }).if(body('company').isLength({ min: 1, max: 100 })).isAlphanumeric('en-US', { ignore: ' ,.-\'()' }).escape().withMessage('Invalid company name'),
         body('exp').trim().isInt({ min: 0, max: 90 }).escape().withMessage('Invalid year of experience'),
         body('domains').isArray({ min: 1, max: 6 }).withMessage('domains should be an array of size [1 - 6]').custom(domains => domains.every(domain => projectDomainsArray.includes(domain.trim()))).withMessage('Invalid domains selected'),

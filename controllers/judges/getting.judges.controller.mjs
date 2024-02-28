@@ -1,3 +1,4 @@
+import eventsServices from '../../services/database/events/events.database.services.mjs';
 import { AppError, clearCookie, createToken, sendCookie, verifyToken } from '../../utils/index.js';
 
 function gettingJudgesController(judgesServices, eventsService) {

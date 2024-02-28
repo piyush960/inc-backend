@@ -10,6 +10,7 @@ import validator from './validator.mjs';
 
 function initializeMiddlewares(dbService) {
     const { verifyAdminLogin } = protectRoute(dbService.adminServices)
+    const { verifyJudgeLogin } = protectRoute(dbService.adminServices)
 
     function useDefaultMiddlewares(server) {
         server.use([
@@ -32,6 +33,7 @@ function initializeMiddlewares(dbService) {
         memberIDParser,
         formDataParser,
         verifyAdminLogin,
+        verifyJudgeLogin,
         apiLimiter,
         registrationLimiter,
         validator,

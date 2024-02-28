@@ -36,6 +36,7 @@ function createRegistrationsController(
       const { event_name } = req.params;
       let { ticket } = req.signedCookies;
       // console.log(ticket)
+      // console.log(ticket)
       const { email } = req.body;
       const user_email = await eventsServices.getUserRegistration(
         event_name,
@@ -152,7 +153,8 @@ function createRegistrationsController(
       const results = await eventsServices.getTicketDetails(ticket);
       if (!results) throw new AppError(404, "fail", "Ticket does not exist");
       if (results.step_no === 4) {
-        // console.log("controller", results);
+
+        // console.log(results);
 
         const { pid } = await eventsServices.completeRegistration(
           event_name,

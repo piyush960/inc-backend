@@ -118,6 +118,22 @@ function getRegistrationsController(
     }
   }
 
+  async function getMembersFromTicket(req, res, next) {
+    try {
+      const { ticket } = req.signedCookies;
+      const results = await eventsServices.getMemberDetails(ticket);
+      if (!results)
+        throw new AppError(
+          404,
+          "fail",
+          "No members were found"
+        );
+      res.status(302).json(results);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async function getPendingPayments(req, res, next) {
     try {
       const results = await eventsServices.getPendingPayments(

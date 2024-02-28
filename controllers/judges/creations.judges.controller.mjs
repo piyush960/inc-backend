@@ -4,28 +4,34 @@ import { groupLinks, roles } from "../../static/adminData.mjs";
 function creationsJudgesController(judgesServices, emailService) {
   async function insertJudge(req, res, next) {
     try {
-      const { event_name } = req.params;
-      const jid = "INC-J" + randomID(7);
+      const { events, ...rest } = req.body; // Destructure events from req.body
+      // console.log([events]);
+      // console.log(rest);
+      const event_code = events == 'concepts' ? 'CO-J' : 'IM-J';
+      const jid = event_code + randomID(7);
       const password = randomID(8);
+      // console.log(jid);
+      // console.log(password);
       await judgesServices.insertJudge({
-        ...req.body,
+        events: [events],
+        ...rest, // Spread the rest of the properties
         jid,
         password,
-        events: [event_name],
         roles: [roles[6]],
       });
       await emailService.judgeRegistrationEmail({
-        ...req.body,
+        ...rest, // Spread the rest of the properties
         jid,
-        events: [event_name],
+        events: [events],
         password,
-        group_link: groupLinks.get(event_name),
+        group_link: groupLinks.get(events),
       });
       res.status(201).end();
     } catch (err) {
       next(err);
     }
   }
+  
 
   async function evaluateProject(req, res, next) {
     try {

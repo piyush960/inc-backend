@@ -39,9 +39,26 @@ function verifyAdminValidation(min_role) {
 	]
 }
 
+function verifyJudgeValidation(min_role) {
+	let allowed_roles = rolesData[min_role - 1];
+
+	return [
+		cookie('judge_data').customSanitizer((_, { req }) => req.signedCookies?.judge_data).exists().withMessage('You are not logged in! Please login in for admin access').isObject().withMessage('Invalid session cookie for admin access'),
+		cookie('judge_data.token').customSanitizer((_, { req }) => req.signedCookies?.judge_data?.token).escape().isJWT().withMessage('Invalid session token for admin access'),
+		cookie('judge_data.roles').customSanitizer((_, { req }) => req.signedCookies?.judge_data?.roles).isArray({ min: 1, max: 5 }).custom((roles) => {
+			if (!roles.every((role) => allowed_roles.includes(role.trim()))) {
+				throw new Error('Invalid roles for admin access');
+			}
+			return true;
+		}),
+	];
+}
+
+
 export const adminValidations = {
 	adminLoginValidation,
 	createAdminValidation,
 	verifyAdminTicket,
 	verifyAdminValidation,
+	verifyJudgeValidation
 }
