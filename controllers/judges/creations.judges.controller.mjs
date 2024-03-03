@@ -5,26 +5,23 @@ function creationsJudgesController(judgesServices, emailService) {
   async function insertJudge(req, res, next) {
     try {
       const { events, ...rest } = req.body; // Destructure events from req.body
-      // console.log([events]);
-      // console.log(rest);
       const event_code = events == 'concepts' ? 'CO-J' : 'IM-J';
       const jid = event_code + randomID(7);
       const password = randomID(8);
-      // console.log(jid);
-      // console.log(password);
+
       await judgesServices.insertJudge({
-        events: [events],
+        events: events,
         ...rest, // Spread the rest of the properties
         jid,
         password,
         roles: [roles[6]],
       });
       await emailService.judgeRegistrationEmail({
+        events: events,
         ...rest, // Spread the rest of the properties
         jid,
-        events: [events],
         password,
-        group_link: groupLinks.get(events),
+        group_link: groupLinks.get(events[0]),
       });
       res.status(201).end();
     } catch (err) {

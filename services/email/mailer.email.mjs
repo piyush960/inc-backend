@@ -34,6 +34,7 @@ function emailService() {
 
     async function eventRegistrationEmail(event_name, data) {
         try {
+            
             const mailOptions = {
                 from: `InC'2024 <${officialEmails.get('queries')}>`,
                 to: data.step_2.map(participant => `${participant.name} <${participant.email}>`).join(', '),
@@ -44,18 +45,19 @@ function emailService() {
                 text: 'Email content',
                 html: await emailTemplates.eventRegistrationEmail({ ...data, event_name })
             };
-    
+
             await eventEmailTransporter.sendMail(mailOptions);
-    
+
             return "Emails sent successfully";
         } catch (err) {
             throw err;
         }
     }
-    
+
 
     async function judgeRegistrationEmail(judge) {
         try {
+            // console.log(judge)
             judge.domains = judge.domains.map(domain => projectDomains[domain])
             judge.slots = judge.slots.map(slot => slotsData[slot])
             const mailOptions = {

@@ -21,9 +21,9 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     eventsRouter.patch('/:event_name/:pid', verifyAdminValidation(2), validator, verifyAdminLogin, updateProject)
     eventsRouter.post('/:event_name/internal', insertInternalPICT)
     eventsRouter.use(registrationLimiter)
-    eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), validator, saveProject)
-    eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), validator, insertMember)
-    eventsRouter.post('/:event_name/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), validator, saveCollegeDetails)
+    eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), saveProject)
+    eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), insertMember)
+    eventsRouter.post('/:event_name/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), saveCollegeDetails)
     eventsRouter.post('/:event_name/step_4', eventNameParamValidation(), ticketValidation(), verifyPICTOrPayments(), requestRegistration)
     return eventsRouter
 }
