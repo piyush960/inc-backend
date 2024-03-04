@@ -16,7 +16,7 @@ function creationsJudgesController(judgesServices, emailService) {
 
 
       await judgesServices.insertJudge({
-        events: events,
+        events: [events],
         ...rest, // Spread the rest of the properties
         jid,
         password,
@@ -26,11 +26,11 @@ function creationsJudgesController(judgesServices, emailService) {
       // change the events in camel case 
 
       await emailService.judgeRegistrationEmail({
-        events: eventNames[events],
+        events: [eventNames[events]],
         ...rest, // Spread the rest of the properties
         jid,
         password,
-        group_link: groupLinks.get(events[0]),
+        group_link: groupLinks.get(events),
       });
       res.status(201).end();
     } catch (err) {
