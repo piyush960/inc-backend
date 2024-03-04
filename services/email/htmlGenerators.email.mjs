@@ -20,6 +20,7 @@ async function eventRegistrationEmail(data) {
 
 async function judgeRegistrationEmail(judge) {
     try {
+        // console.log(judge)
         return ejs.render(judgeTemplate, { judge, filename: __dirname + '/views/emails/judgeRegistration.email.ejs', cache: true, async: true })
     } catch (err) {
         throw err
