@@ -3,11 +3,10 @@ import { referralController } from '../../controllers/index.js';
 
 const referralRouter = Router()
 
-function createReferralRouter() {
-    const { referralConcepts, referralImpetus } = referralController()
+function createReferralRouter(referralServices) {
+    const { referralConcepts, referralImpetus } = referralController(referralServices)
 
     referralRouter.post('/concepts', referralConcepts)
-    referralRouter.post('/impetus', referralImpetus )
 
     return referralRouter
 }
