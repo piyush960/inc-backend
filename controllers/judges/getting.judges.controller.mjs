@@ -76,6 +76,13 @@ function gettingJudgesController(judgesServices, eventsService) {
         } catch (err) { next(err) }
     }
 
+    async function getAllocatedProjectsofJudge(req, res, next) {
+        try {
+            const { jid } = req.params
+            const result = await judgesServices.getAllocatedProjectsofJudge(jid)
+            res.status(200).json(result)
+        } catch (err) { next(err) }
+    }
 
     return {
         getJudgeFromToken,
@@ -84,7 +91,8 @@ function gettingJudgesController(judgesServices, eventsService) {
         getProjects,
         getAllocatedProjects,
         getJudgeFromJid,
-        modifySlots
+        modifySlots,
+        getAllocatedProjectsofJudge
     }
 }
 

@@ -200,9 +200,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -245,9 +245,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -294,9 +294,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -347,9 +347,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
           }
@@ -393,9 +393,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -439,9 +439,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -489,9 +489,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
 
@@ -543,9 +543,9 @@ function eventsServices(db) {
                 ticket,
                 payment_id,
                 techfiesta,
+                group_leader_email,
                 tech_group_id,
                 tech_Transaction_id,
-                group_leader_email,
               ];
               break;
           }

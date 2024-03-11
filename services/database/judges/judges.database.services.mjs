@@ -3,6 +3,7 @@ import { AppError } from "../../../utils/index.js";
 import { eventsName } from "../../../static/eventsData.mjs";
 
 function judgesServices(db) {
+
   async function getJudge(data) {
     try {
       const [results] = await db
@@ -52,7 +53,7 @@ function judgesServices(db) {
 
   async function loginJudge(data) {
     try {
-    // console.log(data)
+      // console.log(data)
       const [results] = await db
         .execute(
           { sql: judgesQueries.loginJudge, namedPlaceholders: true },
@@ -132,6 +133,21 @@ function judgesServices(db) {
     }
   }
 
+  async function getAllocatedProjectsofJudge(jid) {
+    try {
+      const [results] = await db.execute({
+        sql: `SELECT * FROM judge_allocations WHERE jid = ?`, // Complete the SQL query
+        values: [jid] // Include jid in the values array
+      });
+
+      // console.log(results);
+
+      return results;
+    } catch (err) {
+      throw err
+    }
+  }
+
   return {
     loginJudge,
     getJudge,
@@ -140,7 +156,8 @@ function judgesServices(db) {
     getAllocatedProjects,
     modifySlots,
     evaluateProject,
-    existingAllocation
+    existingAllocation,
+    getAllocatedProjectsofJudge
   }
 }
 

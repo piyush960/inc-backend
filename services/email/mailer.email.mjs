@@ -34,7 +34,7 @@ function emailService() {
 
     async function eventRegistrationEmail(event_name, data) {
         try {
-            
+
             const mailOptions = {
                 from: `InC'2024 <${officialEmails.get('queries')}>`,
                 to: data.step_2.map(participant => `${participant.name} <${participant.email}>`).join(', '),

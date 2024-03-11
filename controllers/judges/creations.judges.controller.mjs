@@ -14,7 +14,6 @@ function creationsJudgesController(judgesServices, emailService) {
         'impetus': 'Impetus'
       };
 
-
       await judgesServices.insertJudge({
         events: [events],
         ...rest, // Spread the rest of the properties
@@ -37,17 +36,17 @@ function creationsJudgesController(judgesServices, emailService) {
       next(err);
     }
   }
-  
+
 
   async function evaluateProject(req, res, next) {
     try {
       const { event_name } = req.params;
       const { pid, jid } = req.body;
-    //   const isExist = await judgesServices.existingAllocation(pid, jid);
-    //   if (isExist === 0) {
-    //     req.body.slots = "1";
-    //     await judgesServices.allocateProject(event_name, req.body);
-    //   }
+      //   const isExist = await judgesServices.existingAllocation(pid, jid);
+      //   if (isExist === 0) {
+      //     req.body.slots = "1";
+      //     await judgesServices.allocateProject(event_name, req.body);
+      //   }
       await judgesServices.evaluateProject(event_name, req.body);
       res.status(201).end();
     } catch (err) {
