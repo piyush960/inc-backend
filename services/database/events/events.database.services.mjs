@@ -57,6 +57,29 @@ function eventsServices(db) {
     }
   }
 
+  async function deleteMemberDetails(ticket, index) {
+    try {
+      // console.log(ticket);
+      const [results] = await db
+        .execute(`UPDATE tickets
+          SET step_2 = JSON_REMOVE(step_2, ?)
+          WHERE ticket = ?;`
+          , [`$[${index}]`, ticket])
+        .catch((err) => {
+          throw new AppError(400, 'fail', err.sqlMessage);
+        });
+
+      if (results.affectedRows > 0) {
+        return results;
+      } else {
+        throw new AppError(404, 'fail', 'Ticket not found or step_2 index out of bounds');
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+
   async function getPaymentDetails(pid, event_name) {
     try {
       const [results] = await db
@@ -949,6 +972,7 @@ function eventsServices(db) {
     updateProject,
     insertPICT,
     insertImpetusPICT,
+    deleteMemberDetails
   };
 }
 
