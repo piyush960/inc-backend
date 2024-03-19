@@ -144,7 +144,7 @@ function getRegistrationsController(
       // console.log(results[0].step_2);
       if (!results) throw new AppError(404, "fail", "No pending payments");
       const filteredResults = results.map((item) => ({
-        email: item.step_2[0].email,
+        email: item.step_2,
         ticket: item.ticket,
         payment_id: item.payment_id,
         date: item.date,
