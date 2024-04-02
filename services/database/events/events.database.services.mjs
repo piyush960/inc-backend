@@ -662,6 +662,36 @@ function eventsServices(db) {
     }
   }
 
+  async function getAbstractFrompid(pid, event_name) {
+    try {
+      const [results] = await db
+        .execute(eventsQueries.getProjectAbstractQ(pid, event_name))
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function updateAbstractFrompid(pid, event_name, abstract) {
+    try {
+      const [results] = await db
+        .execute(eventsQueries.updateProjectAbstractQ(event_name, pid, abstract))
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
   async function getProjects(event_name) {
     try {
       const [results] = await db
@@ -967,6 +997,8 @@ function eventsServices(db) {
     editPaymentAndStep,
     completeRegistration,
     getPendingPayments,
+    getAbstractFrompid,
+    updateAbstractFrompid,
     getProjects,
     getProject,
     updateProject,

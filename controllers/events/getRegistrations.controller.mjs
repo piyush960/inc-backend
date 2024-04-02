@@ -159,9 +159,50 @@ function getRegistrationsController(
     }
   }
 
+  async function getProjectAbstract(req, res, next) {
+    try {
+      const { pid } = req.body
+      const temp = pid.substring(0, 2);
+      // console.log(pid)
+      let event_name;
+      if (temp === "IM") event_name = "impetus"
+      else if (temp === "CO") event_name = "concepts"
+      else res.status(404).json({ msg: "Invalid ID" })
+
+      const abstract = await eventsServices.getAbstractFrompid(pid, event_name);
+      res.status(200).json(abstract);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function updateProjectAbstract(req, res, next) {
+    try {
+        const { pid, abstract } = req.body
+        const temp = pid.substring(0, 2);
+        let event_name;
+        if (temp === "IM") event_name = "impetus"
+        else if (temp === "CO") event_name = "concepts"
+        else throw new AppError(404, "fail", "Invalid ID");
+
+        const updatedAbstract = await eventsServices.updateAbstractFrompid(pid, event_name, abstract);
+        res.status(200).json({ pid, updatedAbstract });
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+
+
+
+
+  function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   async function getSynopsis(req, res, next) {
     try {
-      const event_name = req.params.event_name;
+      let event_name = req.params.event_name;
       const projects = await eventsServices.getProjects(event_name);
       let results = {};
       Object.entries(projectDomains).forEach(domain => {
@@ -169,7 +210,8 @@ function getRegistrationsController(
           (project) => project.domain === domain[0]
         )
       })
-      const pdfDoc = docServices.synopsisPDF(results);
+      event_name = capitalizeFirstLetter(event_name);
+      const pdfDoc = docServices.synopsisPDF(results, event_name);
 
       docServices.sendPDF(res, "synopsis", pdfDoc);
     } catch (err) {
@@ -186,6 +228,8 @@ function getRegistrationsController(
     getPaymentDetails,
     getUserIDFile,
     getPendingPayments,
+    getProjectAbstract,
+    updateProjectAbstract,
     getSynopsis,
 
   };

@@ -13,9 +13,10 @@ function createAllocationController(allocationServices, emailServices, eventsSer
     try {
       const { event_name } = req.params
       const { jids } = req.body
-      // console.log(req.body)
+      // console.log(event_name, req.body)
       await allocationServices.allocate(event_name, req.body)
       const judge = await judgeServices.getJudge(jids[0])
+      // console.log(judge)
       const projects = await eventsServices.getProject(event_name, req.body.pids)
       await emailServices.sendAllocationEmail(event_name, projects, judge)
       res.status(200).end()

@@ -1,7 +1,9 @@
 function judgesQueries(tableName) {
   const getJudge = (data) => {
-    if (data.hasOwnProperty('email')) return `SELECT * FROM ${tableName} WHERE email = '${data.jid}' LIMIT 1;`
-    if (data.hasOwnProperty('jid')) return `SELECT * FROM ${tableName} WHERE jid = '${data.jid}';`
+    // if (data.hasOwnProperty('email')) return `SELECT * FROM ${tableName} WHERE email = '${data.jid}' LIMIT 1;`
+    // if (data.hasOwnProperty('jid')) return `SELECT * FROM ${tableName} WHERE jid = '${data.jid}';`
+
+    return `SELECT * FROM ${tableName} WHERE jid = '${data}';`
   }
 
   const getJudges = event_name => `CALL getJudges('"${event_name}"');`
@@ -23,6 +25,7 @@ function judgesQueries(tableName) {
   const insertConceptsEvaluation = "INSERT INTO concepts_evaluation (pid, jid, innovation, approachToIdeas, approachToImplementation, principles, presentation) VALUES (:pid, :jid, :innovation, :approachToIdeas, :approachToImplementation, :principles, :presentation);"
 
   const existingAllocation = (pid, jid) => `SELECT COUNT(*) FROM allocations WHERE pid = '${pid}' AND jid = '${jid}';`
+  const existingEvaluation = (pid, jid, event_name) => `SELECT COUNT(*) FROM ${event_name}_evaluation  WHERE pid = '${pid}' AND jid = '${jid}';`
 
   return {
     getJudge,
@@ -33,7 +36,8 @@ function judgesQueries(tableName) {
     modifySlots,
     insertConceptsEvaluation,
     insertImpetusEvaluation,
-    existingAllocation
+    existingAllocation,
+    existingEvaluation
   }
 }
 
