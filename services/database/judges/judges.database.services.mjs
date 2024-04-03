@@ -11,7 +11,7 @@ function judgesServices(db) {
         .catch((err) => {
           throw new AppError(400, "fail", err.sqlMessage);
         });
-        // console.log(results);
+      // console.log(results);
       return results[0];
     } catch (err) {
       throw err;
@@ -68,6 +68,21 @@ function judgesServices(db) {
       throw err;
     }
   }
+
+  async function getCredentials(email) {
+    try {
+      // console.log("getcreds : ", email)
+      const [results] = await db
+        .execute(judgesQueries.getJudgeCreds(email))
+        .catch((err) => {
+          throw new AppError(400, "fail", err.sqlMessage);
+        });
+      return results[0];
+    } catch (err) {
+      throw err;
+    }
+  }
+
 
   async function getAllocatedProjects(jid) {
     try {
@@ -166,7 +181,7 @@ function judgesServices(db) {
       if (results.length === 0 || results[0]['COUNT(pid)'] === 0) {
         return pid;
       }
-      return null; 
+      return null;
     } catch (err) {
       throw err;
     }
@@ -177,6 +192,7 @@ function judgesServices(db) {
 
   return {
     loginJudge,
+    getCredentials,
     getJudge,
     getJudges,
     insertJudge,
@@ -190,3 +206,7 @@ function judgesServices(db) {
 }
 
 export default judgesServices;
+
+
+
+

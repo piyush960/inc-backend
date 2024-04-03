@@ -10,6 +10,9 @@ function judgesQueries(tableName) {
 
   const insertJudge = 'CALL insertJudge(:events, :jid, :name, :email, :phone, :residential_address, :commercial_address, :company, :exp, :domains, :slots, :min_projects, :referral, :password, :roles, :isPICT);'
 
+  const getJudgeCreds = (email) => {
+    return `SELECT * FROM admin WHERE username = '${email}';`
+  }
 
   const loginJudge = 'CALL loginJudge(:username, :password);'
 
@@ -32,6 +35,7 @@ function judgesQueries(tableName) {
     getJudges,
     insertJudge,
     loginJudge,
+    getJudgeCreds,
     getAllocatedProjects,
     modifySlots,
     insertConceptsEvaluation,

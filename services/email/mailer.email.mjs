@@ -79,7 +79,7 @@ function emailService() {
         } catch (err) { throw err }
     }
 
-    async function sendAllocationEmail(event_name, projects, judge) {
+    async function sendAllocationEmail(event_name, projects, judge, judgeCredentials) {
         try {
             judge.slots = judge.slots.map(slot => slotsData[slot])
             projects.forEach(project => {
@@ -94,7 +94,7 @@ function emailService() {
                 subject: `Updated Judging Schedule for PICT InC 2024 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
-                html: await emailTemplates.sendAllocationEmail(event_name, projects, judge)
+                html: await emailTemplates.sendAllocationEmail(event_name, projects, judge, judgeCredentials)
             }
             return judgingEmailTransporter.sendMail(mailOptions, (err, info) => {
                 if (err) {
