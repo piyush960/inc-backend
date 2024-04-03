@@ -219,6 +219,32 @@ function getRegistrationsController(
     }
   }
 
+  
+  async function backupRegs(req, res, next) {
+    try {
+      // let event_name = req.params.event_name;
+      const results = await eventsServices.getBackup();
+      res.json(results)
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function backupRegs(req, res, next) {
+    try {
+      const results = await eventsServices.getBackup();
+      await eventsServices.insertBackup(results);
+  
+      res.json({ message: "Data inserted successfully" });
+      // res.json(results);
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+
+  
+
   return {
     getUserRegistration,
     getRegistration,
@@ -231,6 +257,7 @@ function getRegistrationsController(
     getProjectAbstract,
     updateProjectAbstract,
     getSynopsis,
+    backupRegs
 
   };
 }
