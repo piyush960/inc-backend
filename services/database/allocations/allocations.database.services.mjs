@@ -4,34 +4,42 @@ import { AppError } from "../../../utils/index.js";
 function allocationServices(db) {
     const getLabs = async (event_name) => {
         try {
-            // Get all pids and their associated jids from the allocation table
-            const allocationQuery = `SELECT pid, GROUP_CONCAT(jid) AS jids FROM allocations where jid like "CO-%" GROUP BY pid;`
-            const [allocationResults] = await db.execute(allocationQuery).catch(err => {
-                throw new AppError(400, 'fail', err.sqlMessage)
-            })
+            // Get all pids and their associated jids from the allocation table for day 1
+            const allocationQuery1 = `
+                SELECT pid, GROUP_CONCAT(jid) AS jids 
+                FROM allocations 
+                WHERE jid LIKE 'CO-%' 
+                  AND (JSON_CONTAINS(slots, '["4"]') OR JSON_CONTAINS(slots, '["5"]') OR JSON_CONTAINS(slots, '["6"]')) 
+                GROUP BY pid;
+            `;
+            const [allocationResults1] = await db.execute(allocationQuery1).catch(err => {
+                throw new AppError(400, 'fail', err.sqlMessage);
+            });
 
-
-    
             // Get all projects from _projects table for the given event_name
-            const projectsQuery = `SELECT pid, title, lab FROM ${event_name}_projects;`
+            const projectsQuery = `SELECT pid, title, lab FROM ${event_name}_projects;`;
             const [projectsResults] = await db.execute(projectsQuery).catch(err => {
-                throw new AppError(400, 'fail', err.sqlMessage)
-            })
-    
-            // Append jids to each project
-            const projectsWithJids = projectsResults.map(project => {
+                throw new AppError(400, 'fail', err.sqlMessage);
+            });
+
+            // Append jids to each project for day 1
+            const projectsWithJids= projectsResults.map(project => {
                 const { pid } = project;
-                const allocation = allocationResults.find(a => a.pid === pid);
+                const allocation = allocationResults1.find(a => a.pid === pid);
                 const jids = allocation ? allocation.jids.split(',') : [];
                 return { ...project, jids };
             });
-    
-            return projectsWithJids;
+
+          
+
+            return  projectsWithJids;
         } catch (err) {
             throw err;
         }
-    }
-    
+    };
+
+
+
 
     async function updateLab(event_name, data) {
         try {

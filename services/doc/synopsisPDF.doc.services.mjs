@@ -28,7 +28,7 @@ const printer = new PdfPrinter({
 function createSynopsis(projects, event_name) {
   const AD = projects["APPLICATION DEVELOPMENT"];
   const CN = projects["COMMUNICATION NETWORKS AND SECURITY SYSTEMS"];
-  const DSP = projects["DIGITAL / IMAGE/ SPEECH / VIDEO PROCESSING"];
+  const DS = projects["DIGITAL / IMAGE/ SPEECH / VIDEO PROCESSING"];
   const ES = projects["EMBEDDED/VLSI SYSTEMS"];
   const ML = projects["MACHINE LEARNING AND PATTERN RECOGNITION"];
   const OT = projects["OTHERS"];
@@ -243,7 +243,7 @@ function createSynopsis(projects, event_name) {
         tocStyle: { bold: true, fontSize: 16 },
       },
       // toc sub-sections
-      ...DSP.map((project) => [
+      ...DS.map((project) => [
         {
           text: `${project.pid} : ${changeCase("sentence", project.title)} `,
           fontSize: 14,
