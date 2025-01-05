@@ -38,7 +38,6 @@ function createRegistrationsController(
 
       const { email } = req.body;
 
-      console.log('body ', req.body, req.file)
 
       return res.json('hello')
 
