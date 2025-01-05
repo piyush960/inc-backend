@@ -19,16 +19,18 @@ function createEventsRouter(eventsServices, filesServices, emailService, middlew
     eventsRouter.get('/:event_name/synopsis', getSynopsis)
     eventsRouter.get('/verify/user/:event_name', eventNameParamValidation(), getUserRegistrationValidation(), validator, getUserRegistration)
     eventsRouter.get('/verify/ticket', ticketValidation(), validator, getTicketDetails)
+    
     eventsRouter.patch('/:event_name/:pid', verifyAdminValidation(2), validator, verifyAdminLogin, updateProject)
     eventsRouter.post('/:event_name/internal', insertInternalPICT)
     eventsRouter.use(registrationLimiter)
-    eventsRouter.post('/:event_name/step_1', eventNameParamValidation(), projectValidation(), saveProject)
-    eventsRouter.post('/:event_name/step_2', memberIDParser, formDataParser, eventNameParamValidation(), ticketValidation(), memberValidation(), insertMember)
-    eventsRouter.get('/:event_name/getmemberdetails', memberIDParser, eventNameParamValidation(), ticketValidation(), memberValidation(), getAddedMembers)
-    eventsRouter.post('/:event_name/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), saveCollegeDetails)
-    eventsRouter.post('/:event_name/step_4', eventNameParamValidation(), ticketValidation(), verifyPICTOrPayments(), requestRegistration)
+
+    eventsRouter.post('/step_1', saveProject)
+    eventsRouter.post('/step_2', memberIDParser, formDataParser, ticketValidation(), memberValidation(), insertMember)
+    eventsRouter.get('/getmemberdetails', memberIDParser, eventNameParamValidation(), ticketValidation(), memberValidation(), getAddedMembers)
+    eventsRouter.post('/step_3', eventNameParamValidation(), ticketValidation(), collegeValidation(), saveCollegeDetails)
+    eventsRouter.post('/step_4', eventNameParamValidation(), ticketValidation(), verifyPICTOrPayments(), requestRegistration)
     // Delete member
-    eventsRouter.post('/:event_name/deletememberdetails', memberIDParser, eventNameParamValidation(), ticketValidation(), memberValidation(), deleteMember)
+    eventsRouter.post('/deletememberdetails', memberIDParser, eventNameParamValidation(), ticketValidation(), memberValidation(), deleteMember)
     // Get project abstract 
     eventsRouter.post('/getabstract', getProjectAbstract)
     eventsRouter.post('/updateabstract', updateProjectAbstract)
