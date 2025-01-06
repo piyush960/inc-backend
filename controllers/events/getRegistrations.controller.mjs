@@ -60,15 +60,17 @@ function getRegistrationsController(
 
   async function getTicketDetails(req, res, next) {
     try {
-      const { ticket } = req.signedCookies;
+      const { ticket } = req.query;
+      console.log(ticket)
       const results = await eventsServices.getTicketDetails(ticket);
       if (!results)
         throw new AppError(404, "fail", "Invalid ticket exists in cookie");
       delete results["pid"];
       delete results["payment_id"];
       delete results["date"];
-      res.status(302).json(results);
+      res.status(200).json(results);
     } catch (err) {
+      console.log('herehere')
       next(err);
     }
   }

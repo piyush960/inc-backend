@@ -40,7 +40,7 @@ function emailService() {
                 to: data.step_2.map(participant => `${participant.name} <${participant.email}>`).join(', '),
                 bcc: `${officialEmails.get('queries')},${officialEmails.get(event_name)}`,
                 replyTo: officialEmails.get('queries'),
-                subject: `Registered for PICT InC 2024 - ${event_name}`,
+                subject: `Registered for PICT InC 2025 - ${event_name}`,
                 priority: 'high',
                 text: 'Email content',
                 html: await emailTemplates.eventRegistrationEmail({ ...data, event_name })

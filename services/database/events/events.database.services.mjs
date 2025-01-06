@@ -166,12 +166,6 @@ function eventsServices(db) {
           college,
           year,
           country,
-          department,
-          group_id,
-          techfiesta,
-          tech_group_id,
-          tech_Transaction_id,
-          group_leader_email,
           state,
           district,
           city,
@@ -183,6 +177,15 @@ function eventsServices(db) {
         ticket,
         payment_id,
       } = data;
+
+      const group_id = '';
+      const tech_group_id = '';
+      const tech_Transaction_id = '';
+      const group_leader_email = step_2[0]?.name;
+      const techfiesta = '';
+      const department = '';
+
+      console.log('here after data')
       let dataArray = [];
       switch (event_name) {
         case eventsName[0]:
@@ -629,9 +632,9 @@ function eventsServices(db) {
       // console.log(data);
       // console.log(eventsQueries.completeRegistration(event_name, step_2.length));
       // console.log("dataArray = ", dataArray.length);
-      // console.log(dataArray);
 
-      // console.log(event_name)
+      console.log(dataArray);
+      
       const [[results]] = await db
         .execute(
           eventsQueries.completeRegistration(event_name, step_2.length),

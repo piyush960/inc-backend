@@ -37,15 +37,14 @@ function createRegistrationsController(
       const { event_name, ticket } = req.query;
 
       const { email } = req.body;
-
-
-      return res.json('hello')
+      console.log(email, event_name, ticket)
 
       const user_email = await eventsServices.getUserRegistration(
         event_name,
         email
       );
 
+      console.log('mail ', user_email)
 
       if (user_email)
         throw new AppError(
@@ -55,22 +54,24 @@ function createRegistrationsController(
         );
       const member_id_file = req.file;
       if (event_name === eventsName[2] && !ticket) {
-        ticket = "INC-" + event_name[0].toUpperCase() + randomID(12);
+        console.log('in here')
+        const ticket = "INC-" + event_name[0].toUpperCase() + randomID(12);
         await eventsServices.insertTicket({
           ticket,
           step_1: {},
           step_2: [{ ...req.body }],
           step_no: 2,
         });
-        // console.log(req.body)
+        console.log(ticket)
         await filesServices.insertFile(email, member_id_file);
         sendCookie(res, { ticket }, `/register/${event_name}`)
-          .status(201).json({success: true, ticket}).end()
+          .status(201).json({success: true, ticket}).end();
         return;
       }
       const existing_members = await eventsServices.getMembersFromTicket(
         ticket
       );
+      console.log('existing mems ', existing_members)
       if (!existing_members)
         throw new AppError(404, "fail", "Ticket does not exist");
       if (Array.isArray(existing_members.step_2)) {
@@ -107,7 +108,7 @@ function createRegistrationsController(
       let { ticket } = req.query;
 
       const memberDetails = await eventsServices.getMembersFromTicket(ticket);
-      // console.log(memberDetails);
+      console.log('getmems ', memberDetails);
       res.status(200).json(memberDetails)
 
     } catch (error) {
@@ -117,11 +118,11 @@ function createRegistrationsController(
 
   async function deleteMember(req, res, next) {
     try {
-      let { ticket } = req.query;
-      let { index } = req.body; // Assuming memberID is the key for the member details to delete
-
-      await eventsServices.deleteMemberDetails(ticket, index);
-      res.status(200).json({ message: 'Member details deleted successfully' });
+      let { ticket, index } = req.query;
+      // let { index } = req.body; // Assuming memberID is the key for the member details to delete
+      console.log(req.query)
+      await eventsServices.deleteMemberDetails(ticket, Number(index));
+      res.status(200).json({ message: 'Member details deleted successfully', success: true, ticket });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
@@ -130,12 +131,12 @@ function createRegistrationsController(
 
   async function saveCollegeDetails(req, res, next) {
     try {
-      const { ticket } = req.query;
+      const { ticket, event_name } = req.query;
       if (req.body.isPICT === "1") {
         req.body = { ...req.body, ...pictDetails };
       }
       await eventsServices.editStepData(ticket, 3, req.body);
-      sendCookie(res, { ticket }, `/register/events/${req.query.event_name}`)
+      sendCookie(res, { ticket }, `/register/${event_name}`)
         .status(200).json({success: true, ticket}).end()
     } catch (err) {
       next(err);
@@ -145,8 +146,9 @@ function createRegistrationsController(
   async function requestRegistration(req, res, next) {
     try {
       const { ticket } = req.query;
-      // console.log(ticket);
+      console.log(ticket);
       let results = await eventsServices.getTicketDetails(ticket);
+      console.log(results)
       if (!results) throw new AppError(404, "fail", "Ticket does not exist");
       if (results.payment_id !== "")
         throw new AppError(
@@ -155,7 +157,7 @@ function createRegistrationsController(
           "Registration done using this ticket and payment under verification"
         );
       else if (results.step_no === 3) {
-        const { isPICT, isInternational, techfiesta } = req.body;
+        const { isPICT, isInternational, techfiesta } = results.step_3;
         if (isPICT === "1") {
           req.body = { ...req.body, payment_id: "PICT" };
         } else if (isInternational === "1") {
@@ -178,22 +180,22 @@ function createRegistrationsController(
   async function verifyPendingPayment(req, res, next) {
     try {
       const { ticket } = req.body;
-      const { event_name } = req.query;
+      const { event_name } = req.params;
+
+      console.log(ticket, ' ', event_name)
       const results = await eventsServices.getTicketDetails(ticket);
       if (!results) throw new AppError(404, "fail", "Ticket does not exist");
       if (results.step_no === 4) {
-
-        // console.log(results);
 
         const { pid } = await eventsServices.completeRegistration(
           event_name,
           results
         );
-
-        await emailService.eventRegistrationEmail(event_name, {
-          ...results,
-          pid,
-        });
+        console.log('pid ', pid)
+        // await emailService.eventRegistrationEmail(event_name, {
+        //   ...results,
+        //   pid,
+        // });
         res.status(201).end();
       } else if (results.step_no === 5 && results.payment_id !== "")
         throw new AppError(
