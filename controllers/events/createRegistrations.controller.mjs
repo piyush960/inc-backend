@@ -10,13 +10,13 @@ function createRegistrationsController(
   async function saveProject(req, res, next) {
     try {
       const { event_name, ticket } = req.query;
-      console.log('req body ', req.body)
+      // console.log('req body ', req.body)
       if (ticket) {
-        console.log('here1')
+        // console.log('here1')
         await eventsServices.editStepData(ticket, 1, req.body);
         res.status(200).json({success: true, ticket}).end()
       } else {
-        console.log('here2')
+        // console.log('here2')
         const ticket = "INC-" + event_name[0].toUpperCase() + randomID(12);
         await eventsServices.insertTicket({
           ticket,
@@ -108,7 +108,7 @@ function createRegistrationsController(
       let { ticket } = req.query;
 
       const memberDetails = await eventsServices.getMembersFromTicket(ticket);
-      console.log('getmems ', memberDetails);
+      // console.log('getmems ', memberDetails);
       res.status(200).json(memberDetails)
 
     } catch (error) {
